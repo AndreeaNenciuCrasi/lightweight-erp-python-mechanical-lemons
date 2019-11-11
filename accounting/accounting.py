@@ -28,9 +28,12 @@ def start_module():
     Returns:
         None
     """
+    running = True
+    while running:
+        ui.print_menu('Accounting', ['Show table', 'Add', 'Remove', 'Update'], 'Return to main menu')
+        input('Press Enter to continue...')
 
-    # you code
-
+# start_module()
 
 def show_table(table):
     """
@@ -42,8 +45,10 @@ def show_table(table):
     Returns:
         None
     """
+    ui.print_table(table, ['id', 'month', 'day', 'year', 'type', 'amount'])
 
-    # your code
+
+# show_table([[1, 2, 3, 4, 5, 6], [7, 8, 9, 10, 11, 12]])
 
 
 def add(table):

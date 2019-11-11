@@ -23,3 +23,10 @@ def generate_random(table):
     # your code
 
     return generated
+
+
+def is_larger(current_largest, new_item):
+    if new_item > current_largest:
+        return True
+    else:
+        return False

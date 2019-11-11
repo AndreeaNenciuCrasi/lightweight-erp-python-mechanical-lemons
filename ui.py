@@ -21,6 +21,7 @@ def print_table(table, title_list):
     Returns:
         None: This function doesn't return anything it only prints to console.
     """
+    print('Table --- under construction ---')
 
     # your goes code
 
@@ -36,7 +37,7 @@ def print_result(result, label):
     Returns:
         None: This function doesn't return anything it only prints to console.
     """
-
+    print('Result --- under construction ---')
     # your code
 
 
@@ -60,8 +61,12 @@ def print_menu(title, list_options, exit_message):
     Returns:
         None: This function doesn't return anything it only prints to console.
     """
-
-    # your code
+    print(f'    {title}')
+    i = 1
+    while i <= len(list_options):
+        print(f'        ({i}) {list_options[i-1]}')
+        i += 1
+    print(f'        (0) {exit_message}')
 
 
 def get_inputs(list_labels, title):
@@ -83,7 +88,7 @@ def get_inputs(list_labels, title):
         list: List of data given by the user. Sample return:
             [<user_input_1>, <user_input_2>, <user_input_3>]
     """
-    inputs = []
+    inputs = input('Enter choice')
 
     # your code
 
@@ -100,5 +105,5 @@ def print_error_message(message):
     Returns:
         None: This function doesn't return anything it only prints to console.
     """
-
+    print('Error --- under construction ---')
     # your code

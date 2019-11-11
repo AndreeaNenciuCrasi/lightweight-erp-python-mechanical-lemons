@@ -21,7 +21,10 @@ def print_table(table, title_list):
     Returns:
         None: This function doesn't return anything it only prints to console.
     """
-    print('Table --- under construction ---')
+    print(title_list)
+    print('-'*80)
+    for i in table:
+        print(i)
 
     # your goes code
 
@@ -88,7 +91,7 @@ def get_inputs(list_labels, title):
         list: List of data given by the user. Sample return:
             [<user_input_1>, <user_input_2>, <user_input_3>]
     """
-    inputs = input('Enter choice')
+    inputs = input(f'{list_labels[0]} {title}')
 
     # your code
 
@@ -105,5 +108,4 @@ def print_error_message(message):
     Returns:
         None: This function doesn't return anything it only prints to console.
     """
-    print('Error --- under construction ---')
-    # your code
+    print(f'Error- under construction -: {message}')

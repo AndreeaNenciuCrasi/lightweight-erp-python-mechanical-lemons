@@ -19,6 +19,27 @@ import data_manager
 import common
 
 
+def choose_accounting():
+    accounting_menu_active = True
+    while accounting_menu_active is True:
+        inputs = ui.get_inputs(["Please enter a number: "], "")
+        option = inputs[0]
+        if option == '1':
+            show_table(table)
+        elif option == '2':
+            add_table(Table)
+        elif option == '3':
+            remove_table(table, id_)
+        elif option == '4':
+            update_table(table, id_)
+        elif option == '5':
+            print('Under construction...')
+        elif option == '6':
+            print('Under construction 2...')
+        elif option == '0':
+            accounting_menu_active = False
+
+
 def start_module():
     """
     Starts this module and displays its menu.
@@ -28,12 +49,9 @@ def start_module():
     Returns:
         None
     """
-    running = True
-    while running:
-        ui.print_menu('Accounting', ['Show table', 'Add', 'Remove', 'Update'], 'Return to main menu')
-        input('Press Enter to continue...')
+    ui.print_menu('Accounting', ['Show table', 'Add', 'Remove', 'Update', 'Which year max?', 'Average amount'], 'Return to main menu')
+    choose_accounting()
 
-# start_module()
 
 def show_table(table):
     """
@@ -46,9 +64,6 @@ def show_table(table):
         None
     """
     ui.print_table(table, ['id', 'month', 'day', 'year', 'type', 'amount'])
-
-
-# show_table([[1, 2, 3, 4, 5, 6], [7, 8, 9, 10, 11, 12]])
 
 
 def add(table):
@@ -114,9 +129,8 @@ def which_year_max(table):
     Returns:
         number
     """
-
-    # your code
-
+    return 9000
+    
 
 def avg_amount(table, year):
     """
@@ -129,5 +143,4 @@ def avg_amount(table, year):
     Returns:
         number
     """
-
-    # your code
+    return 9001

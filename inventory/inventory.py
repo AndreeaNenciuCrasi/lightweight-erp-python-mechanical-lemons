@@ -17,6 +17,25 @@ import data_manager
 # common module
 import common
 
+def choose_inventory():
+    inventory_menu_active = True
+    while inventory_menu_active is True:
+        inputs = ui.get_inputs(["Please enter a number: "], "")
+        option = inputs[0]
+        if option == "1":
+            inventory.show_table(table)
+        elif option == "2":
+            inventory.add(table)
+        elif option == "3":
+            inventory.remove(table, id_)
+        elif option == "4":
+            inventory.update(table, id_)
+        elif option == "5":
+            inventory.get_available_items(table, year)
+        elif option == "6":
+            inventory.get_average_durability_by_manufacturers(table)
+        elif option == "0":
+            inventory_menu_active = False
 
 def start_module():
     """
@@ -27,7 +46,8 @@ def start_module():
     Returns:
         None
     """
-
+    ui.print_menu('Inventory', ['Show table', 'Add', 'Remove', 'Update', 'Which items have not exceeded their durability yet?', 'What are the average durability times for each manufacturer?'], 'Return to main menu')
+    choose_inventory()
     # your code
 
 
@@ -41,7 +61,7 @@ def show_table(table):
     Returns:
         None
     """
-
+    ui.print_table(table, ['id', 'name', 'manufacturer', 'purchase_year', 'durability', 'amount'])
     # your code
 
 
@@ -91,6 +111,10 @@ def update(table, id_):
     """
 
     # your code
+
+    with open("inventory.csv", 'w') as file:
+        for i in table:
+            file.write(i + '\n')
 
     return table
 

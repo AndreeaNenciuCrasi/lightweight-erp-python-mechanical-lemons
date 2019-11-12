@@ -26,10 +26,8 @@ def choose_accounting():
         option = inputs[0]
         table = data_manager.get_table_from_file('accounting/items.csv')
         if option == '1':
-            # table = data_manager.get_table_from_file('accounting/items.csv')
             show_table(table)
         elif option == '2':
-            # table = data_manager.get_table_from_file('accounting/items.csv')
             add(table)
             data_manager.write_table_to_file('accounting/items.csv', table)
         elif option == '3':
@@ -37,14 +35,15 @@ def choose_accounting():
             remove(table, id_)
             data_manager.write_table_to_file('accounting/items.csv', table)
         elif option == '4':
-            # table = data_manager.get_table_from_file('accounting/items.csv')
             id_ = ui.get_inputs(['ID of item to update: '], 'Accounting')[0]
             update(table, id_)
             data_manager.write_table_to_file('accounting/items.csv', table)
         elif option == '5':
-            print('Under construction...')
+            highest_profit = which_year_max(table)
+            ui.print_result(highest_profit, 'Accounting data - most profitable year: ')
         elif option == '6':
-            print('Under construction 2...')
+            year = ui.get_inputs(['Year to calculate average for: '], 'Accounting')[0]
+            avg_amount(table, year)
         elif option == '0':
             accounting_menu_active = False
 
@@ -58,7 +57,7 @@ def start_module():
     Returns:
         None
     """
-    ui.print_menu('Accounting', ['Show table', 'Add', 'Remove', 'Update', 'Which year max?', 'Average amount'], 'Return to main menu')
+    ui.print_menu('Accounting', ['Show table', 'Add', 'Remove', 'Update', 'Most profitable year', 'Average amount'], 'Return to main menu')
     choose_accounting()
 
 
@@ -90,7 +89,7 @@ def add(table):
     return table
 
 
-def remove(table, id_):
+def remove(table, id_):  # Claudiu common - DRY remove from list
     """
     Remove a record with a given id from the table.
 
@@ -141,7 +140,25 @@ def which_year_max(table):
     Returns:
         number
     """
-    return 9000
+    years = []
+    for game in table:
+        if game[3] not in years:
+            years.append([game[3], 0])
+    for game in table:
+        if game[4] == 'in':
+            i = 0
+            for i in range(len(years)):
+                if game[3] == years[i][0]:
+                    years[i][1] += int(game[5])
+        elif game[4] == 'out':
+            for j in range(len(years)):
+                if game[3] == years[j][0]:
+                    years[j][1] -= int(game[5])
+    most_profits = ['no data', 0]
+    for year in years:
+        if year[1] > most_profits[1]:
+            most_profits = year
+    return int(most_profits[0])
     
 
 def avg_amount(table, year):

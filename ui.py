@@ -38,7 +38,7 @@ def print_result(result, label):
     Returns:
         None: This function doesn't return anything it only prints to console.
     """
-    print(f'Result --- under construction ---{label} {result}')
+    print(f'{label}{result}')  # the label must come from the function, ex: "Accounting data - most profitable year"
 
 
 def print_menu(title, list_options, exit_message):

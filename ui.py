@@ -21,10 +21,33 @@ def print_table(table, title_list):
     Returns:
         None: This function doesn't return anything it only prints to console.
     """
-    print(title_list)
-    print('-'*60)
-    for i in table:
-        print(i)
+    TABLE_SPACING_IN_CELL = 5
+    rows = len(table) + 1  # title_list counts as one row
+    columns = len(title_list)
+    column_widths = [[i, len(title_list[i])] for i in range(len(title_list))]
+    for i in range(columns):
+        for line in table:
+            if len(line[i]) > column_widths[i][1]:
+                column_widths[i][1] = len(line[i])
+    table.insert(0, title_list)
+    total_width = 0
+    for j in column_widths:
+        total_width += j[1] + TABLE_SPACING_IN_CELL
+    print('/'+'-' * (total_width - 2)+'\\')
+    for item in table:
+        for i in range(columns):
+            if i != columns - 1:
+                wide = column_widths[i][1] + TABLE_SPACING_IN_CELL
+                print('|' + item[i].center(wide-1), end='')
+            elif i == columns - 1:
+                wide = column_widths[i][1] + TABLE_SPACING_IN_CELL - 1
+                print('|' + item[i].center(wide-1), end='')
+        if item != table[-1]:
+            print('|', end='')
+            print('\n'+'|'+'-' * (total_width - 2)+'|')
+        elif item == table[-1]:
+            print('|', end='')
+            print('\n'+'\\'+'-' * (total_width - 2)+'/')
 
 
 def print_result(result, label):

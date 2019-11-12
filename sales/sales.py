@@ -19,6 +19,13 @@ import data_manager
 import common
 
 
+TITLE = 0
+PRICE = 1
+MONTH = 2
+DAY = 3
+YEAR = 4
+
+
 def choose_sales():
     sales_menu_active = True
     table = data_manager.get_table_from_file('sales/sales.csv')
@@ -79,11 +86,13 @@ def add(table):
     Returns:
         list: Table with a new record
     """
-    item = ui.get_inputs(['Please provide month: ', 'Please provide day: ',
-                          'Please provide year: ',
-                          'Please provide type: ', 'Please provide amount: '],
+    item = ui.get_inputs(['Please provide title: ', 'Please provide price: ',
+                          'Please provide month: ',
+                          'Please provide day: ', 'Please provide year: '],
                          'Please provide product data:')
-
+    table_csv = data_manager.get_table_from_file('sales/sales.csv')
+    table.append([common.generate_random(table_csv), item[TITLE], item[PRICE],
+                  item[MONTH], item[DAY], item[YEAR]])
     return table
 
 
@@ -157,3 +166,4 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
     """
 
     # your code
+# print(add(data_manager.get_table_from_file('sales/sales.csv')))

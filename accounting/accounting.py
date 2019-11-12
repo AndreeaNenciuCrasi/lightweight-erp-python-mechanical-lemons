@@ -42,8 +42,9 @@ def choose_accounting():
             highest_profit = which_year_max(table)
             ui.print_result(highest_profit, 'Accounting data - most profitable year: ')
         elif option == '6':
-            year = ui.get_inputs(['Year to calculate average for: '], 'Accounting')[0]
-            avg_amount(table, year)
+            year = int(ui.get_inputs(['Year to calculate average for: '], 'Accounting')[0])
+            average = avg_amount(table, year)
+            ui.print_result(average, f'Accounting data - average profit per game sold in {year}: ')
         elif option == '0':
             accounting_menu_active = False
 
@@ -172,4 +173,22 @@ def avg_amount(table, year):
     Returns:
         number
     """
-    return 9001
+    # requirement unclear... don't know what items count is
+    # all the amount numbers added?
+    # just the 'out' amounts numbers added (does it mean games sold?)
+    # up to this point the id was interpreted as a specific game(is it an inventory operation id?)
+    # interpreting the profit as +in -out as indicated in the above requirement
+    # interpreting 'out' as the number of games sold (in being the games coming in into the store inventory)
+    # Googled accounting what is in and out = cash coming 'in' and going 'out'
+    # we do not have items_count in this module, not allowed to import sales, taking each line as 1 game transaction
+    profit = 0
+    items_count = 0
+    for item in table:
+        if int(item[3]) == year:
+            if item[4] == 'in':
+                profit += int(item[5])
+                items_count += 1
+            elif item[4] == 'out':
+                profit -= int(item[5])
+    avg = profit/items_count
+    return avg

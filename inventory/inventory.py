@@ -111,7 +111,6 @@ def update(table, id_):
     """
 
     # your code
-    
 
     with open("inventory.csv", 'w') as file:
         for i in table:

@@ -24,17 +24,20 @@ def choose_accounting():
     while accounting_menu_active is True:
         inputs = ui.get_inputs(["Please enter a number: "], "")
         option = inputs[0]
+        table = data_manager.get_table_from_file('accounting/items.csv')
         if option == '1':
-            table = data_manager.get_table_from_file('accounting/items.csv')
+            # table = data_manager.get_table_from_file('accounting/items.csv')
             show_table(table)
         elif option == '2':
-            table = data_manager.get_table_from_file('accounting/items.csv')
+            # table = data_manager.get_table_from_file('accounting/items.csv')
             add(table)
             data_manager.write_table_to_file('accounting/items.csv', table)
         elif option == '3':
-            remove_table(table, id_)
+            id_ = ui.get_inputs(['ID of item to remove: '], 'Accounting')[0]
+            remove(table, id_)
+            data_manager.write_table_to_file('accounting/items.csv', table)
         elif option == '4':
-            table = data_manager.get_table_from_file('accounting/items.csv')
+            # table = data_manager.get_table_from_file('accounting/items.csv')
             id_ = ui.get_inputs(['ID of item to update: '], 'Accounting')[0]
             update(table, id_)
             data_manager.write_table_to_file('accounting/items.csv', table)
@@ -98,8 +101,9 @@ def remove(table, id_):
     Returns:
         list: Table without specified record.
     """
-
-    # your code
+    for i in range(len(table)):
+        if table[i][0] == id_:
+            table.pop(i)
 
     return table
 

@@ -18,17 +18,48 @@ import data_manager
 import common
 
 
+def store_options():
+    run_menu = True
+    while run_menu == True:
+        table = data_manager.get_table_from_file('store/games.csv')
+        inputs = ui.get_inputs(["Please enter a number: "], "")
+        option = inputs[0]
+        if option == '1':  
+            show_table(table)
+            input('Press enter to continue...')
+            ui.print_menu('Store',
+                         ['Show Table', 'Add', 'Remove', 'Update','Count', 'Average'],
+                         'Return To Main Menu', )
+        elif option == '2':
+            add(table)
+            print(add(table))
+        elif option == '3':
+            get_id = ui.get_inputs(['Enter the id you want to remove'], '')
+            remove(table, get_id)
+        elif option == '4':
+            print('g')
+        elif option == '5':
+            print('g')
+        elif option == '6':
+            print('g')
+        elif option == '0':
+            run_menu = False
+        else:
+            raise KeyError("There is no such option.")
+
+
 def start_module():
     """
     Starts this module and displays its menu.
      * User can access default special features from here.
      * User can go back to main menu from here.
-
     Returns:
         None
     """
 
-    # your code
+    ui.print_menu('Store', 
+    ['Show Table', 'Add', 'Remove', 'Update','Count', 'Average'], 'Return To Main Menu', )
+    store_options()
 
 
 def show_table(table):
@@ -42,7 +73,8 @@ def show_table(table):
         None
     """
 
-    # your code
+    title_list = ['id', 'title', 'manufacturer', 'price', 'in_stock']
+    ui.print_table(table, title_list)
 
 
 def add(table):
@@ -55,9 +87,15 @@ def add(table):
     Returns:
         list: Table with a new record
     """
+    new_data = []
+    new_id = ui.get_inputs(['Enter id: '], '')
+    # new_game_title = ui.get_inputs(['Enter game title: '], '')
+    # new_manufacturer = ui.get_inputs(['Enter manufacturer: '], '')
+    # new_price = ui.get_inputs(['Enter price: '], '')
+    # new_stock = ui.get_inputs(['Enter how many are in stock: '], '')
 
-    # your code
-
+    new_data.append(new_id)
+    table.append(new_data)
     return table
 
 
@@ -73,9 +111,9 @@ def remove(table, id_):
         list: Table without specified record.
     """
 
-    # your code
-
-    return table
+    new_table = common.remove_from_list(table, id_)
+    data_manager.write_table_to_file('store/games.csv', new_table)
+    return new_table
 
 
 def update(table, id_):

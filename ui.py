@@ -22,11 +22,9 @@ def print_table(table, title_list):
         None: This function doesn't return anything it only prints to console.
     """
     print(title_list)
-    print('-'*80)
+    print('-'*60)
     for i in table:
         print(i)
-
-    # your goes code
 
 
 def print_result(result, label):
@@ -40,8 +38,7 @@ def print_result(result, label):
     Returns:
         None: This function doesn't return anything it only prints to console.
     """
-    print('Result --- under construction ---')
-    # your code
+    print(f'Result --- under construction ---{label} {result}')
 
 
 def print_menu(title, list_options, exit_message):
@@ -92,11 +89,11 @@ def get_inputs(list_labels, title):
             [<user_input_1>, <user_input_2>, <user_input_3>]
     """
     i = 0
+    inputs = []
     while i < len(list_labels):
-        inputs = input(f'{list_labels[i]} {title}')
+        inputs.append(input(f'{title} {list_labels[i]}: '))
         i += 1
-    # your code
-
+    
     return inputs
 
 

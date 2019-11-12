@@ -30,6 +30,7 @@ def choose_accounting():
         elif option == '2':
             table = data_manager.get_table_from_file('accounting/items.csv')
             add(table)
+            data_manager.write_table_to_file('accounting/items.csv', table)
         elif option == '3':
             remove_table(table, id_)
         elif option == '4':
@@ -79,7 +80,7 @@ def add(table):
         list: Table with a new record
     """
     item = ui.get_inputs(['id', 'month', 'day', 'year', 'type', 'amount'], 'Please provide product data:')
-    # TO ADD line to table
+    table.append(item)
     return table
 
 

@@ -91,8 +91,10 @@ def get_inputs(list_labels, title):
         list: List of data given by the user. Sample return:
             [<user_input_1>, <user_input_2>, <user_input_3>]
     """
-    inputs = input(f'{list_labels[0]} {title}')
-
+    i = 0
+    while i < len(list_labels):
+        inputs = input(f'{list_labels[i]} {title}')
+        i += 1
     # your code
 
     return inputs

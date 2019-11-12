@@ -34,7 +34,10 @@ def choose_accounting():
         elif option == '3':
             remove_table(table, id_)
         elif option == '4':
-            update_table(table, id_)
+            table = data_manager.get_table_from_file('accounting/items.csv')
+            id_ = ui.get_inputs(['ID of item to update: '], 'Accounting')[0]
+            update(table, id_)
+            data_manager.write_table_to_file('accounting/items.csv', table)
         elif option == '5':
             print('Under construction...')
         elif option == '6':
@@ -112,9 +115,12 @@ def update(table, id_):
     Returns:
         list: table with updated record
     """
-
-    # your code
-
+    list_labels = ['id', 'month', 'day', 'year', 'type', 'amount']
+    for i in range(len(table)):
+        if table[i][0] == id_:
+            item = ui.get_inputs(list_labels, 'Accounting')
+            table.pop(i)
+            table.insert(i, item)
     return table
 
 

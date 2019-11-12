@@ -30,3 +30,12 @@ def is_larger(current_largest, new_item):
         return True
     else:
         return False
+
+
+def remove_from_list(table, id_):
+    new_table = []
+    ID = 0
+    for data in table:
+        if id_ not in data[ID]:
+            new_table.append(data)
+    return new_table

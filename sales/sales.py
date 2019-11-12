@@ -19,6 +19,28 @@ import data_manager
 import common
 
 
+def choose_sales():
+    sales_menu_active = True
+    table = data_manager.get_table_from_file('sales/sales.csv')
+    while sales_menu_active is True:
+        inputs = ui.get_inputs(["Please enter a number: "], "")
+        option = inputs[0]
+        if option == '1':
+            show_table(table)
+        elif option == '2':
+            add(table)
+        elif option == '3':
+            remove(table, id_)
+        elif option == '4':
+            update(table, id_)
+        elif option == '5':
+            print('Under construction...')
+        elif option == '6':
+            print('Under construction 2...')
+        elif option == '0':
+            sales_menu_active = False
+
+
 def start_module():
     """
     Starts this module and displays its menu.
@@ -28,8 +50,9 @@ def start_module():
     Returns:
         None
     """
-
-    # your code
+    ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove', 'Update',
+                                    'Lowest price item', 'Items sold between'], 'Return to main menu')
+    choose_sales()
 
 
 def show_table(table):
@@ -42,8 +65,8 @@ def show_table(table):
     Returns:
         None
     """
-
-    # your code
+    titles = ['id', 'title', 'price', 'month', 'day', 'year']
+    ui.print_table(table, titles)
 
 
 def add(table):
@@ -56,8 +79,10 @@ def add(table):
     Returns:
         list: Table with a new record
     """
-
-    # your code
+    item = ui.get_inputs(['Please provide month: ', 'Please provide day: ',
+                          'Please provide year: ',
+                          'Please provide type: ', 'Please provide amount: '],
+                         'Please provide product data:')
 
     return table
 

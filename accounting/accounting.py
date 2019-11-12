@@ -22,7 +22,18 @@ import common
 def choose_accounting():
     accounting_menu_active = True
     while accounting_menu_active is True:
-        inputs = ui.get_inputs(["Please enter a number: "], "")
+        valid_command = False
+        while valid_command is False:
+            try:
+                inputs = ui.get_inputs(["Please enter a number: "], "")
+                if inputs[0].isdigit() is False:
+                    raise ValueError
+                if int(inputs[0]) in range(0, 7):
+                    valid_command = True
+                elif inputs[0] not in range(0, 7):
+                    raise ValueError
+            except ValueError:
+                ui.print_error_message('Invalid command. Please choose between 0 and 6.')
         option = inputs[0]
         table = data_manager.get_table_from_file('accounting/items.csv')
         if option == '1':
@@ -31,12 +42,12 @@ def choose_accounting():
             add(table)
             data_manager.write_table_to_file('accounting/items.csv', table)
         elif option == '3':
-            id_ = ui.get_inputs(['ID of item to remove: '], 'Accounting')[0]
-            remove(table, id_)
+            remove_id_ = ui.get_inputs(['ID of item to remove: '], 'Accounting')[0]
+            remove(table, remove_id_)
             data_manager.write_table_to_file('accounting/items.csv', table)
         elif option == '4':
-            id_ = ui.get_inputs(['ID of item to update: '], 'Accounting')[0]
-            update(table, id_)
+            update_id_ = ui.get_inputs(['ID of item to update: '], 'Accounting')[0]
+            update(table, update_id_)
             data_manager.write_table_to_file('accounting/items.csv', table)
         elif option == '5':
             highest_profit = which_year_max(table)
@@ -85,7 +96,7 @@ def add(table):
     Returns:
         list: Table with a new record
     """
-    item = ui.get_inputs(['id', 'month', 'day', 'year', 'type', 'amount'], 'Please provide product data:')
+    item = ui.get_inputs(['id: ', 'month: ', 'day: ', 'year: ', 'type: ', 'amount: '], 'Transaction -')
     table.append(item)
     return table
 
@@ -104,7 +115,6 @@ def remove(table, id_):  # Claudiu common - DRY remove from list
     for i in range(len(table)):
         if table[i][0] == id_:
             table.pop(i)
-
     return table
 
 

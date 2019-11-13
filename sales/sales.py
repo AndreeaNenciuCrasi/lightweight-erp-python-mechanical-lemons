@@ -49,7 +49,21 @@ def choose_sales():
             lowest_price = get_lowest_price_item_id(table)
             ui.print_result(lowest_price, 'Product ID with lowest price: ')
         elif option == '6':
-            print('Under construction 2...')
+            date_from = ui.get_inputs(['Please provide month from: ', 'Please provide day from: ',
+                                       'Please provide year from: '], '')
+            month_from = date_from[0]
+            day_from = date_from[1]
+            year_from = date_from[2]
+            date_to = ui.get_inputs(['Please provide month to: ', 'Please provide day to: ',
+                                     'Please provide year to: '], '')
+            month_to = date_to[0]
+            day_to = date_to[1]
+            year_to = date_to[2]
+            time_period = get_items_sold_between(
+                table, month_from, day_from, year_from, month_to, day_to, year_to)
+            # ui.print_result(time_period, 'Sold items: ')
+            titles = ['id', 'title', 'price', 'month', 'day', 'year']
+            ui.print_table(time_period, titles)
         elif option == '0':
             sales_menu_active = False
 
@@ -180,6 +194,16 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
     Returns:
         list: list of lists (the filtered table)
     """
-
-    # your code
-# print(add(data_manager.get_table_from_file('sales/sales.csv')))
+    product_list = []
+    for line in table:
+        if int(line[5]) > int(year_from) and int(line[5]) < int(year_to):
+            product_list.append(line)
+        if int(line[5]) == int(year_from) and int(line[3]) > int(month_from):
+            product_list.append(line)
+        if int(line[5]) == int(year_from) and int(line[3]) == int(month_from) and int(line[4]) > int(day_from):
+            product_list.append(line)
+        if int(line[5]) == int(year_to) and int(line[3]) < int(month_to):
+            product_list.append(line)
+        if int(line[5]) == int(year_to) and int(line[3]) == int(month_to) and int(line[4]) < int(day_to):
+            product_list.append(line)
+    return product_list

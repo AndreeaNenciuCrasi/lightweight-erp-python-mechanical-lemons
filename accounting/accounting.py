@@ -174,12 +174,13 @@ def which_year_max(table):
         if year[1] > most_profits[1]:
             most_profits = year
     return int(most_profits[0])
-    
+
 
 def avg_amount(table, year):
     """
     Question: What is the average (per item) profit in a given year? [(profit)/(items count)]
-    Each line in the accounting table represents a game (in = sold, out = bought).
+    Each line in the accounting table represents a game (in = sold, out = bought). 
+    items_count represents all games bought and sold in the given year. 
 
     Args:
         table (list): data table to work on
@@ -194,6 +195,9 @@ def avg_amount(table, year):
         if int(item[3]) == year:
             if item[4] == 'in':
                 profit += int(item[5])
+                items_count += 1
+            elif item[4] == 'out':
+                profit -= int(item[5])
                 items_count += 1
     avg = profit/items_count
     return avg

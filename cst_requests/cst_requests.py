@@ -48,8 +48,9 @@ def choose_requests():
             update(table, update_id_)
             data_manager.write_table_to_file('cst_requests/cst_requests.csv', table)
         elif option == '5':
-            most_requested_game = most_requested(table)
-            ui.print_result(most_requested_game, 'Requests data - most requested game: ')
+            most_requested_list = most_requested(table)
+            # ui.print_result(most_requested_game, 'Requests data - most requested game: ')
+            ui.print_table(most_requested_list, ['id', 'title', 'developer', 'year of request'])
         elif option == '6':
             oldest_requested_game = oldest_request(table)
             ui.print_result(oldest_requested_game, f'Requests data - oldest requested game: ')
@@ -150,8 +151,28 @@ def most_requested(table):
         table (list): data table to work on
 
     Returns:
-        number
+        title, or if more than one, all the titles of the games, as a table
     """
+    titles_list = []
+    for line in table:
+        titles_list.append(line[1])
+    most_apearances = 0
+    most_frequent = []
+    for title in titles_list:
+        if common.how_many_times(titles_list, title) > most_apearances:
+            most_frequent = []
+            most_frequent.append(title)
+            most_apearances = common.how_many_times(titles_list, title)
+        elif common.how_many_times(titles_list, title) == most_apearances:
+            most_frequent.append(title)
+    final_list = []
+    for game in table:
+        if game[1] in most_frequent and game[1] not in [i[1] for i in final_list]:
+            final_list.append(game)
+    return final_list
+
+    
+
 
 
 

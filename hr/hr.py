@@ -15,6 +15,36 @@ import data_manager
 # common module
 import common
 
+NAME = 0
+BIRTH_YEAR = 1
+
+
+def choose_sales():
+    sales_menu_active = True
+    table = data_manager.get_table_from_file('hr/persons.csv')
+
+    while sales_menu_active is True:
+        inputs = ui.get_inputs(["Please enter a number: "], "")
+        option = inputs[0]
+        if option == '1':
+            show_table(table)
+        elif option == '2':
+            add(table)
+        elif option == '3':
+            id_ = ui.get_inputs(['Record to be deleted: '], '')[0]
+            remove(table, id_)
+            data_manager.write_table_to_file('hr/persons.csv', table)
+        elif option == '4':
+            id_ = ui.get_inputs(['Record to be updated: '], '')[0]
+            update(table, id_)
+            data_manager.write_table_to_file('hr/persons.csv', table)
+        elif option == '5':
+            print('Under construction...')
+        elif option == '6':
+            print('Under construction 2...')
+        elif option == '0':
+            sales_menu_active = False
+
 
 def start_module():
     """
@@ -26,7 +56,9 @@ def start_module():
         None
     """
 
-    # your code
+    ui.print_menu('Human resources manager', ['Show table', 'Add', 'Remove', 'Update',
+                                              'Oldest person', 'Persons closest to average'], 'Return to main menu')
+    choose_sales()
 
 
 def show_table(table):
@@ -40,7 +72,8 @@ def show_table(table):
         None
     """
 
-    # your code
+    titles = ['id', 'name', 'birth_year']
+    ui.print_table(table, titles)
 
 
 def add(table):
@@ -54,8 +87,11 @@ def add(table):
         list: Table with a new record
     """
 
-    # your code
-
+    item = ui.get_inputs(['Please provide name: ', 'Please provide birth year: '],
+                         'Please provide persons data:')
+    table_csv = data_manager.get_table_from_file('hr/persons.csv')
+    table.append([common.generate_random(table_csv),
+                  item[NAME], item[BIRTH_YEAR]])
     return table
 
 
@@ -71,7 +107,9 @@ def remove(table, id_):
         list: Table without specified record.
     """
 
-    # your code
+    for i in range(len(table)):
+        if table[i][0] == id_:
+            table.pop(i)
 
     return table
 
@@ -88,7 +126,13 @@ def update(table, id_):
         list: table with updated record
     """
 
-    # your code
+    list_labels = ['Please provide id: ',
+                   'Please provide name: ', 'Please provide birth year: ']
+    for i in range(1, len(table)):
+        if table[i][0] == id_:
+            item = ui.get_inputs(list_labels, '')
+            table.pop(i)
+            table.insert(i, item)
 
     return table
 

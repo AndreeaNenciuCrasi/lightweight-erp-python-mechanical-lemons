@@ -115,6 +115,11 @@ def get_inputs(list_labels, title):
     inputs = []
     while i < len(list_labels):
         inputs.append(input(f'{title} {list_labels[i]}'))
+   
+   #  print(f'{title}')
+   #  while i < len(list_labels):
+   #      inputs.append(input(f'{list_labels[i]}'))
+
         i += 1
     
     return inputs

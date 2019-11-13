@@ -101,7 +101,7 @@ def add(table):
     return table
 
 
-def remove(table, id_):  # Claudiu common - DRY remove from list
+def remove(table, id_):
     """
     Remove a record with a given id from the table.
 

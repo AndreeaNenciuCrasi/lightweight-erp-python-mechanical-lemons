@@ -37,13 +37,13 @@ def choose_inventory():
             update(table, id_)
             data_manager.write_table_to_file('inventory/inventory.csv', table)
         elif option == '5':
-            year = int(ui.get_inputs(['Year to calculate availability: '], 'Inventory')[0])
-            available_item = get_available_items(table,year)
-            #ui.print_result(available_item, f'Inventory data - items that have not exceeded their durability yet (in {year}): ')
+            year = int(ui.get_inputs(['Year to calculate availability: '], 'Inventory: ')[0])
+            expiration = get_available_items(table,year)            
+            ui.print_table(expiration, ['id', 'name', 'manufacturer', 'purchase_year', 'durability'])
         elif option == '6':
             average = get_average_durability_by_manufacturers(table)
             get_average_durability_by_manufacturers(table)
-            ui.print_result(average,'Inventory data - the average durability times for each manufacturer: ')
+            ui.print_result(average,'Inventory data - the average durability times for each manufacturer: ')            
         elif option == '0':
             inventory_menu_active = False
 
@@ -158,7 +158,7 @@ def get_available_items(table, year):
         expiration_date = int(table[i][3])+int(table[i][4])
         if year < expiration_date:
             expiration.append(table[i])
-    ui.print_table(expiration, ['id', 'name', 'manufacturer', 'purchase_year', 'durability'])
+    
     return expiration
 
 
@@ -172,6 +172,33 @@ def get_average_durability_by_manufacturers(table):
     Returns:
         dict: a dictionary with this structure: { [manufacturer] : [avg] }
     """
+    
+    dictionary = {}
+    average = {}
+    for i in range(len(table)):
+        try:
+            dictionary[table[i][2]].append(int(table[i][4]))
+        except KeyError:
+            dictionary[table[i][2]] = [int(table[i][4])]
+    for key in dictionary:
+        durability = dictionary[key]
+        sum = 0
+        for i in range(len(durability)):
+            sum_total = sum + durability[i]
+            sum = sum_total
+        avg = sum / len(durability)
+        average[key] = avg
+    return average
+    
+
+
+
+
+    
+
+
+            
+    
 
 
 

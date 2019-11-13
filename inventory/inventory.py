@@ -9,7 +9,6 @@ Data table structure:
     * durability (number): Years it can be used
 """
 
-
 # everything you'll need is imported:
 # User interface module
 import ui
@@ -23,19 +22,29 @@ def choose_inventory():
     while inventory_menu_active is True:
         inputs = ui.get_inputs(["Please enter a number: "], "")
         option = inputs[0]
-        if option == "1":
-            inventory.show_table(table)
-        elif option == "2":
-            inventory.add(table)
-        elif option == "3":
-            inventory.remove(table, id_)
-        elif option == "4":
-            inventory.update(table, id_)
-        elif option == "5":
-            inventory.get_available_items(table, year)
-        elif option == "6":
-            inventory.get_average_durability_by_manufacturers(table)
-        elif option == "0":
+        table = data_manager.get_table_from_file('inventory/inventory.csv')
+        if option == '1':
+            show_table(table)
+        elif option == '2':
+            add(table)
+            data_manager.write_table_to_file('inventory/inventory.csv', table)
+        elif option == '3':
+            id_ = ui.get_inputs(['ID of item to remove: '], 'Inventory')[0]
+            remove(table, id_)
+            data_manager.write_table_to_file('inventory/inventory.csv', table)
+        elif option == '4':
+            id_ = ui.get_inputs(['ID of item to update: '], 'Inventory')[0]
+            update(table, id_)
+            data_manager.write_table_to_file('inventory/inventory.csv', table)
+        elif option == '5':
+            year = int(ui.get_inputs(['Year to calculate availability: '], 'Inventory')[0])
+            available_item = get_available_items(table,year)
+            #ui.print_result(available_item, f'Inventory data - items that have not exceeded their durability yet (in {year}): ')
+        elif option == '6':
+            average = get_average_durability_by_manufacturers(table)
+            get_average_durability_by_manufacturers(table)
+            ui.print_result(average,'Inventory data - the average durability times for each manufacturer: ')
+        elif option == '0':
             inventory_menu_active = False
 
 def start_module():
@@ -47,9 +56,10 @@ def start_module():
     Returns:
         None
     """
+    #table = data_manager.get_table_from_file("inventory/inventory.csv")
     ui.print_menu('Inventory', ['Show table', 'Add', 'Remove', 'Update', 'Which items have not exceeded their durability yet?', 'What are the average durability times for each manufacturer?'], 'Return to main menu')
     choose_inventory()
-    # your code
+    
 
 
 def show_table(table):
@@ -62,8 +72,10 @@ def show_table(table):
     Returns:
         None
     """
-    ui.print_table(table, ['id', 'name', 'manufacturer', 'purchase_year', 'durability', 'amount'])
-    # your code
+    table = data_manager.get_table_from_file('inventory/inventory.csv')
+    ui.print_table(table, ['id', 'name', 'manufacturer', 'purchase_year', 'durability'])
+    
+   
 
 
 def add(table):
@@ -77,8 +89,10 @@ def add(table):
         list: Table with a new record
     """
 
-    # your code
-
+    #table = data_manager.get_table_from_file("inventory/inventory.csv")
+    item = ui.get_inputs(['Id: ', 'Name: ', 'Manufacturer: ', 'Purchase year: ', 'Durability: '], 'Please provide product data: ')
+    table.append(item)
+    ui.print_table(table, ['id', 'name', 'manufacturer', 'purchase_year', 'durability'])
     return table
 
 
@@ -94,9 +108,12 @@ def remove(table, id_):
         list: Table without specified record.
     """
 
-    # your code
-
+    for i in range(len(table)):
+        if table[i][0] == id_:
+            table.pop(i)
+    ui.print_table(table, ['id', 'name', 'manufacturer', 'purchase_year', 'durability'])
     return table
+    
 
 
 def update(table, id_):
@@ -111,12 +128,13 @@ def update(table, id_):
         list: table with updated record
     """
 
-    # your code
-
-    with open("inventory.csv", 'w') as file:
-        for i in table:
-            file.write(i + '\n')
-
+    list_labels = ['id', 'name', 'manufacturer', 'purchase_year', 'durability']
+    for i in range(len(table)):
+        if table[i][0] == id_:
+            item = ui.get_inputs(list_labels, 'Inventory')
+            table.pop(i)
+            table.insert(i, item)
+    ui.print_table(table, ['id', 'name', 'manufacturer', 'purchase_year', 'durability'])
     return table
 
 
@@ -135,7 +153,13 @@ def get_available_items(table, year):
         list: list of lists (the inner list contains the whole row with their actual data types)
     """
 
-    # your code
+    expiration = []
+    for i in range(len(table)):
+        expiration_date = int(table[i][3])+int(table[i][4])
+        if year < expiration_date:
+            expiration.append(table[i])
+    ui.print_table(expiration, ['id', 'name', 'manufacturer', 'purchase_year', 'durability'])
+    return expiration
 
 
 def get_average_durability_by_manufacturers(table):
@@ -148,5 +172,29 @@ def get_average_durability_by_manufacturers(table):
     Returns:
         dict: a dictionary with this structure: { [manufacturer] : [avg] }
     """
-
-    # your code
+#     manufacturer_average = {}
+#     manufacturer = []
+#     durability = []
+#     for i in range(len(table)):
+#         manufacturer.append(table[i][2])
+#         j = i + 1
+#         while j <= i-1:
+#             if table[i][2] == table[j][2]:
+#                 durability.append(table[i][4])
+#                 j += 1
+#                 sum = 0
+#                 for k in range(len(durability)):
+#                     sum_total = sum + int(durability[k])
+#                     sum = sum_total
+#                 average = sum_total / (len(durability))
+# #                manufacturer_average.update({'manufacturer[i]': average})
+#             else :
+#                 manufacturer.append(table[i][2])
+#                 durability.append(table[i][4])
+#                 average = durability[0]                
+#             manufacturer_average.update({'
+#             manufacturer[i]': average})
+# #    ui.print_table(manufacturer_average, ['manufacturer', 'average'])
+#     return manufacturer_average
+            
+   

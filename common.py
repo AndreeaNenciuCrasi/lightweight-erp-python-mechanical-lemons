@@ -49,3 +49,11 @@ def bubbleSort(arr, key=None):
             if arr[j][key] > arr[j+1][key]:
                 arr[j][key], arr[j+1][key] = arr[j+1][key], arr[j][key]
     return arr
+
+
+def mean(arr):
+    n = len(arr)
+    elements_added = 0
+    for item in arr:
+        elements_added += float(item)
+    return elements_added/n

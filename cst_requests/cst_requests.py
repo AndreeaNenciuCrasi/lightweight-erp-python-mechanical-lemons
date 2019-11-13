@@ -49,11 +49,10 @@ def choose_requests():
             data_manager.write_table_to_file('cst_requests/cst_requests.csv', table)
         elif option == '5':
             most_requested_list = most_requested(table)
-            # ui.print_result(most_requested_game, 'Requests data - most requested game: ')
             ui.print_table(most_requested_list, ['id', 'title', 'developer', 'year of request'])
         elif option == '6':
             oldest_requested_game = oldest_request(table)
-            ui.print_result(oldest_requested_game, f'Requests data - oldest requested game: ')
+            ui.print_table(oldest_requested_game, ['id', 'title', 'developer', 'year of request'])
         elif option == '0':
             requests_menu_active = False
 
@@ -151,7 +150,7 @@ def most_requested(table):
         table (list): data table to work on
 
     Returns:
-        title, or if more than one, all the titles of the games, as a table
+        list of info for the title, or if more than one, all the titles of the games, as a table
     """
     titles_list = []
     for line in table:
@@ -171,10 +170,6 @@ def most_requested(table):
             final_list.append(game)
     return final_list
 
-    
-
-
-
 
 def oldest_request(table):
     """
@@ -185,5 +180,13 @@ def oldest_request(table):
         table (list): data table to work on
 
     Returns:
-        number
+        list of info for the title, or if more than one, all the titles of the
+        games, as a table
     """
+    table = common.bubbleSort(table, 3)
+    oldest_year = table[0][3]
+    oldest_requested_games = []
+    for game in table:
+        if game[3] == oldest_year:
+            oldest_requested_games.append(game)
+    return oldest_requested_games

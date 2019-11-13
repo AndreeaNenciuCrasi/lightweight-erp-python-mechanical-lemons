@@ -46,7 +46,8 @@ def choose_sales():
             update(table, id_)
             data_manager.write_table_to_file('sales/sales.csv', table)
         elif option == '5':
-            print('Under construction...')
+            lowest_price = get_lowest_price_item_id(table)
+            ui.print_result(lowest_price, 'Product ID with lowest price: ')
         elif option == '6':
             print('Under construction 2...')
         elif option == '0':
@@ -158,8 +159,9 @@ def get_lowest_price_item_id(table):
     Returns:
          string: id
     """
-
-    # your code
+    table = common.bubbleSort(table, 1)
+    table = common.bubbleSort(table, 2)
+    return table[0][0]
 
 
 def get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to):

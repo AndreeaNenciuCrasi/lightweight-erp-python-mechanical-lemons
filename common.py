@@ -18,10 +18,19 @@ def generate_random(table):
         string: Random and unique string
     """
 
-    generated = ''
-
-    # your code
-
+    digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    lower_letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+                     'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    upper_letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
+                     'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    last_values = '#&'
+    random_lower_letter = lower_letters[random.randint(
+        0, len(lower_letters) - 1)]
+    random_upper_letter = upper_letters[random.randint(
+        0, len(upper_letters) - 1)]
+    random_digit = str(digits[random.randint(0, len(digits) - 1)])
+    generated = random_lower_letter + random_upper_letter + random_digit + \
+        random_digit + random_upper_letter + random_lower_letter + last_values
     return generated
 
 
@@ -30,7 +39,6 @@ def is_larger(current_largest, new_item):
         return True
     else:
         return False
-
 
 def remove_from_list(table, id_):
     new_table = []

@@ -56,4 +56,4 @@ def mean(arr):
     elements_added = 0
     for item in arr:
         elements_added += float(item)
-    return elements_added/n
+    return round(elements_added/n)

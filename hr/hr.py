@@ -42,7 +42,8 @@ def choose_sales():
             oldest = get_oldest_person(table)
             ui.print_result(oldest, 'Oldest person is: ')
         elif option == '6':
-            print('Under construction 2...')
+            medium_age = get_persons_closest_to_average(table)
+            ui.print_result(medium_age, 'Medium age person is: ')
         elif option == '0':
             sales_menu_active = False
 
@@ -169,3 +170,18 @@ def get_persons_closest_to_average(table):
     Returns:
         list: list of strings (name or names if there are two more with the same value)
     """
+    year_list = []
+    closest_person = []
+    for line in table:
+        year_list.append(int(line[2]))
+    mean_year = common.mean(year_list)
+    closest_year = 2019
+    smallest_difference = 2019
+    for value in table:
+        if abs(int(value[2]) - mean_year) < smallest_difference:
+            closest_year = int(value[2])
+            smallest_difference = abs(int(value[2]) - mean_year)
+    for person in table:
+        if int(person[2]) == closest_year:
+            closest_person.append(person[1])
+    return closest_person

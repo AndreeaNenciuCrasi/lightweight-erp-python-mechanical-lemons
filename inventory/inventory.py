@@ -128,7 +128,7 @@ def update(table, id_):
         list: table with updated record
     """
 
-    list_labels = ['id', 'name', 'manufacturer', 'purchase_year', 'durability']
+    list_labels = ['id: ', 'name: ', 'manufacturer: ', 'purchase_year: ', 'durability: ']
     for i in range(len(table)):
         if table[i][0] == id_:
             item = ui.get_inputs(list_labels, 'Inventory')
@@ -172,29 +172,9 @@ def get_average_durability_by_manufacturers(table):
     Returns:
         dict: a dictionary with this structure: { [manufacturer] : [avg] }
     """
-#     manufacturer_average = {}
-#     manufacturer = []
-#     durability = []
-#     for i in range(len(table)):
-#         manufacturer.append(table[i][2])
-#         j = i + 1
-#         while j <= i-1:
-#             if table[i][2] == table[j][2]:
-#                 durability.append(table[i][4])
-#                 j += 1
-#                 sum = 0
-#                 for k in range(len(durability)):
-#                     sum_total = sum + int(durability[k])
-#                     sum = sum_total
-#                 average = sum_total / (len(durability))
-# #                manufacturer_average.update({'manufacturer[i]': average})
-#             else :
-#                 manufacturer.append(table[i][2])
-#                 durability.append(table[i][4])
-#                 average = durability[0]                
-#             manufacturer_average.update({'
-#             manufacturer[i]': average})
-# #    ui.print_table(manufacturer_average, ['manufacturer', 'average'])
-#     return manufacturer_average
+
+
+
+
             
    

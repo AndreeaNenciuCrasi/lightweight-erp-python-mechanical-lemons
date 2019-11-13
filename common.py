@@ -42,10 +42,10 @@ def is_larger(current_largest, new_item):
         return False
 
 
-def bubbleSort(arr):
+def bubbleSort(arr, key=None):
     n = len(arr)
     for i in range(n):
         for j in range(0, n-i-1):
-            if arr[j] > arr[j+1]:
-                arr[j], arr[j+1] = arr[j+1], arr[j]
+            if arr[j][key] > arr[j+1][key]:
+                arr[j][key], arr[j+1][key] = arr[j+1][key], arr[j][key]
     return arr

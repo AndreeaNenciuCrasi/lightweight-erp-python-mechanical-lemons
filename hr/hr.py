@@ -39,7 +39,8 @@ def choose_sales():
             update(table, id_)
             data_manager.write_table_to_file('hr/persons.csv', table)
         elif option == '5':
-            print('Under construction...')
+            oldest = get_oldest_person(table)
+            ui.print_result(oldest, 'Oldest person is: ')
         elif option == '6':
             print('Under construction 2...')
         elif option == '0':
@@ -150,8 +151,12 @@ def get_oldest_person(table):
     Returns:
         list: A list of strings (name or names if there are two more with the same value)
     """
-
-    # your code
+    return_list = []
+    person_list = common.bubbleSort(table, 2)
+    for line in person_list:
+        if person_list[0][2] == line[2]:
+            return_list.append(line[1])
+    return return_list
 
 
 def get_persons_closest_to_average(table):

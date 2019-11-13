@@ -32,10 +32,17 @@ def store_options():
                          'Return To Main Menu', )
         elif option == '2':
             add(table)
-            print(add(table))
+            input('Press enter to continue...')
+            ui.print_menu('Store',
+                         ['Show Table', 'Add', 'Remove', 'Update','Count', 'Average'],
+                         'Return To Main Menu', )
         elif option == '3':
-            get_id = ui.get_inputs(['Enter the id you want to remove'], '')
+            get_id = ui.get_inputs(['Enter the id you want to remove: '], '')
             remove(table, get_id)
+            input('Press enter to continue...')
+            ui.print_menu('Store',
+                         ['Show Table', 'Add', 'Remove', 'Update','Count', 'Average'],
+                         'Return To Main Menu', )
         elif option == '4':
             print('g')
         elif option == '5':
@@ -72,7 +79,6 @@ def show_table(table):
     Returns:
         None
     """
-
     title_list = ['id', 'title', 'manufacturer', 'price', 'in_stock']
     ui.print_table(table, title_list)
 
@@ -87,15 +93,9 @@ def add(table):
     Returns:
         list: Table with a new record
     """
-    new_data = []
-    new_id = ui.get_inputs(['Enter id: '], '')
-    # new_game_title = ui.get_inputs(['Enter game title: '], '')
-    # new_manufacturer = ui.get_inputs(['Enter manufacturer: '], '')
-    # new_price = ui.get_inputs(['Enter price: '], '')
-    # new_stock = ui.get_inputs(['Enter how many are in stock: '], '')
-
-    new_data.append(new_id)
-    table.append(new_data)
+    item = ui.get_inputs(['id: ', 'title: ', 'manufacturer: ', 'price: ', 'in_stock: '], 'Add transaction -')
+    table.append(item)
+    data_manager.write_table_to_file('store/games.csv', table)
     return table
 
 

@@ -9,6 +9,7 @@ Data table structure:
     * durability (number): Years it can be used
 """
 
+
 # everything you'll need is imported:
 # User interface module
 import ui

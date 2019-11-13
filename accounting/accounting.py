@@ -175,6 +175,7 @@ def which_year_max(table):
 def avg_amount(table, year):
     """
     Question: What is the average (per item) profit in a given year? [(profit)/(items count)]
+    Each line in the accounting table represents a game (in = sold, out = bought).
 
     Args:
         table (list): data table to work on
@@ -183,14 +184,6 @@ def avg_amount(table, year):
     Returns:
         number
     """
-    # requirement unclear... don't know what items count is
-    # all the amount numbers added?
-    # just the 'out' amounts numbers added (does it mean games sold?)
-    # up to this point the id was interpreted as a specific game(is it an inventory operation id?)
-    # interpreting the profit as +in -out as indicated in the above requirement
-    # interpreting 'out' as the number of games sold (in being the games coming in into the store inventory)
-    # Googled accounting what is in and out = cash coming 'in' and going 'out'
-    # we do not have items_count in this module, not allowed to import sales, taking each line as 1 game transaction
     profit = 0
     items_count = 0
     for item in table:

@@ -66,7 +66,9 @@ def start_module():
     Returns:
         None
     """
-    ui.print_menu('Requests', ['Show table', 'Add', 'Remove', 'Update', 'Most requested game', 'Oldest requested game'], 'Return to main menu')
+    ui.print_menu('Requests', ['Show table', 'Add', 'Remove', 'Update',
+                  'Most requested game', 'Oldest requested game'], 'Return'
+                  'to main menu')
     choose_requests()
 
 
@@ -141,7 +143,8 @@ def update(table, id_):
 
 def most_requested(table):
     """
-    Question: What is the most requested game by customers? [the game title that shows up the most in the table]
+    Question: What is the most requested game by customers? [the game title
+    that shows up the most in the table]
 
     Args:
         table (list): data table to work on
@@ -149,12 +152,13 @@ def most_requested(table):
     Returns:
         number
     """
-    
+
 
 
 def oldest_request(table):
     """
-    Question: What is the oldest request a customer has made? [the table item with the oldest year of request]
+    Question: What is the oldest request a customer has made? [the table item
+    with the oldest year of request]
 
     Args:
         table (list): data table to work on

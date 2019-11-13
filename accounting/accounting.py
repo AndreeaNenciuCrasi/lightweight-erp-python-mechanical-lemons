@@ -43,7 +43,7 @@ def choose_accounting():
             data_manager.write_table_to_file('accounting/items.csv', table)
         elif option == '3':
             remove_id_ = ui.get_inputs(['ID of item to remove: '], 'Accounting')[0]
-            remove(table, remove_id_)
+            table = remove(table, remove_id_)
             data_manager.write_table_to_file('accounting/items.csv', table)
         elif option == '4':
             update_id_ = ui.get_inputs(['ID of item to update: '], 'Accounting')[0]
@@ -112,9 +112,13 @@ def remove(table, id_):
     Returns:
         list: Table without specified record.
     """
-    for i in range(len(table)):
-        if table[i][0] == id_:
+    n = len(table)
+    i = 0
+    while i < n:
+        temp = table[i][0]
+        if temp == id_:
             table.pop(i)
+        i += 1
     return table
 
 
@@ -191,7 +195,5 @@ def avg_amount(table, year):
             if item[4] == 'in':
                 profit += int(item[5])
                 items_count += 1
-            elif item[4] == 'out':
-                profit -= int(item[5])
     avg = profit/items_count
     return avg

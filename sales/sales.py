@@ -29,6 +29,7 @@ YEAR = 4
 def choose_sales():
     sales_menu_active = True
     table = data_manager.get_table_from_file('sales/sales.csv')
+
     while sales_menu_active is True:
         inputs = ui.get_inputs(["Please enter a number: "], "")
         option = inputs[0]
@@ -37,9 +38,13 @@ def choose_sales():
         elif option == '2':
             add(table)
         elif option == '3':
+            id_ = ui.get_inputs(['Record to be deleted: '], '')[0]
             remove(table, id_)
+            data_manager.write_table_to_file('sales/sales.csv', table)
         elif option == '4':
+            id_ = ui.get_inputs(['Record to be updated: '], '')[0]
             update(table, id_)
+            data_manager.write_table_to_file('sales/sales.csv', table)
         elif option == '5':
             print('Under construction...')
         elif option == '6':
@@ -108,7 +113,9 @@ def remove(table, id_):
         list: Table without specified record.
     """
 
-    # your code
+    for i in range(len(table)):
+        if table[i][0] == id_:
+            table.pop(i)
 
     return table
 
@@ -125,7 +132,14 @@ def update(table, id_):
         list: table with updated record
     """
 
-    # your code
+    list_labels = ['Please provide id: ', 'Please provide title: ', 'Please provide price: ',
+                   'Please provide month: ',
+                   'Please provide day: ', 'Please provide year: ']
+    for i in range(1, len(table)):
+        if table[i][0] == id_:
+            item = ui.get_inputs(list_labels, '')
+            table.pop(i)
+            table.insert(i, item)
 
     return table
 

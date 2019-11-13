@@ -36,6 +36,6 @@ def remove_from_list(table, id_):
     new_table = []
     ID = 0
     for data in table:
-        if id_ not in data[ID]:
+        if id_[ID] not in data[ID]:
             new_table.append(data)
     return new_table

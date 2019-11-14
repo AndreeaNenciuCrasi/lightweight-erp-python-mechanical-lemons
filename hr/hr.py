@@ -28,22 +28,34 @@ def choose_sales():
         option = inputs[0]
         if option == '1':
             show_table(table)
+            ui.print_menu('Human resources manager', ['Show table', 'Add', 'Remove', 'Update',
+                                                      'Oldest person', 'Persons closest to average'], 'Return to main menu')
         elif option == '2':
             add(table)
+            ui.print_menu('Human resources manager', ['Show table', 'Add', 'Remove', 'Update',
+                                                      'Oldest person', 'Persons closest to average'], 'Return to main menu')
         elif option == '3':
             id_ = ui.get_inputs(['Record to be deleted: '], '')[0]
             remove(table, id_)
             data_manager.write_table_to_file('hr/persons.csv', table)
+            ui.print_menu('Human resources manager', ['Show table', 'Add', 'Remove', 'Update',
+                                                      'Oldest person', 'Persons closest to average'], 'Return to main menu')
         elif option == '4':
             id_ = ui.get_inputs(['Record to be updated: '], '')[0]
             update(table, id_)
             data_manager.write_table_to_file('hr/persons.csv', table)
+            ui.print_menu('Human resources manager', ['Show table', 'Add', 'Remove', 'Update',
+                                                      'Oldest person', 'Persons closest to average'], 'Return to main menu')
         elif option == '5':
             oldest = get_oldest_person(table)
             ui.print_result(oldest, 'Oldest person is: ')
+            ui.print_menu('Human resources manager', ['Show table', 'Add', 'Remove', 'Update',
+                                                      'Oldest person', 'Persons closest to average'], 'Return to main menu')
         elif option == '6':
             medium_age = get_persons_closest_to_average(table)
             ui.print_result(medium_age, 'Medium age person is: ')
+            ui.print_menu('Human resources manager', ['Show table', 'Add', 'Remove', 'Update',
+                                                      'Oldest person', 'Persons closest to average'], 'Return to main menu')
         elif option == '0':
             sales_menu_active = False
 

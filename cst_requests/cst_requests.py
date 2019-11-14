@@ -95,7 +95,9 @@ def add(table):
     Returns:
         list: Table with a new record
     """
-    item = ui.get_inputs(['id: ', 'title: ', 'developer: ', 'year of request: '], 'Add customer game request -')
+    item = ui.get_inputs(['title: ', 'developer: ', 'year of request: '], 'Add customer game request -')
+    id = common.generate_random(table)
+    item.insert(0, id)
     table.append(item)
     return table
 

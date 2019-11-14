@@ -69,7 +69,7 @@ def store_options():
                          'Return To Main Menu', )
         elif option == '6':
             get_manufacturer = ui.get_inputs(['Enter manufacturer: '], '')
-            result = get_average_by_manufacturer(table, get_manufacturer)
+            result = get_average_by_manufacturer(table, get_manufacturer[0])
             ui.print_result(result,f'Average stock by manufacturer {get_manufacturer[0]} is ')
 
             ui.print_menu('Store',
@@ -212,16 +212,13 @@ def get_average_by_manufacturer(table, manufacturer):
     MANUFACTURERS = 2
     GAMES_IN_STOCK = 4
     stock = 0
-    number_of_games_manufacturer = 0 
-    split_strings = manufacturer[0].split(' ')
-    capitalized_manufacturer = [values.capitalize() for values in split_strings]
+    number_of_games_manufacturer = 0
     for data in table:
-        for string in capitalized_manufacturer:
-            if ' '.join(capitalized_manufacturer) == data[MANUFACTURERS]:
-                number_of_games_manufacturer +=1 
-                stock += int(data[GAMES_IN_STOCK])
+        if manufacturer.title() == data[MANUFACTURERS]:
+            number_of_games_manufacturer +=1 
+            stock += int(data[GAMES_IN_STOCK])           
     try:
-        return stock // number_of_games_manufacturer
+        return stock / number_of_games_manufacturer
     except ZeroDivisionError:
         return 0
 

@@ -149,10 +149,17 @@ def get_longest_name_id(table):
         """
 
     # your code
-
+    dictionary = {}
+    for i in range(len(table)):
+        try:
+            dictionary[len(table[i][1])].append([str(table[i][1]), table[i][0]])
+        except KeyError:
+            dictionary[len(table[i][1])] = [[str(table[i][1]), table[i][0]]]
+    return dictionary
 
 # the question: Which customers has subscribed to the newsletter?
 # return type: list of strings (where string is like email+separator+name, separator=";")
+
 def get_subscribed_emails(table):
     """
         Question: Which customers has subscribed to the newsletter?

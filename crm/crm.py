@@ -159,20 +159,16 @@ def get_longest_name_id(table):
             dictionary[len(table[i][1])].append([str(table[i][1]), table[i][0]])
         except KeyError:
             dictionary[len(table[i][1])] = [[str(table[i][1]), table[i][0]]]
-    dictionary_longest_name = {}
+    dictionary_longest_name = []
     longest_names = list(dictionary.keys())[0]
     for key in dictionary:
         if key > longest_names:
             longest_names = key            
         dictionary_longest_name = dictionary[longest_names] 
+    result_list = common.bubbleSort(dictionary_longest_name, 0)
+    return result_list[-1][1]
     
-    for i in dictionary_longest_names:
-        split_name = list(dictionary_longest_name[i][0].split(""))
-        temp_biggest = "a"
-        if split_name[0] > temp_biggest:
-            temp_biggest = split_name[0]
-
-    return split_name
+    
 
 # the question: Which customers has subscribed to the newsletter?
 # return type: list of strings (where string is like email+separator+name, separator=";")

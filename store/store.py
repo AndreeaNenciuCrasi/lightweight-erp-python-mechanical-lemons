@@ -220,9 +220,6 @@ def get_average_by_manufacturer(table, manufacturer):
                 number_of_games_manufacturer +=1 
                 stock += int(data[GAMES_IN_STOCK])      
     try:
-        print(stock)
-        print(number_of_games_manufacturer)
-        print(stock / number_of_games_manufacturer)
         return stock / number_of_games_manufacturer
     except ZeroDivisionError:
         return 0

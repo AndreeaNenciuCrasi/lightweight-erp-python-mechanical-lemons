@@ -216,12 +216,14 @@ def get_average_by_manufacturer(table, manufacturer):
     split_strings = manufacturer[0].split(' ')
     capitalized_manufacturer = [values.capitalize() for values in split_strings]
     for data in table:
-        for string in capitalized_manufacturer:
-            if ' '.join(capitalized_manufacturer) == data[MANUFACTURERS]:
+        if ' '.join(capitalized_manufacturer) == data[MANUFACTURERS]:
                 number_of_games_manufacturer +=1 
-                stock += int(data[GAMES_IN_STOCK])
+                stock += int(data[GAMES_IN_STOCK])      
     try:
-        return stock // number_of_games_manufacturer
+        print(stock)
+        print(number_of_games_manufacturer)
+        print(stock / number_of_games_manufacturer)
+        return stock / number_of_games_manufacturer
     except ZeroDivisionError:
         return 0
 

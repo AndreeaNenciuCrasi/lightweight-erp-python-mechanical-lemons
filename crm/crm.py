@@ -182,5 +182,13 @@ def get_subscribed_emails(table):
         Returns:
             list: list of strings (where a string is like "email;name")
         """
-
-    # your code
+    EMAIL_SUBSCRIPTION = 3
+    EMAIL = 2
+    NAME = 1
+    formated_email_name = ''
+    formated_list = []
+    for customer in table:
+        if customer[EMAIL_SUBSCRIPTION] == '1':
+            formated_email_name = customer[EMAIL] + ';' + customer[NAME]
+            formated_list.append(formated_email_name)
+    return formated_list

@@ -72,6 +72,11 @@ def choose_sales():
             time_period = get_items_sold_between(
                 table, month_from, day_from, year_from, month_to, day_to, year_to)
             # ui.print_result(time_period, 'Sold items: ')
+            for line in time_period:
+                line[2] = str(line[2])
+                line[3] = str(line[3])
+                line[4] = str(line[4])
+                line[5] = str(line[5])
             titles = ['id', 'title', 'price', 'month', 'day', 'year']
             ui.print_table(time_period, titles)
             ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove', 'Update',

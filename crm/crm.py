@@ -24,24 +24,30 @@ def choose_crm():
         table = data_manager.get_table_from_file('crm/customers.csv')
         if option == '1':
             show_table(table)
+            ui.print_menu('CRM', ['Show table', 'Add', 'Remove', 'Update', 'What is the id of the customer with the longest name?', 'Which customers has subscribed to the newsletter?'], 'Return to main menu')
         elif option == '2':
             add(table)
             data_manager.write_table_to_file('crm/customers.csv', table)
+            ui.print_menu('CRM', ['Show table', 'Add', 'Remove', 'Update', 'What is the id of the customer with the longest name?', 'Which customers has subscribed to the newsletter?'], 'Return to main menu')
         elif option == '3':
             id_ = ui.get_inputs(['ID of item to remove: '], 'Crm')[0]
-            remove(table, id_)
+            table = remove(table, id_)
             data_manager.write_table_to_file('crm/customers.csv', table)
+            ui.print_menu('CRM', ['Show table', 'Add', 'Remove', 'Update', 'What is the id of the customer with the longest name?', 'Which customers has subscribed to the newsletter?'], 'Return to main menu')
         elif option == '4':
             id_ = ui.get_inputs(['ID of item to update: '], 'Crm')[0]
             update(table, id_)
             data_manager.write_table_to_file('crm/customers.csv', table)
+            ui.print_menu('CRM', ['Show table', 'Add', 'Remove', 'Update', 'What is the id of the customer with the longest name?', 'Which customers has subscribed to the newsletter?'], 'Return to main menu')
         elif option == '5':
             longest_name = get_longest_name_id(table)
             ui.print_result(longest_name,'Crm data - the customer id with the longest name: ')
+            ui.print_menu('CRM', ['Show table', 'Add', 'Remove', 'Update', 'What is the id of the customer with the longest name?', 'Which customers has subscribed to the newsletter?'], 'Return to main menu')
         elif option == '6':
             subscribers_list = get_subscribed_emails(table)
             get_subscribed_emails(table)
             ui.print_result(subscribers_list,'Crm data - subscribers list: ')
+            ui.print_menu('CRM', ['Show table', 'Add', 'Remove', 'Update', 'What is the id of the customer with the longest name?', 'Which customers has subscribed to the newsletter?'], 'Return to main menu')
         elif option == '0':
             crm_menu_active = False
 
@@ -86,9 +92,11 @@ def add(table):
         list: Table with a new record
     """
 
-    item = ui.get_inputs(['Id: ', 'Name: ', 'Email: ', 'Subscribed: '], 'Please provide product data: ')
+    item = ui.get_inputs(['Name: ', 'Email: ', 'Subscribed: '], 'Please provide product data: ')
+    id = common.generate_random(table)
+    item.insert(0, id)
     table.append(item)
-    ui.print_table(table, ['id', 'name', 'email', 'subscribed'])
+    #ui.print_table(table, ['id', 'name', 'email', 'subscribed'])
     return table
 
 
@@ -104,10 +112,13 @@ def remove(table, id_):
         list: Table without specified record.
     """
 
-    for i in range(len(table)):
-        if table[i][0] == id_:
+    n = len(table)
+    i = 0
+    while i < n:
+        temp = table[i][0]
+        if temp == id_:
             table.pop(i)
-    ui.print_table(table, ['id', 'name', 'email', 'subscribed'])
+        i += 1
     return table
 
 
@@ -154,20 +165,16 @@ def get_longest_name_id(table):
             dictionary[len(table[i][1])].append([str(table[i][1]), table[i][0]])
         except KeyError:
             dictionary[len(table[i][1])] = [[str(table[i][1]), table[i][0]]]
-    dictionary_longest_name = {}
+    dictionary_longest_name = []
     longest_names = list(dictionary.keys())[0]
     for key in dictionary:
         if key > longest_names:
             longest_names = key            
         dictionary_longest_name = dictionary[longest_names] 
+    result_list = common.bubbleSort(dictionary_longest_name, 0)
+    return result_list[-1][1]
     
-    for i in dictionary_longest_names:
-        split_name = list(dictionary_longest_name[i][0].split(""))
-        temp_biggest = "a"
-        if split_name[0] > temp_biggest:
-            temp_biggest = split_name[0]
-
-    return split_name
+    
 
 # the question: Which customers has subscribed to the newsletter?
 # return type: list of strings (where string is like email+separator+name, separator=";")
@@ -183,4 +190,13 @@ def get_subscribed_emails(table):
             list: list of strings (where a string is like "email;name")
         """
 
-    # your code
+    EMAIL_SUBSCRIPTION = 3
+    EMAIL = 2
+    NAME = 1
+    formated_email_name = ''
+    formated_list = []
+    for customer in table:
+        if customer[EMAIL_SUBSCRIPTION] == '1':
+            formated_email_name = customer[EMAIL] + ';' + customer[NAME]
+            formated_list.append(formated_email_name)
+    return formated_list

@@ -38,24 +38,30 @@ def choose_accounting():
         table = data_manager.get_table_from_file('accounting/items.csv')
         if option == '1':
             show_table(table)
+            ui.print_menu('Accounting', ['Show table', 'Add', 'Remove', 'Update', 'Most profitable year', 'Average amount'], 'Return to main menu')
         elif option == '2':
             add(table)
             data_manager.write_table_to_file('accounting/items.csv', table)
+            ui.print_menu('Accounting', ['Show table', 'Add', 'Remove', 'Update', 'Most profitable year', 'Average amount'], 'Return to main menu')
         elif option == '3':
             remove_id_ = ui.get_inputs(['ID of item to remove: '], 'Accounting')[0]
             table = remove(table, remove_id_)
             data_manager.write_table_to_file('accounting/items.csv', table)
+            ui.print_menu('Accounting', ['Show table', 'Add', 'Remove', 'Update', 'Most profitable year', 'Average amount'], 'Return to main menu')
         elif option == '4':
             update_id_ = ui.get_inputs(['ID of item to update: '], 'Accounting')[0]
             update(table, update_id_)
             data_manager.write_table_to_file('accounting/items.csv', table)
+            ui.print_menu('Accounting', ['Show table', 'Add', 'Remove', 'Update', 'Most profitable year', 'Average amount'], 'Return to main menu')
         elif option == '5':
             highest_profit = which_year_max(table)
             ui.print_result(highest_profit, 'Accounting data - most profitable year: ')
+            ui.print_menu('Accounting', ['Show table', 'Add', 'Remove', 'Update', 'Most profitable year', 'Average amount'], 'Return to main menu')
         elif option == '6':
             year = int(ui.get_inputs(['Year to calculate average for: '], 'Accounting')[0])
             average = avg_amount(table, year)
             ui.print_result(average, f'Accounting data - average profit per game sold in {year}: ')
+            ui.print_menu('Accounting', ['Show table', 'Add', 'Remove', 'Update', 'Most profitable year', 'Average amount'], 'Return to main menu')
         elif option == '0':
             accounting_menu_active = False
 

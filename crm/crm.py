@@ -24,24 +24,30 @@ def choose_crm():
         table = data_manager.get_table_from_file('crm/customers.csv')
         if option == '1':
             show_table(table)
+            ui.print_menu('CRM', ['Show table', 'Add', 'Remove', 'Update', 'What is the id of the customer with the longest name?', 'Which customers has subscribed to the newsletter?'], 'Return to main menu')
         elif option == '2':
             add(table)
             data_manager.write_table_to_file('crm/customers.csv', table)
+            ui.print_menu('CRM', ['Show table', 'Add', 'Remove', 'Update', 'What is the id of the customer with the longest name?', 'Which customers has subscribed to the newsletter?'], 'Return to main menu')
         elif option == '3':
             id_ = ui.get_inputs(['ID of item to remove: '], 'Crm')[0]
             table = remove(table, id_)
             data_manager.write_table_to_file('crm/customers.csv', table)
+            ui.print_menu('CRM', ['Show table', 'Add', 'Remove', 'Update', 'What is the id of the customer with the longest name?', 'Which customers has subscribed to the newsletter?'], 'Return to main menu')
         elif option == '4':
             id_ = ui.get_inputs(['ID of item to update: '], 'Crm')[0]
             update(table, id_)
             data_manager.write_table_to_file('crm/customers.csv', table)
+            ui.print_menu('CRM', ['Show table', 'Add', 'Remove', 'Update', 'What is the id of the customer with the longest name?', 'Which customers has subscribed to the newsletter?'], 'Return to main menu')
         elif option == '5':
             longest_name = get_longest_name_id(table)
             ui.print_result(longest_name,'Crm data - the customer id with the longest name: ')
+            ui.print_menu('CRM', ['Show table', 'Add', 'Remove', 'Update', 'What is the id of the customer with the longest name?', 'Which customers has subscribed to the newsletter?'], 'Return to main menu')
         elif option == '6':
             subscribers_list = get_subscribed_emails(table)
             get_subscribed_emails(table)
             ui.print_result(subscribers_list,'Crm data - subscribers list: ')
+            ui.print_menu('CRM', ['Show table', 'Add', 'Remove', 'Update', 'What is the id of the customer with the longest name?', 'Which customers has subscribed to the newsletter?'], 'Return to main menu')
         elif option == '0':
             crm_menu_active = False
 

@@ -16,6 +16,34 @@ import data_manager
 # common module
 import common
 
+def choose_crm():
+    crm_menu_active = True
+    while crm_menu_active is True:
+        inputs = ui.get_inputs(["Please enter a number: "], "")
+        option = inputs[0]
+        table = data_manager.get_table_from_file('crm/customers.csv')
+        if option == '1':
+            show_table(table)
+        elif option == '2':
+            add(table)
+            data_manager.write_table_to_file('crm/customers.csv', table)
+        elif option == '3':
+            id_ = ui.get_inputs(['ID of item to remove: '], 'Crm')[0]
+            remove(table, id_)
+            data_manager.write_table_to_file('crm/customers.csv', table)
+        elif option == '4':
+            id_ = ui.get_inputs(['ID of item to update: '], 'Crm')[0]
+            update(table, id_)
+            data_manager.write_table_to_file('crm/customers.csv', table)
+        elif option == '5':
+            longest_name = get_longest_name_id(table)
+            ui.print_result(longest_name,'Crm data - the customer id with the longest name: ')
+        elif option == '6':
+            subscribers_list = get_subscribed_emails(table)
+            get_subscribed_emails(table)
+            ui.print_result(subscribers_list,'Crm data - subscribers list: ')
+        elif option == '0':
+            crm_menu_active = False
 
 def start_module():
     """
@@ -27,7 +55,8 @@ def start_module():
         None
     """
 
-    # your code
+    ui.print_menu('CRM', ['Show table', 'Add', 'Remove', 'Update', 'What is the id of the customer with the longest name?', 'Which customers has subscribed to the newsletter?'], 'Return to main menu')
+    choose_crm()
 
 
 def show_table(table):
@@ -41,7 +70,9 @@ def show_table(table):
         None
     """
 
-    # your code
+    table = data_manager.get_table_from_file('crm/customers.csv')
+    ui.print_table(table, ['id', 'name', 'email', 'subscribed'])
+    
 
 
 def add(table):
@@ -55,8 +86,9 @@ def add(table):
         list: Table with a new record
     """
 
-    # your code
-
+    item = ui.get_inputs(['Id: ', 'Name: ', 'Email: ', 'Subscribed: '], 'Please provide product data: ')
+    table.append(item)
+    ui.print_table(table, ['id', 'name', 'email', 'subscribed'])
     return table
 
 
@@ -72,8 +104,10 @@ def remove(table, id_):
         list: Table without specified record.
     """
 
-    # your code
-
+    for i in range(len(table)):
+        if table[i][0] == id_:
+            table.pop(i)
+    ui.print_table(table, ['id', 'name', 'email', 'subscribed'])
     return table
 
 
@@ -89,8 +123,13 @@ def update(table, id_):
         list: table with updated record
     """
 
-    # your code
-
+    list_labels = ['id: ', 'name: ', 'email: ', 'subscribed: ']
+    for i in range(len(table)):
+        if table[i][0] == id_:
+            item = ui.get_inputs(list_labels, 'Crm')
+            table.pop(i)
+            table.insert(i, item)
+    ui.print_table(table, ['id', 'name', 'email', 'subscribed'])
     return table
 
 
@@ -109,11 +148,30 @@ def get_longest_name_id(table):
                 the last by alphabetical order of the names)
         """
 
-    # your code
+    dictionary = {}
+    for i in range(len(table)):
+        try:
+            dictionary[len(table[i][1])].append([str(table[i][1]), table[i][0]])
+        except KeyError:
+            dictionary[len(table[i][1])] = [[str(table[i][1]), table[i][0]]]
+    dictionary_longest_name = {}
+    longest_names = list(dictionary.keys())[0]
+    for key in dictionary:
+        if key > longest_names:
+            longest_names = key            
+        dictionary_longest_name = dictionary[longest_names] 
+    
+    for i in dictionary_longest_names:
+        split_name = list(dictionary_longest_name[i][0].split(""))
+        temp_biggest = "a"
+        if split_name[0] > temp_biggest:
+            temp_biggest = split_name[0]
 
+    return split_name
 
 # the question: Which customers has subscribed to the newsletter?
 # return type: list of strings (where string is like email+separator+name, separator=";")
+
 def get_subscribed_emails(table):
     """
         Question: Which customers has subscribed to the newsletter?

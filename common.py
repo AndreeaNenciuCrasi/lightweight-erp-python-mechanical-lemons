@@ -42,6 +42,15 @@ def is_larger(current_largest, new_item):
         return False
 
 
+def remove_from_list(table, id_):
+    new_table = []
+    ID = 0
+    for data in table:
+        if id_[ID] not in data[ID]:
+            new_table.append(data)
+    return new_table
+
+
 def bubbleSort(arr, key=None):
     n = len(arr)
     for i in range(n):
@@ -57,3 +66,11 @@ def how_many_times(arr, title):
         if i == title:
             times += 1
     return times
+
+
+def mean(arr):
+    n = len(arr)
+    elements_added = 0
+    for item in arr:
+        elements_added += float(item)
+    return round(elements_added/n)

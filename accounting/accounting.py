@@ -22,22 +22,40 @@ import common
 def choose_accounting():
     accounting_menu_active = True
     while accounting_menu_active is True:
-        inputs = ui.get_inputs(["Please enter a number: "], "")
+        valid_command = False
+        while valid_command is False:
+            try:
+                inputs = ui.get_inputs(["Please enter a number: "], "")
+                if inputs[0].isdigit() is False:
+                    raise ValueError
+                if int(inputs[0]) in range(0, 7):
+                    valid_command = True
+                elif inputs[0] not in range(0, 7):
+                    raise ValueError
+            except ValueError:
+                ui.print_error_message('Invalid command. Please choose between 0 and 6.')
         option = inputs[0]
+        table = data_manager.get_table_from_file('accounting/items.csv')
         if option == '1':
-            table = data_manager.get_table_from_file('accounting/items.csv')
             show_table(table)
         elif option == '2':
-            table = data_manager.get_table_from_file('accounting/items.csv')
             add(table)
+            data_manager.write_table_to_file('accounting/items.csv', table)
         elif option == '3':
-            remove_table(table, id_)
+            remove_id_ = ui.get_inputs(['ID of item to remove: '], 'Accounting')[0]
+            remove(table, remove_id_)
+            data_manager.write_table_to_file('accounting/items.csv', table)
         elif option == '4':
-            update_table(table, id_)
+            update_id_ = ui.get_inputs(['ID of item to update: '], 'Accounting')[0]
+            update(table, update_id_)
+            data_manager.write_table_to_file('accounting/items.csv', table)
         elif option == '5':
-            print('Under construction...')
+            highest_profit = which_year_max(table)
+            ui.print_result(highest_profit, 'Accounting data - most profitable year: ')
         elif option == '6':
-            print('Under construction 2...')
+            year = int(ui.get_inputs(['Year to calculate average for: '], 'Accounting')[0])
+            average = avg_amount(table, year)
+            ui.print_result(average, f'Accounting data - average profit per game sold in {year}: ')
         elif option == '0':
             accounting_menu_active = False
 
@@ -51,7 +69,7 @@ def start_module():
     Returns:
         None
     """
-    ui.print_menu('Accounting', ['Show table', 'Add', 'Remove', 'Update', 'Which year max?', 'Average amount'], 'Return to main menu')
+    ui.print_menu('Accounting', ['Show table', 'Add', 'Remove', 'Update', 'Most profitable year', 'Average amount'], 'Return to main menu')
     choose_accounting()
 
 
@@ -78,12 +96,12 @@ def add(table):
     Returns:
         list: Table with a new record
     """
-    item = ui.get_inputs(['id', 'month', 'day', 'year', 'type', 'amount'], 'Please provide product data:')
-    # TO ADD line to table
+    item = ui.get_inputs(['id: ', 'month: ', 'day: ', 'year: ', 'type: ', 'amount: '], 'Add transaction -')
+    table.append(item)
     return table
 
 
-def remove(table, id_):
+def remove(table, id_):  # Claudiu common - DRY remove from list
     """
     Remove a record with a given id from the table.
 
@@ -94,9 +112,9 @@ def remove(table, id_):
     Returns:
         list: Table without specified record.
     """
-
-    # your code
-
+    for i in range(len(table)):
+        if table[i][0] == id_:
+            table.pop(i)
     return table
 
 
@@ -111,9 +129,12 @@ def update(table, id_):
     Returns:
         list: table with updated record
     """
-
-    # your code
-
+    list_labels = ['id', 'month', 'day', 'year', 'type', 'amount']
+    for i in range(len(table)):
+        if table[i][0] == id_:
+            item = ui.get_inputs(list_labels, 'Accounting')
+            table.pop(i)
+            table.insert(i, item)
     return table
 
 
@@ -130,12 +151,31 @@ def which_year_max(table):
     Returns:
         number
     """
-    return 9000
+    years = []
+    for game in table:
+        if game[3] not in years:
+            years.append([game[3], 0])
+    for game in table:
+        if game[4] == 'in':
+            i = 0
+            for i in range(len(years)):
+                if game[3] == years[i][0]:
+                    years[i][1] += int(game[5])
+        elif game[4] == 'out':
+            for j in range(len(years)):
+                if game[3] == years[j][0]:
+                    years[j][1] -= int(game[5])
+    most_profits = ['no data', 0]
+    for year in years:
+        if year[1] > most_profits[1]:
+            most_profits = year
+    return int(most_profits[0])
     
 
 def avg_amount(table, year):
     """
     Question: What is the average (per item) profit in a given year? [(profit)/(items count)]
+    Each line in the accounting table represents a game (in = sold, out = bought).
 
     Args:
         table (list): data table to work on
@@ -144,4 +184,14 @@ def avg_amount(table, year):
     Returns:
         number
     """
-    return 9001
+    profit = 0
+    items_count = 0
+    for item in table:
+        if int(item[3]) == year:
+            if item[4] == 'in':
+                profit += int(item[5])
+                items_count += 1
+            elif item[4] == 'out':
+                profit -= int(item[5])
+    avg = profit/items_count
+    return avg

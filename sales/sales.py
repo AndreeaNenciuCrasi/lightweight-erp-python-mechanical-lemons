@@ -19,6 +19,55 @@ import data_manager
 import common
 
 
+TITLE = 0
+PRICE = 1
+MONTH = 2
+DAY = 3
+YEAR = 4
+
+
+def choose_sales():
+    sales_menu_active = True
+    table = data_manager.get_table_from_file('sales/sales.csv')
+
+    while sales_menu_active is True:
+        inputs = ui.get_inputs(["Please enter a number: "], "")
+        option = inputs[0]
+        if option == '1':
+            show_table(table)
+        elif option == '2':
+            add(table)
+        elif option == '3':
+            id_ = ui.get_inputs(['Record to be deleted: '], '')[0]
+            remove(table, id_)
+            data_manager.write_table_to_file('sales/sales.csv', table)
+        elif option == '4':
+            id_ = ui.get_inputs(['Record to be updated: '], '')[0]
+            update(table, id_)
+            data_manager.write_table_to_file('sales/sales.csv', table)
+        elif option == '5':
+            lowest_price = get_lowest_price_item_id(table)
+            ui.print_result(lowest_price, 'Product ID with lowest price: ')
+        elif option == '6':
+            date_from = ui.get_inputs(['Please provide month from: ', 'Please provide day from: ',
+                                       'Please provide year from: '], '')
+            month_from = date_from[0]
+            day_from = date_from[1]
+            year_from = date_from[2]
+            date_to = ui.get_inputs(['Please provide month to: ', 'Please provide day to: ',
+                                     'Please provide year to: '], '')
+            month_to = date_to[0]
+            day_to = date_to[1]
+            year_to = date_to[2]
+            time_period = get_items_sold_between(
+                table, month_from, day_from, year_from, month_to, day_to, year_to)
+            # ui.print_result(time_period, 'Sold items: ')
+            titles = ['id', 'title', 'price', 'month', 'day', 'year']
+            ui.print_table(time_period, titles)
+        elif option == '0':
+            sales_menu_active = False
+
+
 def start_module():
     """
     Starts this module and displays its menu.
@@ -28,8 +77,9 @@ def start_module():
     Returns:
         None
     """
-
-    # your code
+    ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove', 'Update',
+                                    'Lowest price item', 'Items sold between'], 'Return to main menu')
+    choose_sales()
 
 
 def show_table(table):
@@ -42,8 +92,8 @@ def show_table(table):
     Returns:
         None
     """
-
-    # your code
+    titles = ['id', 'title', 'price', 'month', 'day', 'year']
+    ui.print_table(table, titles)
 
 
 def add(table):
@@ -56,9 +106,13 @@ def add(table):
     Returns:
         list: Table with a new record
     """
-
-    # your code
-
+    item = ui.get_inputs(['Please provide title: ', 'Please provide price: ',
+                          'Please provide month: ',
+                          'Please provide day: ', 'Please provide year: '],
+                         'Please provide product data:')
+    table_csv = data_manager.get_table_from_file('sales/sales.csv')
+    table.append([common.generate_random(table_csv), item[TITLE], item[PRICE],
+                  item[MONTH], item[DAY], item[YEAR]])
     return table
 
 
@@ -74,7 +128,9 @@ def remove(table, id_):
         list: Table without specified record.
     """
 
-    # your code
+    for i in range(len(table)):
+        if table[i][0] == id_:
+            table.pop(i)
 
     return table
 
@@ -91,7 +147,14 @@ def update(table, id_):
         list: table with updated record
     """
 
-    # your code
+    list_labels = ['Please provide id: ', 'Please provide title: ', 'Please provide price: ',
+                   'Please provide month: ',
+                   'Please provide day: ', 'Please provide year: ']
+    for i in range(1, len(table)):
+        if table[i][0] == id_:
+            item = ui.get_inputs(list_labels, '')
+            table.pop(i)
+            table.insert(i, item)
 
     return table
 
@@ -110,8 +173,9 @@ def get_lowest_price_item_id(table):
     Returns:
          string: id
     """
-
-    # your code
+    table = common.bubbleSort(table, 1)
+    table = common.bubbleSort(table, 2)
+    return table[0][0]
 
 
 def get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to):
@@ -130,5 +194,16 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
     Returns:
         list: list of lists (the filtered table)
     """
-
-    # your code
+    product_list = []
+    for line in table:
+        if int(line[5]) > int(year_from) and int(line[5]) < int(year_to):
+            product_list.append(line)
+        if int(line[5]) == int(year_from) and int(line[3]) > int(month_from):
+            product_list.append(line)
+        if int(line[5]) == int(year_from) and int(line[3]) == int(month_from) and int(line[4]) > int(day_from):
+            product_list.append(line)
+        if int(line[5]) == int(year_to) and int(line[3]) < int(month_to):
+            product_list.append(line)
+        if int(line[5]) == int(year_to) and int(line[3]) == int(month_to) and int(line[4]) < int(day_to):
+            product_list.append(line)
+    return product_list

@@ -15,6 +15,38 @@ import data_manager
 # common module
 import common
 
+NAME = 0
+BIRTH_YEAR = 1
+
+
+def choose_sales():
+    sales_menu_active = True
+    table = data_manager.get_table_from_file('hr/persons.csv')
+
+    while sales_menu_active is True:
+        inputs = ui.get_inputs(["Please enter a number: "], "")
+        option = inputs[0]
+        if option == '1':
+            show_table(table)
+        elif option == '2':
+            add(table)
+        elif option == '3':
+            id_ = ui.get_inputs(['Record to be deleted: '], '')[0]
+            remove(table, id_)
+            data_manager.write_table_to_file('hr/persons.csv', table)
+        elif option == '4':
+            id_ = ui.get_inputs(['Record to be updated: '], '')[0]
+            update(table, id_)
+            data_manager.write_table_to_file('hr/persons.csv', table)
+        elif option == '5':
+            oldest = get_oldest_person(table)
+            ui.print_result(oldest, 'Oldest person is: ')
+        elif option == '6':
+            medium_age = get_persons_closest_to_average(table)
+            ui.print_result(medium_age, 'Medium age person is: ')
+        elif option == '0':
+            sales_menu_active = False
+
 
 def start_module():
     """
@@ -26,7 +58,9 @@ def start_module():
         None
     """
 
-    # your code
+    ui.print_menu('Human resources manager', ['Show table', 'Add', 'Remove', 'Update',
+                                              'Oldest person', 'Persons closest to average'], 'Return to main menu')
+    choose_sales()
 
 
 def show_table(table):
@@ -40,7 +74,8 @@ def show_table(table):
         None
     """
 
-    # your code
+    titles = ['id', 'name', 'birth_year']
+    ui.print_table(table, titles)
 
 
 def add(table):
@@ -54,8 +89,11 @@ def add(table):
         list: Table with a new record
     """
 
-    # your code
-
+    item = ui.get_inputs(['Please provide name: ', 'Please provide birth year: '],
+                         'Please provide persons data:')
+    table_csv = data_manager.get_table_from_file('hr/persons.csv')
+    table.append([common.generate_random(table_csv),
+                  item[NAME], item[BIRTH_YEAR]])
     return table
 
 
@@ -71,7 +109,9 @@ def remove(table, id_):
         list: Table without specified record.
     """
 
-    # your code
+    for i in range(len(table)):
+        if table[i][0] == id_:
+            table.pop(i)
 
     return table
 
@@ -88,7 +128,13 @@ def update(table, id_):
         list: table with updated record
     """
 
-    # your code
+    list_labels = ['Please provide id: ',
+                   'Please provide name: ', 'Please provide birth year: ']
+    for i in range(1, len(table)):
+        if table[i][0] == id_:
+            item = ui.get_inputs(list_labels, '')
+            table.pop(i)
+            table.insert(i, item)
 
     return table
 
@@ -106,8 +152,12 @@ def get_oldest_person(table):
     Returns:
         list: A list of strings (name or names if there are two more with the same value)
     """
-
-    # your code
+    return_list = []
+    person_list = common.bubbleSort(table, 2)
+    for line in person_list:
+        if person_list[0][2] == line[2]:
+            return_list.append(line[1])
+    return return_list
 
 
 def get_persons_closest_to_average(table):
@@ -120,5 +170,18 @@ def get_persons_closest_to_average(table):
     Returns:
         list: list of strings (name or names if there are two more with the same value)
     """
-
-    # your code
+    year_list = []
+    closest_person = []
+    for line in table:
+        year_list.append(int(line[2]))
+    mean_year = common.mean(year_list)
+    closest_year = 2019
+    smallest_difference = 2019
+    for value in table:
+        if abs(int(value[2]) - mean_year) < smallest_difference:
+            closest_year = int(value[2])
+            smallest_difference = abs(int(value[2]) - mean_year)
+    for person in table:
+        if int(person[2]) == closest_year:
+            closest_person.append(person[1])
+    return closest_person

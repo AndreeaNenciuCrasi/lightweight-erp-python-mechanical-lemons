@@ -42,10 +42,18 @@ def is_larger(current_largest, new_item):
         return False
 
 
-def bubbleSort(arr):
+def bubbleSort(arr, key=None):
     n = len(arr)
     for i in range(n):
         for j in range(0, n-i-1):
-            if arr[j] > arr[j+1]:
+            if arr[j][key] > arr[j+1][key]:
                 arr[j], arr[j+1] = arr[j+1], arr[j]
     return arr
+
+
+def mean(arr):
+    n = len(arr)
+    elements_added = 0
+    for item in arr:
+        elements_added += float(item)
+    return round(elements_added/n)

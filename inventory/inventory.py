@@ -25,25 +25,31 @@ def choose_inventory():
         table = data_manager.get_table_from_file('inventory/inventory.csv')
         if option == '1':
             show_table(table)
+            ui.print_menu('Inventory', ['Show table', 'Add', 'Remove', 'Update', 'Which items have not exceeded their durability yet?', 'What are the average durability times for each manufacturer?'], 'Return to main menu')
         elif option == '2':
             add(table)
             data_manager.write_table_to_file('inventory/inventory.csv', table)
+            ui.print_menu('Inventory', ['Show table', 'Add', 'Remove', 'Update', 'Which items have not exceeded their durability yet?', 'What are the average durability times for each manufacturer?'], 'Return to main menu')
         elif option == '3':
             id_ = ui.get_inputs(['ID of item to remove: '], 'Inventory')[0]
-            remove(table, id_)
+            table = remove(table, id_)
             data_manager.write_table_to_file('inventory/inventory.csv', table)
+            ui.print_menu('Inventory', ['Show table', 'Add', 'Remove', 'Update', 'Which items have not exceeded their durability yet?', 'What are the average durability times for each manufacturer?'], 'Return to main menu')
         elif option == '4':
             id_ = ui.get_inputs(['ID of item to update: '], 'Inventory')[0]
             update(table, id_)
             data_manager.write_table_to_file('inventory/inventory.csv', table)
+            ui.print_menu('Inventory', ['Show table', 'Add', 'Remove', 'Update', 'Which items have not exceeded their durability yet?', 'What are the average durability times for each manufacturer?'], 'Return to main menu')
         elif option == '5':
             year = int(ui.get_inputs(['Year to calculate availability: '], 'Inventory: ')[0])
-            expiration = get_available_items(table,year)            
-            ui.print_table(expiration, ['id', 'name', 'manufacturer', 'purchase_year', 'durability'])
+            expiration = get_available_items(table,year)
+            ui.print_result(expiration, f'The items available until {year} :')
+            ui.print_menu('Inventory', ['Show table', 'Add', 'Remove', 'Update', 'Which items have not exceeded their durability yet?', 'What are the average durability times for each manufacturer?'], 'Return to main menu')
         elif option == '6':
             average = get_average_durability_by_manufacturers(table)
             get_average_durability_by_manufacturers(table)
-            ui.print_result(average,'Inventory data - the average durability times for each manufacturer: ')            
+            ui.print_result(average,'Inventory data - the average durability times for each manufacturer: ')   
+            ui.print_menu('Inventory', ['Show table', 'Add', 'Remove', 'Update', 'Which items have not exceeded their durability yet?', 'What are the average durability times for each manufacturer?'], 'Return to main menu')         
         elif option == '0':
             inventory_menu_active = False
 
@@ -90,9 +96,11 @@ def add(table):
     """
 
     #table = data_manager.get_table_from_file("inventory/inventory.csv")
-    item = ui.get_inputs(['Id: ', 'Name: ', 'Manufacturer: ', 'Purchase year: ', 'Durability: '], 'Please provide product data: ')
+    item = ui.get_inputs(['Name: ', 'Manufacturer: ', 'Purchase year: ', 'Durability: '], 'Please provide product data: ')
+    id = common.generate_random(table)
+    item.insert(0, id)
     table.append(item)
-    ui.print_table(table, ['id', 'name', 'manufacturer', 'purchase_year', 'durability'])
+    #ui.print_table(table, ['id', 'name', 'manufacturer', 'purchase_year', 'durability'])
     return table
 
 
@@ -108,10 +116,13 @@ def remove(table, id_):
         list: Table without specified record.
     """
 
-    for i in range(len(table)):
-        if table[i][0] == id_:
+    n = len(table)
+    i = 0
+    while i < n:
+        temp = table[i][0]
+        if temp == id_:
             table.pop(i)
-    ui.print_table(table, ['id', 'name', 'manufacturer', 'purchase_year', 'durability'])
+        i += 1
     return table
     
 
@@ -152,6 +163,9 @@ def get_available_items(table, year):
     Returns:
         list: list of lists (the inner list contains the whole row with their actual data types)
     """
+    for i in range(len(table)):
+        table[i][3] = int(table[i][3])
+        table[i][4] = int(table[i][4])
 
     expiration = []
     for i in range(len(table)):

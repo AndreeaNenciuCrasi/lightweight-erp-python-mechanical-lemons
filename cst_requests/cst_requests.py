@@ -36,23 +36,41 @@ def choose_requests():
         table = data_manager.get_table_from_file('cst_requests/cst_requests.csv')
         if option == '1':
             show_table(table)
+            ui.print_menu('Requests', ['Show table', 'Add', 'Remove', 'Update',
+                  'Most requested game', 'Oldest requested game'], 'Return'
+                  ' to main menu')
         elif option == '2':
             add(table)
             data_manager.write_table_to_file('cst_requests/cst_requests.csv', table)
+            ui.print_menu('Requests', ['Show table', 'Add', 'Remove', 'Update',
+                  'Most requested game', 'Oldest requested game'], 'Return'
+                  ' to main menu')
         elif option == '3':
             remove_id_ = ui.get_inputs(['ID of item to remove: '], 'Requests')[0]
             remove(table, remove_id_)
             data_manager.write_table_to_file('cst_requests/cst_requests.csv', table)
+            ui.print_menu('Requests', ['Show table', 'Add', 'Remove', 'Update',
+                  'Most requested game', 'Oldest requested game'], 'Return'
+                  ' to main menu')
         elif option == '4':
             update_id_ = ui.get_inputs(['ID of item to update: '], 'Requests')[0]
             update(table, update_id_)
             data_manager.write_table_to_file('cst_requests/cst_requests.csv', table)
+            ui.print_menu('Requests', ['Show table', 'Add', 'Remove', 'Update',
+                  'Most requested game', 'Oldest requested game'], 'Return'
+                  ' to main menu')
         elif option == '5':
             most_requested_list = most_requested(table)
             ui.print_table(most_requested_list, ['id', 'title', 'developer', 'year of request'])
+            ui.print_menu('Requests', ['Show table', 'Add', 'Remove', 'Update',
+                  'Most requested game', 'Oldest requested game'], 'Return'
+                  ' to main menu')
         elif option == '6':
             oldest_requested_game = oldest_request(table)
             ui.print_table(oldest_requested_game, ['id', 'title', 'developer', 'year of request'])
+            ui.print_menu('Requests', ['Show table', 'Add', 'Remove', 'Update',
+                  'Most requested game', 'Oldest requested game'], 'Return'
+                  ' to main menu')
         elif option == '0':
             requests_menu_active = False
 
@@ -68,7 +86,7 @@ def start_module():
     """
     ui.print_menu('Requests', ['Show table', 'Add', 'Remove', 'Update',
                   'Most requested game', 'Oldest requested game'], 'Return'
-                  'to main menu')
+                  ' to main menu')
     choose_requests()
 
 

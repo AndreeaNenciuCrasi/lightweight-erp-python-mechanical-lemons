@@ -48,6 +48,7 @@ def print_table(table, title_list):
         elif item == table[-1]:
             print('|', end='')
             print('\n'+'\\'+'-' * (total_width - 2)+'/')
+    table.pop(0)
 
 
 def print_result(result, label):

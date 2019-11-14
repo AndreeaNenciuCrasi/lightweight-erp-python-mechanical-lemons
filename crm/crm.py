@@ -29,7 +29,7 @@ def choose_crm():
             data_manager.write_table_to_file('crm/customers.csv', table)
         elif option == '3':
             id_ = ui.get_inputs(['ID of item to remove: '], 'Crm')[0]
-            remove(table, id_)
+            table = remove(table, id_)
             data_manager.write_table_to_file('crm/customers.csv', table)
         elif option == '4':
             id_ = ui.get_inputs(['ID of item to update: '], 'Crm')[0]
@@ -86,9 +86,11 @@ def add(table):
         list: Table with a new record
     """
 
-    item = ui.get_inputs(['Id: ', 'Name: ', 'Email: ', 'Subscribed: '], 'Please provide product data: ')
+    item = ui.get_inputs(['Name: ', 'Email: ', 'Subscribed: '], 'Please provide product data: ')
+    id = common.generate_random(table)
+    item.insert(0, id)
     table.append(item)
-    ui.print_table(table, ['id', 'name', 'email', 'subscribed'])
+    #ui.print_table(table, ['id', 'name', 'email', 'subscribed'])
     return table
 
 
@@ -104,10 +106,13 @@ def remove(table, id_):
         list: Table without specified record.
     """
 
-    for i in range(len(table)):
-        if table[i][0] == id_:
+    n = len(table)
+    i = 0
+    while i < n:
+        temp = table[i][0]
+        if temp == id_:
             table.pop(i)
-    ui.print_table(table, ['id', 'name', 'email', 'subscribed'])
+        i += 1
     return table
 
 
@@ -183,4 +188,13 @@ def get_subscribed_emails(table):
             list: list of strings (where a string is like "email;name")
         """
 
-    # your code
+    EMAIL_SUBSCRIPTION = 3
+    EMAIL = 2
+    NAME = 1
+    formated_email_name = ''
+    formated_list = []
+    for customer in table:
+        if customer[EMAIL_SUBSCRIPTION] == '1':
+            formated_email_name = customer[EMAIL] + ';' + customer[NAME]
+            formated_list.append(formated_email_name)
+    return formated_list

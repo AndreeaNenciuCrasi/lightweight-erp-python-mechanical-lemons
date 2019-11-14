@@ -30,7 +30,7 @@ def choose_inventory():
             data_manager.write_table_to_file('inventory/inventory.csv', table)
         elif option == '3':
             id_ = ui.get_inputs(['ID of item to remove: '], 'Inventory')[0]
-            remove(table, id_)
+            table = remove(table, id_)
             data_manager.write_table_to_file('inventory/inventory.csv', table)
         elif option == '4':
             id_ = ui.get_inputs(['ID of item to update: '], 'Inventory')[0]
@@ -90,9 +90,11 @@ def add(table):
     """
 
     #table = data_manager.get_table_from_file("inventory/inventory.csv")
-    item = ui.get_inputs(['Id: ', 'Name: ', 'Manufacturer: ', 'Purchase year: ', 'Durability: '], 'Please provide product data: ')
+    item = ui.get_inputs(['Name: ', 'Manufacturer: ', 'Purchase year: ', 'Durability: '], 'Please provide product data: ')
+    id = common.generate_random(table)
+    item.insert(0, id)
     table.append(item)
-    ui.print_table(table, ['id', 'name', 'manufacturer', 'purchase_year', 'durability'])
+    #ui.print_table(table, ['id', 'name', 'manufacturer', 'purchase_year', 'durability'])
     return table
 
 
@@ -108,10 +110,13 @@ def remove(table, id_):
         list: Table without specified record.
     """
 
-    for i in range(len(table)):
-        if table[i][0] == id_:
+    n = len(table)
+    i = 0
+    while i < n:
+        temp = table[i][0]
+        if temp == id_:
             table.pop(i)
-    ui.print_table(table, ['id', 'name', 'manufacturer', 'purchase_year', 'durability'])
+        i += 1
     return table
     
 

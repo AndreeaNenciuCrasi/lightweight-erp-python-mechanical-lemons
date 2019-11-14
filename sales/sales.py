@@ -35,19 +35,29 @@ def choose_sales():
         option = inputs[0]
         if option == '1':
             show_table(table)
+            ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove', 'Update',
+                                            'Lowest price item', 'Items sold between'], 'Return to main menu')
         elif option == '2':
             add(table)
+            ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove', 'Update',
+                                            'Lowest price item', 'Items sold between'], 'Return to main menu')
         elif option == '3':
             id_ = ui.get_inputs(['Record to be deleted: '], '')[0]
             remove(table, id_)
             data_manager.write_table_to_file('sales/sales.csv', table)
+            ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove', 'Update',
+                                            'Lowest price item', 'Items sold between'], 'Return to main menu')
         elif option == '4':
             id_ = ui.get_inputs(['Record to be updated: '], '')[0]
             update(table, id_)
             data_manager.write_table_to_file('sales/sales.csv', table)
+            ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove', 'Update',
+                                            'Lowest price item', 'Items sold between'], 'Return to main menu')
         elif option == '5':
             lowest_price = get_lowest_price_item_id(table)
             ui.print_result(lowest_price, 'Product ID with lowest price: ')
+            ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove', 'Update',
+                                            'Lowest price item', 'Items sold between'], 'Return to main menu')
         elif option == '6':
             date_from = ui.get_inputs(['Please provide month from: ', 'Please provide day from: ',
                                        'Please provide year from: '], '')
@@ -62,8 +72,15 @@ def choose_sales():
             time_period = get_items_sold_between(
                 table, month_from, day_from, year_from, month_to, day_to, year_to)
             # ui.print_result(time_period, 'Sold items: ')
+            for line in time_period:
+                line[2] = str(line[2])
+                line[3] = str(line[3])
+                line[4] = str(line[4])
+                line[5] = str(line[5])
             titles = ['id', 'title', 'price', 'month', 'day', 'year']
             ui.print_table(time_period, titles)
+            ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove', 'Update',
+                                            'Lowest price item', 'Items sold between'], 'Return to main menu')
         elif option == '0':
             sales_menu_active = False
 
@@ -194,16 +211,17 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
     Returns:
         list: list of lists (the filtered table)
     """
+    days_from = common.calculate_days(year_from, month_from, day_from)
+    days_to = common.calculate_days(year_to, month_to, day_to)
+
     product_list = []
     for line in table:
-        if int(line[5]) > int(year_from) and int(line[5]) < int(year_to):
-            product_list.append(line)
-        if int(line[5]) == int(year_from) and int(line[3]) > int(month_from):
-            product_list.append(line)
-        if int(line[5]) == int(year_from) and int(line[3]) == int(month_from) and int(line[4]) > int(day_from):
-            product_list.append(line)
-        if int(line[5]) == int(year_to) and int(line[3]) < int(month_to):
-            product_list.append(line)
-        if int(line[5]) == int(year_to) and int(line[3]) == int(month_to) and int(line[4]) < int(day_to):
+
+        days = common.calculate_days(line[5], line[3], line[4])
+        line[2] = int(line[2])
+        line[3] = int(line[3])
+        line[4] = int(line[4])
+        line[5] = int(line[5])
+        if days_from < days and days < days_to:
             product_list.append(line)
     return product_list

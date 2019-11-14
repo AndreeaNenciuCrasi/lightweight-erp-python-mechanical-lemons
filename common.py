@@ -74,3 +74,7 @@ def mean(arr):
     for item in arr:
         elements_added += float(item)
     return round(elements_added/n)
+
+
+def calculate_days(year, month, day):
+    return (int(year)-1900)*365 + int(month)*30 + int(day)

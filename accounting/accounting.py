@@ -43,7 +43,7 @@ def choose_accounting():
             data_manager.write_table_to_file('accounting/items.csv', table)
         elif option == '3':
             remove_id_ = ui.get_inputs(['ID of item to remove: '], 'Accounting')[0]
-            remove(table, remove_id_)
+            table = remove(table, remove_id_)
             data_manager.write_table_to_file('accounting/items.csv', table)
         elif option == '4':
             update_id_ = ui.get_inputs(['ID of item to update: '], 'Accounting')[0]
@@ -96,12 +96,14 @@ def add(table):
     Returns:
         list: Table with a new record
     """
-    item = ui.get_inputs(['id: ', 'month: ', 'day: ', 'year: ', 'type: ', 'amount: '], 'Add transaction -')
+    item = ui.get_inputs(['month: ', 'day: ', 'year: ', 'type: ', 'amount: '], 'Add transaction -')
+    id = common.generate_random(table)
+    item.insert(0, id)
     table.append(item)
     return table
 
 
-def remove(table, id_):  # Claudiu common - DRY remove from list
+def remove(table, id_):
     """
     Remove a record with a given id from the table.
 
@@ -112,9 +114,13 @@ def remove(table, id_):  # Claudiu common - DRY remove from list
     Returns:
         list: Table without specified record.
     """
-    for i in range(len(table)):
-        if table[i][0] == id_:
+    n = len(table)
+    i = 0
+    while i < n:
+        temp = table[i][0]
+        if temp == id_:
             table.pop(i)
+        i += 1
     return table
 
 
@@ -170,12 +176,13 @@ def which_year_max(table):
         if year[1] > most_profits[1]:
             most_profits = year
     return int(most_profits[0])
-    
+
 
 def avg_amount(table, year):
     """
     Question: What is the average (per item) profit in a given year? [(profit)/(items count)]
-    Each line in the accounting table represents a game (in = sold, out = bought).
+    Each line in the accounting table represents a game (in = sold, out = bought). 
+    items_count represents all games bought and sold in the given year. 
 
     Args:
         table (list): data table to work on
@@ -193,5 +200,6 @@ def avg_amount(table, year):
                 items_count += 1
             elif item[4] == 'out':
                 profit -= int(item[5])
+                items_count += 1
     avg = profit/items_count
     return avg

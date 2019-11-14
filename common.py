@@ -60,10 +60,17 @@ def bubbleSort(arr, key=None):
     return arr
 
 
+def how_many_times(arr, title):
+    times = 0
+    for i in arr:
+        if i == title:
+            times += 1
+    return times
+
+
 def mean(arr):
     n = len(arr)
     elements_added = 0
     for item in arr:
         elements_added += float(item)
     return round(elements_added/n)
-

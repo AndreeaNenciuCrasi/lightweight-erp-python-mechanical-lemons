@@ -148,14 +148,26 @@ def get_longest_name_id(table):
                 the last by alphabetical order of the names)
         """
 
-    # your code
     dictionary = {}
     for i in range(len(table)):
         try:
             dictionary[len(table[i][1])].append([str(table[i][1]), table[i][0]])
         except KeyError:
             dictionary[len(table[i][1])] = [[str(table[i][1]), table[i][0]]]
-    return dictionary
+    dictionary_longest_name = {}
+    longest_names = list(dictionary.keys())[0]
+    for key in dictionary:
+        if key > longest_names:
+            longest_names = key            
+        dictionary_longest_name = dictionary[longest_names] 
+    
+    for i in dictionary_longest_names:
+        split_name = list(dictionary_longest_name[i][0].split(""))
+        temp_biggest = "a"
+        if split_name[0] > temp_biggest:
+            temp_biggest = split_name[0]
+
+    return split_name
 
 # the question: Which customers has subscribed to the newsletter?
 # return type: list of strings (where string is like email+separator+name, separator=";")

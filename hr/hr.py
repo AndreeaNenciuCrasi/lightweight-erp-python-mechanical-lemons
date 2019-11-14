@@ -120,11 +120,13 @@ def remove(table, id_):
     Returns:
         list: Table without specified record.
     """
-
-    for i in range(len(table)):
-        if table[i][0] == id_:
+    n = len(table)
+    i = 0
+    while i < n:
+        temp = table[i][0]
+        if temp == id_:
             table.pop(i)
-
+        i += 1
     return table
 
 

@@ -144,11 +144,13 @@ def remove(table, id_):
     Returns:
         list: Table without specified record.
     """
-
-    for i in range(len(table)):
-        if table[i][0] == id_:
+    n = len(table)
+    i = 0
+    while i < n:
+        temp = table[i][0]
+        if temp == id_:
             table.pop(i)
-
+        i += 1
     return table
 
 
@@ -216,8 +218,8 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
 
     product_list = []
     for line in table:
-
-        days = common.calculate_days(line[5], line[3], line[4])
+        yr, mo, dy = line[5], line[3], line[4]
+        days = common.calculate_days(yr, mo, dy)
         line[2] = int(line[2])
         line[3] = int(line[3])
         line[4] = int(line[4])

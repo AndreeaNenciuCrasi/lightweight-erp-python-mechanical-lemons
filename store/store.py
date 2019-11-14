@@ -26,7 +26,6 @@ def store_options():
         option = inputs[0]
         if option == '1':  
             show_table(table)
-            input('Press enter to continue...')
             ui.print_menu('Store',
                          ['Show Table', 'Add new data to table', 'Remove data from table', 
                          'Update table data','How many different kinds of game are available of each manufacturer?',
@@ -34,7 +33,7 @@ def store_options():
                          'Return To Main Menu', )
         elif option == '2':
             add(table)
-            input('Press enter to continue...')
+
             ui.print_menu('Store',
                 ['Show Table', 'Add new data to table', 'Remove data from table', 
                 'Update table data','How many different kinds of game are available of each manufacturer?',
@@ -43,7 +42,7 @@ def store_options():
         elif option == '3':
             get_id = ui.get_inputs(['Enter the id you want to remove: '], '')
             remove(table, get_id)
-            input('Press enter to continue...')
+
             ui.print_menu('Store',
                          ['Show Table', 'Add new data to table', 'Remove data from table', 
                          'Update table data','How many different kinds of game are available of each manufacturer?',
@@ -52,7 +51,7 @@ def store_options():
         elif option == '4':
             get_id = ui.get_inputs(['Enter the id you want to update: '], '')
             update(table, get_id)
-            input('Press enter to continue...')
+
             ui.print_menu('Store',
                          ['Show Table', 'Add new data to table', 'Remove data from table', 
                          'Update table data','How many different kinds of game are available of each manufacturer?',
@@ -62,7 +61,7 @@ def store_options():
             value = convert_to_list(get_counts_by_manufacturers(table))
             labels = ['Manufacturer', 'Number of games']
             ui.print_table(value, labels)
-            input('Press enter to continue...')
+
             ui.print_menu('Store',
                          ['Show Table', 'Add new data to table', 'Remove data from table', 
                          'Update table data','How many different kinds of game are available of each manufacturer?',
@@ -72,7 +71,7 @@ def store_options():
             get_manufacturer = ui.get_inputs(['Enter manufacturer: '], '')
             result = get_average_by_manufacturer(table, get_manufacturer)
             ui.print_result(result,f'Average stock by manufacturer {get_manufacturer[0]} is ')
-            input('Press enter to continue...')
+
             ui.print_menu('Store',
                          ['Show Table', 'Add new data to table', 'Remove data from table', 
                          'Update table data','How many different kinds of game are available of each manufacturer?',
@@ -218,7 +217,7 @@ def get_average_by_manufacturer(table, manufacturer):
     capitalized_manufacturer = [values.capitalize() for values in split_strings]
     for data in table:
         for string in capitalized_manufacturer:
-            if ' '.join(capitalized_manufacturer) in data[MANUFACTURERS]:
+            if ' '.join(capitalized_manufacturer) == data[MANUFACTURERS]:
                 number_of_games_manufacturer +=1 
                 stock += int(data[GAMES_IN_STOCK])
     try:

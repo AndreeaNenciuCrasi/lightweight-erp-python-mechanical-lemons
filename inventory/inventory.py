@@ -38,8 +38,8 @@ def choose_inventory():
             data_manager.write_table_to_file('inventory/inventory.csv', table)
         elif option == '5':
             year = int(ui.get_inputs(['Year to calculate availability: '], 'Inventory: ')[0])
-            expiration = get_available_items(table,year)            
-            ui.print_table(expiration, ['id', 'name', 'manufacturer', 'purchase_year', 'durability'])
+            expiration = get_available_items(table,year)
+            ui.print_result(expiration, f'The items available until {year} :')
         elif option == '6':
             average = get_average_durability_by_manufacturers(table)
             get_average_durability_by_manufacturers(table)
@@ -157,6 +157,9 @@ def get_available_items(table, year):
     Returns:
         list: list of lists (the inner list contains the whole row with their actual data types)
     """
+    for i in range(len(table)):
+        table[i][3] = int(table[i][3])
+        table[i][4] = int(table[i][4])
 
     expiration = []
     for i in range(len(table)):

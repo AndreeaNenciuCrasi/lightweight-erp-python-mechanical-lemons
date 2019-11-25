@@ -93,8 +93,9 @@ def choose_sales():
         elif option == '7':
             id_ = ui.get_inputs(['Data Id: '], '')[0]
             ui.print_result(get_title_by_id(id_), f' Title by id {id_} is  ')
-
-            
+        elif option == '14':
+            id_ = ui.get_inputs(['Please input sale id: '], '')[0]
+            ui.print_result(get_customer_id_by_sale_id(id_), f'The customer id, from sale id {id_} is: ')
         elif option == '0':
             sales_menu_active = False
 
@@ -110,7 +111,15 @@ def start_module():
     """
 
     ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove',
-                  'Update', 'Lowest price item', 'Items sold between', 't'],
+                  'Update', 'Lowest price item', 'Items sold between', 
+                  'DA title by id', 'DA title by id from table', 
+                  'DA item id sold last', 'DA item id sold last from table', 
+                  'DA item title sold last from table', 'DA sum of prices', 
+                  'DA sum of prices from table', 'DA _d customer id by sale id', 
+                  'DA customer id by sale id from table', 'DA all customer ids', 
+                  'DA all customer ids from table', 'DA all sales ids for cst ids', 
+                  'DA all sales ids for cst ids from table', 'DA num of sales per cst ids', 
+                  'DA num sales per cst id from table'],
                   'Return to main menu')
     choose_sales()
 
@@ -126,7 +135,7 @@ def show_table(table):
         None
     """
 
-    titles = ['id', 'title', 'price', 'month', 'day', 'year']
+    titles = ['id', 'title', 'price', 'month', 'day', 'year', 'customer id']
     ui.print_table(table, titles)
 
 
@@ -252,7 +261,7 @@ def get_items_sold_between(table, month_from, day_from, year_from,
     # your code
 
 
-# functions supports data abalyser
+# functions supports data analyser
 # --------------------------------
 
 
@@ -374,7 +383,11 @@ def get_customer_id_by_sale_id(sale_id):
          str: customer_id that belongs to the given sale id
     """
 
-    # your code
+    table = data_manager.get_table_from_file('sales/sales.csv')
+    for i in table:
+        if i[0] == sale_id:
+            return i[-1]
+    return None
 
 
 def get_customer_id_by_sale_id_from_table(table, sale_id):

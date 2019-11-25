@@ -2,7 +2,8 @@
 
 Data table structure:
     * id (string): Unique and random generated identifier
-        at least 2 special characters (except: ';'), 2 number, 2 lower and 2 upper case letters)
+        at least 2 special characters (except: ';'),
+        2 number, 2 lower and 2 upper case letters)
     * title (string): Title of the game requested
     * developer (string): Name of the developing company
     * year (number): Year when the customer placed the request
@@ -31,46 +32,53 @@ def choose_requests():
                 elif inputs[0] not in range(0, 7):
                     raise ValueError
             except ValueError:
-                ui.print_error_message('Invalid command. Please choose between 0 and 6.')
+                ui.print_error_message('Invalid command. Please choose '
+                                       'between 0 and 6.')
         option = inputs[0]
         table = data_manager.get_table_from_file('cst_requests/cst_requests.csv')
         if option == '1':
             show_table(table)
             ui.print_menu('Requests', ['Show table', 'Add', 'Remove', 'Update',
-                  'Most requested game', 'Oldest requested game'], 'Return'
-                  ' to main menu')
+                          'Most requested game', 'Oldest request'],
+                          'Return to main menu')
         elif option == '2':
             add(table)
-            data_manager.write_table_to_file('cst_requests/cst_requests.csv', table)
+            data_manager.write_table_to_file('cst_requests/cst_requests.csv',
+                                             table)
             ui.print_menu('Requests', ['Show table', 'Add', 'Remove', 'Update',
-                  'Most requested game', 'Oldest requested game'], 'Return'
-                  ' to main menu')
+                          'Most requested game', 'Oldest request'],
+                          'Return to main menu')
         elif option == '3':
-            remove_id_ = ui.get_inputs(['ID of item to remove: '], 'Requests')[0]
+            remove_id_ = ui.get_inputs(['ID of item to remove: '],
+                                       'Requests')[0]
             remove(table, remove_id_)
-            data_manager.write_table_to_file('cst_requests/cst_requests.csv', table)
+            data_manager.write_table_to_file('cst_requests/cst_requests.csv',
+                                             table)
             ui.print_menu('Requests', ['Show table', 'Add', 'Remove', 'Update',
-                  'Most requested game', 'Oldest requested game'], 'Return'
-                  ' to main menu')
+                          'Most requested game', 'Oldest request'],
+                          'Return to main menu')
         elif option == '4':
             update_id_ = ui.get_inputs(['ID of item to update: '], 'Requests')[0]
             update(table, update_id_)
-            data_manager.write_table_to_file('cst_requests/cst_requests.csv', table)
+            data_manager.write_table_to_file('cst_requests/cst_requests.csv',
+                                             table)
             ui.print_menu('Requests', ['Show table', 'Add', 'Remove', 'Update',
-                  'Most requested game', 'Oldest requested game'], 'Return'
-                  ' to main menu')
+                          'Most requested game', 'Oldest request'],
+                          'Return to main menu')
         elif option == '5':
             most_requested_list = most_requested(table)
-            ui.print_table(most_requested_list, ['id', 'title', 'developer', 'year of request'])
+            ui.print_table(most_requested_list, ['ID', 'title', 'developer',
+                                                 'year of request'])
             ui.print_menu('Requests', ['Show table', 'Add', 'Remove', 'Update',
-                  'Most requested game', 'Oldest requested game'], 'Return'
-                  ' to main menu')
+                          'Most requested game', 'Oldest requested game'],
+                          'Return to main menu')
         elif option == '6':
             oldest_requested_game = oldest_request(table)
-            ui.print_table(oldest_requested_game, ['id', 'title', 'developer', 'year of request'])
+            ui.print_table(oldest_requested_game, ['ID', 'title', 'developer',
+                                                   'year of request'])
             ui.print_menu('Requests', ['Show table', 'Add', 'Remove', 'Update',
-                  'Most requested game', 'Oldest requested game'], 'Return'
-                  ' to main menu')
+                          'Most requested game', 'Oldest request'],
+                          'Return to main menu')
         elif option == '0':
             requests_menu_active = False
 
@@ -84,8 +92,9 @@ def start_module():
     Returns:
         None
     """
+
     ui.print_menu('Requests', ['Show table', 'Add', 'Remove', 'Update',
-                  'Most requested game', 'Oldest requested game'], 'Return'
+                  'Most requested game', 'Oldest request'], 'Return'
                   ' to main menu')
     choose_requests()
 
@@ -100,7 +109,8 @@ def show_table(table):
     Returns:
         None
     """
-    ui.print_table(table, ['id', 'title', 'developer', 'year of request'])
+
+    ui.print_table(table, ['ID', 'title', 'developer', 'year of request'])
 
 
 def add(table):
@@ -113,7 +123,9 @@ def add(table):
     Returns:
         list: Table with a new record
     """
-    item = ui.get_inputs(['title: ', 'developer: ', 'year of request: '], 'Add customer game request -')
+
+    item = ui.get_inputs(['title: ', 'developer: ', 'year of request: '],
+                         'Add customer game request -')
     id = common.generate_random(table)
     item.insert(0, id)
     table.append(item)
@@ -131,6 +143,7 @@ def remove(table, id_):
     Returns:
         list: Table without specified record.
     """
+
     for i in range(len(table)):
         if table[i][0] == id_:
             table.pop(i)
@@ -148,7 +161,8 @@ def update(table, id_):
     Returns:
         list: table with updated record
     """
-    list_labels = ['id', 'title', 'developer', 'year of request']
+
+    list_labels = ['ID: ', 'title: ', 'developer: ', 'year of request: ']
     for i in range(len(table)):
         if table[i][0] == id_:
             item = ui.get_inputs(list_labels, 'Customer game request')
@@ -170,8 +184,10 @@ def most_requested(table):
         table (list): data table to work on
 
     Returns:
-        list of info for the title, or if more than one, all the titles of the games, as a table
+        list of info for the title, or if more than one, all the titles
+        of the games, as a table
     """
+
     titles_list = []
     for line in table:
         titles_list.append(line[1])
@@ -203,6 +219,7 @@ def oldest_request(table):
         list of info for the title, or if more than one, all the titles of the
         games, as a table
     """
+
     table = common.bubbleSort(table, 3)
     oldest_year = table[0][3]
     oldest_requested_games = []

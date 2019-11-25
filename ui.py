@@ -21,6 +21,7 @@ def print_table(table, title_list):
     Returns:
         None: This function doesn't return anything it only prints to console.
     """
+
     TABLE_SPACING_IN_CELL = 5
     rows = len(table) + 1  # title_list counts as one row
     columns = len(title_list)
@@ -62,7 +63,11 @@ def print_result(result, label):
     Returns:
         None: This function doesn't return anything it only prints to console.
     """
-    print(f'{label}{result}')  # the label must come from the function, ex: "Accounting data - most profitable year"
+
+    # the label must come from the function,
+    # ex: "Accounting data - most profitable year"
+
+    print(f'{label}{result}')
 
 
 def print_menu(title, list_options, exit_message):
@@ -85,6 +90,7 @@ def print_menu(title, list_options, exit_message):
     Returns:
         None: This function doesn't return anything it only prints to console.
     """
+
     print(f'    {title}')
     i = 1
     while i <= len(list_options):
@@ -97,7 +103,8 @@ def get_inputs(list_labels, title):
     """
     Gets list of inputs from the user.
     Sample call:
-        get_inputs(["Name","Surname","Age"],"Please provide your personal information")
+        get_inputs(["Name","Surname","Age"],
+                    "Please provide your personal information")
     Sample display:
         Please provide your personal information
         Name <user_input_1>
@@ -112,12 +119,12 @@ def get_inputs(list_labels, title):
         list: List of data given by the user. Sample return:
             [<user_input_1>, <user_input_2>, <user_input_3>]
     """
+
     i = 0
     inputs = []
     while i < len(list_labels):
         inputs.append(input(f'{title} {list_labels[i]}'))
         i += 1
-    
     return inputs
 
 
@@ -131,4 +138,5 @@ def print_error_message(message):
     Returns:
         None: This function doesn't return anything it only prints to console.
     """
+
     print(f'Error - {message}')

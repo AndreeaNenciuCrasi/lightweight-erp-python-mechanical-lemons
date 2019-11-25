@@ -7,7 +7,8 @@ import random
 
 """
     Generates random and unique string. Used for id/key generation:
-         - at least 2 special characters (except: ';'), 2 number, 2 lower and 2 upper case letter
+         - at least 2 special characters (except: ';'),
+         2 number, 2 lower and 2 upper case letter
          - it must be unique in the table (first value in every row is the id)
 
     Args:
@@ -21,9 +22,11 @@ import random
 def generate_random(table):
     digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
     lower_letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
-                     'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+                     'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+                     'w', 'x', 'y', 'z']
     upper_letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
-                     'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+                     'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
+                     'W', 'X', 'Y', 'Z']
     last_values = '#&'
     random_lower_letter = lower_letters[random.randint(
         0, len(lower_letters) - 1)]

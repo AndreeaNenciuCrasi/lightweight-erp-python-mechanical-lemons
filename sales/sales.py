@@ -96,6 +96,9 @@ def choose_sales():
         elif option == '14':
             id_ = ui.get_inputs(['Please input sale id: '], '')[0]
             ui.print_result(get_customer_id_by_sale_id(id_), f'The customer id, from sale id {id_} is: ')
+        elif option == '15':
+            id_ = ui.get_inputs(['Please input sale id: '], '')[0]
+            ui.print_result(get_customer_id_by_sale_id_from_table(table, id_), f'The customer id, from table sale id {id_} is: ')
         elif option == '16':
             ui.print_result(get_all_customer_ids(), f'All sales customer ids: ')
         elif option == '0':
@@ -404,7 +407,10 @@ def get_customer_id_by_sale_id_from_table(table, sale_id):
         str: customer_id that belongs to the given sale id
     """
 
-    # your code
+    for i in table:
+        if i[0] == sale_id:
+            return i[-1]
+    return None
 
 
 def get_all_customer_ids():

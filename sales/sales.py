@@ -90,6 +90,11 @@ def choose_sales():
             ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove',
                           'Update', 'Lowest price item', 'Items sold between'],
                           'Return to main menu')
+        elif option == '7':
+            id_ = ui.get_inputs(['Data Id: '], '')[0]
+            ui.print_result(get_title_by_id(id_), f' Title by id {id_} is  ')
+
+            
         elif option == '0':
             sales_menu_active = False
 
@@ -105,7 +110,7 @@ def start_module():
     """
 
     ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove',
-                  'Update', 'Lowest price item', 'Items sold between'],
+                  'Update', 'Lowest price item', 'Items sold between', 't'],
                   'Return to main menu')
     choose_sales()
 
@@ -263,8 +268,12 @@ def get_title_by_id(id):
     Returns:
         str: the title of the item
     """
-
-    # your code
+    TITLE = 1
+    ID = 0
+    table = data_manager.get_table_from_file('sales/sales.csv')
+    for data in table:
+        if data[ID] == id:
+            return data[TITLE]
 
 
 def get_title_by_id_from_table(table, id):
@@ -436,7 +445,7 @@ def get_all_sales_ids_for_customer_ids_from_table(table):
          all the sales id belong to the given customer_id
     """
 
-    # your code
+    print(table)
 
 
 def get_num_of_sales_per_customer_ids():

@@ -18,6 +18,8 @@ from sales import sales
 from crm import crm
 # Customer Game Requests module
 from cst_requests import cst_requests
+# Data Analyser module
+from data_analyser import data_analyser
 
 
 def choose():
@@ -37,6 +39,8 @@ def choose():
         crm.start_module()
     elif option == "7":
         cst_requests.start_module()
+    elif option == "8":
+        data_analyser.start_module()
     elif option == "0":
         sys.exit(0)
     else:
@@ -50,7 +54,8 @@ def handle_menu():
                "Accounting manager",
                "Sales manager",
                "Customer Relationship Management (CRM)",
-               "Customer Game Requests manager"]
+               "Customer Game Requests manager",
+               "Data Analyser"]
 
     ui.print_menu("Main menu", options, "Exit program")
 

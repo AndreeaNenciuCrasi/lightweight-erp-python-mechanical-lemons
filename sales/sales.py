@@ -92,8 +92,14 @@ def choose_sales():
                           'Return to main menu')
         elif option == '7':
             id_ = ui.get_inputs(['Data Id: '], '')[0]
-            ui.print_result(get_title_by_id(id_), f' Title by id {id_} is  ')
-
+            ui.print_result(get_title_by_id(id_), f' Title by id {id_} is ')
+        elif option == '8':
+            id_ = ui.get_inputs(['Data Id: '], '')[0]
+            ui.print_result(get_title_by_id(id_), f' Title by id {id_} is ')
+        elif option == '9':
+            ui.print_result(get_item_id_sold_last(), '')
+        elif option == '10':
+            ui.print_result(get_item_id_sold_last_from_table(table), '')
             
         elif option == '0':
             sales_menu_active = False
@@ -110,7 +116,7 @@ def start_module():
     """
 
     ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove',
-                  'Update', 'Lowest price item', 'Items sold between', 't'],
+                  'Update', 'Lowest price item', 'Items sold between', 'Get Title By Id', 'Title by Id 2'],
                   'Return to main menu')
     choose_sales()
 
@@ -126,7 +132,7 @@ def show_table(table):
         None
     """
 
-    titles = ['id', 'title', 'price', 'month', 'day', 'year']
+    titles = ['id', 'title', 'price', 'month', 'day', 'year', 'customer_id']
     ui.print_table(table, titles)
 
 
@@ -274,6 +280,7 @@ def get_title_by_id(id):
     for data in table:
         if data[ID] == id:
             return data[TITLE]
+    return None
 
 
 def get_title_by_id_from_table(table, id):
@@ -288,8 +295,12 @@ def get_title_by_id_from_table(table, id):
     Returns:
         str: the title of the item
     """
-
-    # your code
+    TITLE = 1
+    ID = 0
+    for data in table:
+        if data[ID] == id:
+            return data[TITLE]
+    return None
 
 
 def get_item_id_sold_last():
@@ -300,8 +311,22 @@ def get_item_id_sold_last():
     Returns:
         str: the _id_ of the item that was sold most recently.
     """
-
-    # your code
+    MONTH = 3
+    DAY = 4
+    YEAR = 5
+    ID = 0
+    table = data_manager.get_table_from_file('sales/sales.csv')
+    max_year = max([int(data[YEAR]) for data in table])
+    new_table_year = [data for data in table if int(data[YEAR]) == max_year]
+    max_month = max([int(data[MONTH]) for data in new_table_year])
+    last_sold_by_month_year = []
+    for data in new_table_year:
+        if int(data[MONTH]) == max_month and int(data[YEAR]) == max_year:
+            last_sold_by_month_year.append(data)
+    max_day = max([int(data[DAY]) for data in last_sold_by_month_year])
+    for data in last_sold_by_month_year:
+        if int(data[DAY]) == max_day:
+            return data[ID]
 
 
 def get_item_id_sold_last_from_table(table):
@@ -315,7 +340,21 @@ def get_item_id_sold_last_from_table(table):
         str: the _id_ of the item that was sold most recently.
     """
 
-    # your code
+    MONTH = 3
+    DAY = 4
+    YEAR = 5
+    ID = 0
+    max_year = max([int(data[YEAR]) for data in table])
+    new_table_year = [data for data in table if int(data[YEAR]) == max_year]
+    max_month = max([int(data[MONTH]) for data in new_table_year])
+    last_sold_by_month_year = []
+    for data in new_table_year:
+        if int(data[MONTH]) == max_month and int(data[YEAR]) == max_year:
+            last_sold_by_month_year.append(data)
+    max_day = max([int(data[DAY]) for data in last_sold_by_month_year])
+    for data in last_sold_by_month_year:
+        if int(data[DAY]) == max_day:
+            return data[ID]
 
 
 def get_item_title_sold_last_from_table(table):

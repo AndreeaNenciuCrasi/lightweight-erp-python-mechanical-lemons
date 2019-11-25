@@ -96,6 +96,8 @@ def choose_sales():
         elif option == '14':
             id_ = ui.get_inputs(['Please input sale id: '], '')[0]
             ui.print_result(get_customer_id_by_sale_id(id_), f'The customer id, from sale id {id_} is: ')
+        elif option == '16':
+            ui.print_result(get_all_customer_ids(), f'All sales customer ids: ')
         elif option == '0':
             sales_menu_active = False
 
@@ -413,7 +415,12 @@ def get_all_customer_ids():
          set of str: set of customer_ids that are present in the table
     """
 
-    # your code
+    table = data_manager.get_table_from_file('sales/sales.csv')
+    customer_ids = set()
+    for i in table:
+        customer_ids.add(i[-1])
+    return customer_ids
+
 
 
 def get_all_customer_ids_from_table(table):

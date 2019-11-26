@@ -28,7 +28,7 @@ DAY = 3
 YEAR = 4
 
 
-def choose_sales():
+def choose_sales(sales_menu_list):
     sales_menu_active = True
     table = data_manager.get_table_from_file('sales/sales.csv')
     while sales_menu_active is True:
@@ -36,43 +36,38 @@ def choose_sales():
         option = inputs[0]
         if option == '1':
             show_table(table)
-            ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove',
-                          'Update', 'Lowest price item', 'Items sold between'],
+            ui.print_menu('Sales manager', sales_menu_list,
                           'Return to main menu')
         elif option == '2':
             add(table)
-            ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove',
-                          'Update', 'Lowest price item', 'Items sold between'],
+            ui.print_menu('Sales manager', sales_menu_list,
                           'Return to main menu')
         elif option == '3':
             id_ = ui.get_inputs(['Record to be deleted: '], '')[0]
             remove(table, id_)
             data_manager.write_table_to_file('sales/sales.csv', table)
-            ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove',
-                          'Update', 'Lowest price item', 'Items sold between'],
+            ui.print_menu('Sales manager', sales_menu_list,
                           'Return to main menu')
         elif option == '4':
             id_ = ui.get_inputs(['Record to be updated: '], '')[0]
             update(table, id_)
             data_manager.write_table_to_file('sales/sales.csv', table)
-            ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove',
-                          'Update', 'Lowest price item', 'Items sold between'],
+            ui.print_menu('Sales manager', sales_menu_list,
                           'Return to main menu')
         elif option == '5':
             lowest_price = get_lowest_price_item_id(table)
             ui.print_result(lowest_price, 'Product ID with lowest price: ')
-            ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove',
-                          'Update', 'Lowest price item', 'Items sold between'],
+            ui.print_menu('Sales manager', sales_menu_list,
                           'Return to main menu')
         elif option == '6':
             date_from = ui.get_inputs(['Please provide month from: ',
-                                      'Please provide day from: ',
+                                       'Please provide day from: ',
                                        'Please provide year from: '], '')
             month_from = date_from[0]
             day_from = date_from[1]
             year_from = date_from[2]
             date_to = ui.get_inputs(['Please provide month to: ',
-                                    'Please provide day to: ',
+                                     'Please provide day to: ',
                                      'Please provide year to: '], '')
             month_to = date_to[0]
             day_to = date_to[1]
@@ -87,14 +82,17 @@ def choose_sales():
                 line[5] = str(line[5])
             titles = ['id', 'title', 'price', 'month', 'day', 'year']
             ui.print_table(time_period, titles)
-            ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove',
-                          'Update', 'Lowest price item', 'Items sold between'],
+            ui.print_menu('Sales manager', sales_menu_list,
                           'Return to main menu')
         elif option == '7':
             id_ = ui.get_inputs(['Data Id: '], '')[0]
             ui.print_result(get_title_by_id(id_), f' Title by id {id_} is  ')
-
-            
+        elif option == '10':
+            max_date = get_item_id_sold_last()
+            ui.print_result(max_date, 'Product id: ')
+        elif option == '11':
+            latest_date = get_item_id_sold_last_from_table(table)
+            ui.print_result(latest_date, 'Product id : ')
         elif option == '0':
             sales_menu_active = False
 
@@ -108,11 +106,18 @@ def start_module():
     Returns:
         None
     """
-
-    ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove',
-                  'Update', 'Lowest price item', 'Items sold between', 't'],
-                  'Return to main menu')
-    choose_sales()
+    sales_menu_list = ['Show table', 'Add', 'Remove',
+                       'Update', 'Lowest price item', 'Items sold between',
+                       'DA title by id', 'DA title by id from table',
+                       'DA item id sold last', 'DA item id sold last from table',
+                       'DA item title sold last from table', 'DA sum of prices',
+                       'DA sum of prices from table', 'DA _d customer id by sale id',
+                       'DA customer id by sale id from table', 'DA all customer ids',
+                       'DA all customer ids from table', 'DA all sales ids for cst ids',
+                       'DA all sales ids for cst ids from table', 'DA num of sales per cst ids',
+                       'DA num sales per cst id from table']
+    ui.print_menu('Sales manager', sales_menu_list, 'Return to main menu')
+    choose_sales(sales_menu_list)
 
 
 def show_table(table):
@@ -126,7 +131,7 @@ def show_table(table):
         None
     """
 
-    titles = ['id', 'title', 'price', 'month', 'day', 'year']
+    titles = ['id', 'title', 'price', 'month', 'day', 'year', 'customer id']
     ui.print_table(table, titles)
 
 
@@ -257,7 +262,6 @@ def get_items_sold_between(table, month_from, day_from, year_from,
 
 
 def get_title_by_id(id):
-
     """
     Reads the table with the help of the data_manager module.
     Returns the title (str) of the item with the given id (str) on None om case of non-existing id.
@@ -277,7 +281,6 @@ def get_title_by_id(id):
 
 
 def get_title_by_id_from_table(table, id):
-
     """
     Returns the title (str) of the item with the given id (str) on None om case of non-existing id.
 
@@ -300,8 +303,15 @@ def get_item_id_sold_last():
     Returns:
         str: the _id_ of the item that was sold most recently.
     """
-
-    # your code
+    table = data_manager.get_table_from_file('sales/sales.csv')
+    sale_dates_list = []
+    sale_date = 0
+    for line in table:
+        sale_date = common.calculate_days(
+            line[YEAR + 1], line[MONTH + 1], line[DAY + 1])
+        sale_dates_list.append((line[0], sale_date))
+    latest_date = max(sale_dates_list)
+    return latest_date[0]
 
 
 def get_item_id_sold_last_from_table(table):
@@ -314,8 +324,14 @@ def get_item_id_sold_last_from_table(table):
     Returns:
         str: the _id_ of the item that was sold most recently.
     """
-
-    # your code
+    sale_dates_list = []
+    sale_date = 0
+    for line in table:
+        sale_date = common.calculate_days(
+            line[YEAR + 1], line[MONTH + 1], line[DAY + 1])
+        sale_dates_list.append((line[0], sale_date))
+    latest_date = max(sale_dates_list)
+    return latest_date[0]
 
 
 def get_item_title_sold_last_from_table(table):

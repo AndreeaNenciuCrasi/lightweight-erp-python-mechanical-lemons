@@ -100,6 +100,10 @@ def choose_sales(sales_menu_list):
             item_ids = ['vH34Ju#&', 'kH14Ju#&']
             items_sum = get_the_sum_of_prices(item_ids)
             ui.print_result(items_sum, 'Items sum : ')
+        elif option == '13':
+            item_ids = ['vH34Ju#&', 'kH14Ju#&']
+            items_sum = get_the_sum_of_prices_from_table(table, item_ids)
+            ui.print_result(items_sum, 'Items sum : ')
         elif option == '0':
             sales_menu_active = False
 
@@ -394,8 +398,12 @@ def get_the_sum_of_prices_from_table(table, item_ids):
     Returns:
         number: the sum of the items' prices
     """
-
-    # your code
+    sum = 0
+    for line in table:
+        for element in item_ids:
+            if line[0] == element:
+                sum += int(line[PRICE+1])
+    return sum
 
 
 def get_customer_id_by_sale_id(sale_id):

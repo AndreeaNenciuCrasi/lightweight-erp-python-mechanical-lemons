@@ -87,12 +87,19 @@ def choose_sales(sales_menu_list):
         elif option == '7':
             id_ = ui.get_inputs(['Data Id: '], '')[0]
             ui.print_result(get_title_by_id(id_), f' Title by id {id_} is  ')
-        elif option == '10':
+        elif option == '9':
             max_date = get_item_id_sold_last()
-            ui.print_result(max_date, 'Product id: ')
-        elif option == '11':
+            ui.print_result(max_date, 'Product last sold id: ')
+        elif option == '10':
             latest_date = get_item_id_sold_last_from_table(table)
-            ui.print_result(latest_date, 'Product id : ')
+            ui.print_result(latest_date, 'Product last sold id : ')
+        elif option == '11':
+            latest_title = get_item_title_sold_last_from_table(table)
+            ui.print_result(latest_title, 'Product last sold title : ')
+        elif option == '12':
+            item_ids = ['vH34Ju#&', 'kH14Ju#&']
+            items_sum = get_the_sum_of_prices(item_ids)
+            ui.print_result(items_sum, 'Items sum : ')
         elif option == '0':
             sales_menu_active = False
 
@@ -310,7 +317,7 @@ def get_item_id_sold_last():
         sale_date = common.calculate_days(
             line[YEAR + 1], line[MONTH + 1], line[DAY + 1])
         sale_dates_list.append((line[0], sale_date))
-    latest_date = max(sale_dates_list)
+    latest_date = max(sale_dates_list, key=lambda key: sale_dates_list[1])
     return latest_date[0]
 
 
@@ -330,7 +337,7 @@ def get_item_id_sold_last_from_table(table):
         sale_date = common.calculate_days(
             line[YEAR + 1], line[MONTH + 1], line[DAY + 1])
         sale_dates_list.append((line[0], sale_date))
-    latest_date = max(sale_dates_list)
+    latest_date = max(sale_dates_list, key=lambda key: sale_dates_list[1])
     return latest_date[0]
 
 
@@ -345,7 +352,14 @@ def get_item_title_sold_last_from_table(table):
         str: the _title_ of the item that was sold most recently.
     """
 
-    # your code
+    sale_dates_list = []
+    sale_date = 0
+    for line in table:
+        sale_date = common.calculate_days(
+            line[YEAR + 1], line[MONTH + 1], line[DAY + 1])
+        sale_dates_list.append((line[TITLE+1], sale_date))
+    latest_date = max(sale_dates_list, key=lambda key: sale_dates_list[1])
+    return latest_date[0]
 
 
 def get_the_sum_of_prices(item_ids):
@@ -359,8 +373,14 @@ def get_the_sum_of_prices(item_ids):
     Returns:
         number: the sum of the items' prices
     """
+    table = data_manager.get_table_from_file('sales/sales.csv')
 
-    # your code
+    sum = 0
+    for line in table:
+        for element in item_ids:
+            if line[0] == element:
+                sum += int(line[PRICE+1])
+    return sum
 
 
 def get_the_sum_of_prices_from_table(table, item_ids):

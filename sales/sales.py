@@ -26,6 +26,7 @@ PRICE = 1
 MONTH = 2
 DAY = 3
 YEAR = 4
+CUSTOMER_ID = 6
 
 
 def choose_sales(sales_menu_list):
@@ -61,13 +62,13 @@ def choose_sales(sales_menu_list):
                           'Return to main menu')
         elif option == '6':
             date_from = ui.get_inputs(['Please provide month from: ',
-                                      'Please provide day from: ',
+                                       'Please provide day from: ',
                                        'Please provide year from: '], '')
             month_from = date_from[0]
             day_from = date_from[1]
             year_from = date_from[2]
             date_to = ui.get_inputs(['Please provide month to: ',
-                                    'Please provide day to: ',
+                                     'Please provide day to: ',
                                      'Please provide year to: '], '')
             month_to = date_to[0]
             day_to = date_to[1]
@@ -89,14 +90,25 @@ def choose_sales(sales_menu_list):
             ui.print_result(get_title_byid(id), f' Title by id {id} is  ')
         elif option == '14':
             id = ui.get_inputs(['Please input sale id: '], '')[0]
-            ui.print_result(get_customer_id_by_saleid(id), f'The customer id, from sale id {id_} is: ')
+
+            ui.print_result(get_customer_id_by_sale_id(id), f'The customer id, from sale id {id_} is: ')
         elif option == '15':
             id_ = ui.get_inputs(['Please input sale id: '], '')[0]
-            ui.print_result(get_customer_id_by_sale_id_fromtable(table, id), f'The customer id, from table sale id {id_} is: ')
+            ui.print_result(get_customer_id_by_sale_id_from_table(
+                table, id), f'The customer id, from table sale id {id_} is: ')
         elif option == '16':
-            ui.print_result(get_all_customer_ids(), f'All sales customer ids: ')
+            ui.print_result(get_all_customer_ids(),
+                            f'All sales customer ids: ')
         elif option == '17':
-            ui.print_result(get_all_customer_ids_from_table(table), f'All table sales customer ids: ')
+            ui.print_result(get_all_customer_ids_from_table(
+                table), f'All table sales customer ids: ')
+        elif option == '18':
+            ui.print_result(get_all_sales_ids_for_customer_ids(),
+                            f'All table sales customer ids: ')
+        elif option == '19':
+            ui.print_result(get_all_sales_ids_for_customer_ids_from_table(
+                table), f'All sales ids for customer ids: ')
+
         elif option == '0':
             sales_menu_active = False
 
@@ -112,15 +124,16 @@ def start_module():
     """
 
     sales_menu_list = ['Show table', 'Add', 'Remove',
-                  'Update', 'Lowest price item', 'Items sold between', 
-                  'DA title by id', 'DA title by id from table', 
-                  'DA item id sold last', 'DA item id sold last from table', 
-                  'DA item title sold last from table', 'DA sum of prices', 
-                  'DA sum of prices from table', 'DA _d customer id by sale id', 
-                  'DA customer id by sale id from table', 'DA all customer ids', 
-                  'DA all customer ids from table', 'DA all sales ids for cst ids', 
-                  'DA all sales ids for cst ids from table', 'DA num of sales per cst ids', 
-                  'DA num sales per cst id from table']
+                       'Update', 'Lowest price item', 'Items sold between',
+                       'DA title by id', 'DA title by id from table',
+                       'DA item id sold last', 'DA item id sold last from table',
+                       'DA item title sold last from table', 'DA sum of prices',
+                       'DA sum of prices from table', 'DA _d customer id by sale id',
+                       'DA customer id by sale id from table', 'DA all customer ids',
+                       'DA all customer ids from table', 'DA all sales ids for cst ids',
+                       'DA all sales ids for cst ids from table', 'DA num of sales per cst ids',
+                       'DA num sales per cst id from table']
+
     ui.print_menu('Sales manager', sales_menu_list, 'Return to main menu')
     choose_sales(sales_menu_list)
 
@@ -136,7 +149,7 @@ def show_table(table):
         None
     """
 
-    titles = ['id', 'title', 'price', 'month', 'day', 'year']
+    titles = ['id', 'title', 'price', 'month', 'day', 'year', 'customer id']
     ui.print_table(table, titles)
 
 
@@ -267,7 +280,6 @@ def get_items_sold_between(table, month_from, day_from, year_from,
 
 
 def get_title_by_id(id):
-
     """
     Reads the table with the help of the data_manager module.
     Returns the title (str) of the item with the given id (str) on None om case of non-existing id.
@@ -287,7 +299,6 @@ def get_title_by_id(id):
 
 
 def get_title_by_id_from_table(table, id):
-
     """
     Returns the title (str) of the item with the given id (str) on None om case of non-existing id.
 
@@ -310,8 +321,15 @@ def get_item_id_sold_last():
     Returns:
         str: the _id_ of the item that was sold most recently.
     """
-
-    # your code
+    table = data_manager.get_table_from_file('sales/sales.csv')
+    sale_dates_list = []
+    sale_date = 0
+    for line in table:
+        sale_date = common.calculate_days(
+            line[YEAR + 1], line[MONTH + 1], line[DAY + 1])
+        sale_dates_list.append((line[0], sale_date))
+    latest_date = max(sale_dates_list, key=lambda key: sale_dates_list[1])
+    return latest_date[0]
 
 
 def get_item_id_sold_last_from_table(table):
@@ -324,8 +342,14 @@ def get_item_id_sold_last_from_table(table):
     Returns:
         str: the _id_ of the item that was sold most recently.
     """
-
-    # your code
+    sale_dates_list = []
+    sale_date = 0
+    for line in table:
+        sale_date = common.calculate_days(
+            line[YEAR + 1], line[MONTH + 1], line[DAY + 1])
+        sale_dates_list.append((line[0], sale_date))
+    latest_date = max(sale_dates_list, key=lambda key: sale_dates_list[1])
+    return latest_date[0]
 
 
 def get_item_title_sold_last_from_table(table):
@@ -339,7 +363,14 @@ def get_item_title_sold_last_from_table(table):
         str: the _title_ of the item that was sold most recently.
     """
 
-    # your code
+    sale_dates_list = []
+    sale_date = 0
+    for line in table:
+        sale_date = common.calculate_days(
+            line[YEAR + 1], line[MONTH + 1], line[DAY + 1])
+        sale_dates_list.append((line[TITLE+1], sale_date))
+    latest_date = max(sale_dates_list, key=lambda key: sale_dates_list[1])
+    return latest_date[0]
 
 
 def get_the_sum_of_prices(item_ids):
@@ -353,8 +384,14 @@ def get_the_sum_of_prices(item_ids):
     Returns:
         number: the sum of the items' prices
     """
+    table = data_manager.get_table_from_file('sales/sales.csv')
 
-    # your code
+    sum = 0
+    for line in table:
+        for element in item_ids:
+            if line[0] == element:
+                sum += int(line[PRICE+1])
+    return sum
 
 
 def get_the_sum_of_prices_from_table(table, item_ids):
@@ -368,8 +405,12 @@ def get_the_sum_of_prices_from_table(table, item_ids):
     Returns:
         number: the sum of the items' prices
     """
-
-    # your code
+    sum = 0
+    for line in table:
+        for element in item_ids:
+            if line[0] == element:
+                sum += int(line[PRICE+1])
+    return sum
 
 
 def get_customer_id_by_sale_id(sale_id):
@@ -444,8 +485,16 @@ def get_all_sales_ids_for_customer_ids():
          (dict of (key, value): (customer_id, (list) sale_ids)) where the sale_ids list contains
             all the sales id belong to the given customer_id
     """
+    table = data_manager.get_table_from_file('sales/sales.csv')
+    id_dictionary = {}
 
-    # your code
+    for line in table:
+        customer = line[-1]
+        if customer not in id_dictionary:
+            id_dictionary[customer] = [line[0]]
+        elif customer in id_dictionary:
+            id_dictionary[customer].append(line[0])
+    return id_dictionary
 
 
 def get_all_sales_ids_for_customer_ids_from_table(table):
@@ -460,8 +509,15 @@ def get_all_sales_ids_for_customer_ids_from_table(table):
          (dict of (key, value): (customer_id, (list) sale_ids)) where the sale_ids list contains
          all the sales id belong to the given customer_id
     """
+    id_dictionary = {}
 
-    print(table)
+    for line in table:
+        customer = line[-1]
+        if customer not in id_dictionary:
+            id_dictionary[customer] = [line[0]]
+        elif customer in id_dictionary:
+            id_dictionary[customer].append(line[0])
+    return id_dictionary
 
 
 def get_num_of_sales_per_customer_ids():

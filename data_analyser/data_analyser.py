@@ -29,7 +29,8 @@ def choose_data_analyser(data_analyser_menu_list):
         elif option == '4':
             get_the_buyer_id_spent_most_and_the_money_spent()
         elif option == '5':
-            get_the_most_frequent_buyers_names(num=1)
+            frequent_buyers_number = int(ui.get_inputs(['frequent buyers you want to see: '], 'Please input the number of top ')[0])
+            ui.print_result(get_the_most_frequent_buyers_names(frequent_buyers_number), 'Most frequent buyer(s) names, and number of sales: ')
         elif option == '6':
             frequent_buyers_number = int(ui.get_inputs(['frequent buyers you want to see: '], 'Please input the number of top ')[0])
             ui.print_result(get_the_most_frequent_buyers_ids(frequent_buyers_number), 'Most frequent buyer(s) id(s), and number of sales: ')
@@ -47,7 +48,11 @@ def start_module():
         None
     """
 
-    data_analyser_menu_list = ["Last buyer's name", "Last buyer's ID", "The buyer that spent the most and how much", "The buyer ID that spent the most and how much", "The most frequent buyers' names", "The most frequent buyers' IDs"]
+    data_analyser_menu_list = ["Last buyer's name", "Last buyer's ID",
+                               "The buyer that spent the most and how much",
+                               "The buyer ID that spent the most and how much",
+                               "The most frequent buyers' names and total sales",
+                               "The most frequent buyers' IDs and total sales"]
     ui.print_menu('Data analyser', data_analyser_menu_list, 'Return to main menu')
     choose_data_analyser(data_analyser_menu_list)
 
@@ -109,10 +114,11 @@ def get_the_most_frequent_buyers_names(num=1):
             The first one bought the most frequent. eg.: [('Genoveva Dingess', 8), ('Missy Stoney', 3)]
     """
 
-    # list of cust id and how many sales each
-
-    # list name/ID
-    # for i in range(num) result.append(name/sales)
+    frequent_buyers = get_the_most_frequent_buyers_ids(num)
+    result = []
+    for i in frequent_buyers:
+        result.append((crm.get_name_by_id(i[0]), i[1]))
+    return result
 
 
 def get_the_most_frequent_buyers_ids(num=1):

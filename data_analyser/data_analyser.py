@@ -142,7 +142,6 @@ def get_the_buyer_name_spent_most_and_the_money_spent():
                 if i == line[0]:
                     sales_sum += int(line[2])
         customer_list.append((crm.get_name_by_id(key), sales_sum))
-    print(customer_list)
     max_name = max(customer_list, key=lambda t: t[1])
     return max_name
 

@@ -37,6 +37,27 @@ def choose_data_analyser(data_analyser_menu_list):
         elif option == '0':
             data_analyser_menu_active = False
 
+def choose_data_analyser(data_analyser_menu_list):
+    data_analyser_menu_active = True
+    while data_analyser_menu_active is True:
+        inputs = ui.get_inputs(["Please enter a number: "], "")
+        option = inputs[0]
+        if option == '1':
+            get_the_last_buyer_name()
+        elif option == '2':
+            get_the_last_buyer_id()
+        elif option == '3':
+            get_the_buyer_name_spent_most_and_the_money_spent()
+        elif option == '4':
+            get_the_buyer_id_spent_most_and_the_money_spent()
+        elif option == '5':
+            frequent_buyers_number = int(ui.get_inputs(['frequent buyers you want to see: '], 'Please input the number of top ')[0])
+            ui.print_result(get_the_most_frequent_buyers_names(frequent_buyers_number), 'Most frequent buyer(s) names, and number of sales: ')
+        elif option == '6':
+            frequent_buyers_number = int(ui.get_inputs(['frequent buyers you want to see: '], 'Please input the number of top ')[0])
+            ui.print_result(get_the_most_frequent_buyers_ids(frequent_buyers_number), 'Most frequent buyer(s) id(s), and number of sales: ')
+        elif option == '0':
+            data_analyser_menu_active = False
 
 def start_module():
     """
@@ -140,4 +161,7 @@ def get_the_most_frequent_buyers_ids(num=1):
             The first one bought the most frequent. eg.: [(aH34Jq#&, 8), (bH34Jq#&, 3)]
     """
 
-    # your code
+    sales_dictionary = sales.get_num_of_sales_per_customer_ids()
+    customer_ID_sales_list_tuples = [(key, value) for key, value in sales_dictionary.items()]   
+    ordered_list_id_sales = [customer_ID_sales_list_tuples[i] for i in range(num)]
+    return ordered_list_id_sales

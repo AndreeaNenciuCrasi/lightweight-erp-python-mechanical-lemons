@@ -90,11 +90,11 @@ def choose_sales(sales_menu_list):
             ui.print_result(get_title_byid(id), f' Title by id {id} is  ')
         elif option == '14':
             id = ui.get_inputs(['Please input sale id: '], '')[0]
-            ui.print_result(get_customer_id_by_saleid(
-                id), f'The customer id, from sale id {id_} is: ')
+
+            ui.print_result(get_customer_id_by_sale_id(id), f'The customer id, from sale id {id_} is: ')
         elif option == '15':
             id_ = ui.get_inputs(['Please input sale id: '], '')[0]
-            ui.print_result(get_customer_id_by_sale_id_fromtable(
+            ui.print_result(get_customer_id_by_sale_id_from_table(
                 table, id), f'The customer id, from table sale id {id_} is: ')
         elif option == '16':
             ui.print_result(get_all_customer_ids(),
@@ -108,6 +108,7 @@ def choose_sales(sales_menu_list):
         elif option == '19':
             ui.print_result(get_all_sales_ids_for_customer_ids_from_table(
                 table), f'All sales ids for customer ids: ')
+
         elif option == '0':
             sales_menu_active = False
 
@@ -121,6 +122,7 @@ def start_module():
     Returns:
         None
     """
+
     sales_menu_list = ['Show table', 'Add', 'Remove',
                        'Update', 'Lowest price item', 'Items sold between',
                        'DA title by id', 'DA title by id from table',
@@ -131,6 +133,7 @@ def start_module():
                        'DA all customer ids from table', 'DA all sales ids for cst ids',
                        'DA all sales ids for cst ids from table', 'DA num of sales per cst ids',
                        'DA num sales per cst id from table']
+
     ui.print_menu('Sales manager', sales_menu_list, 'Return to main menu')
     choose_sales(sales_menu_list)
 
@@ -456,7 +459,6 @@ def get_all_customer_ids():
     """
 
     # your code
-
 
 def get_all_customer_ids_from_table(table):
     """

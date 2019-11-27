@@ -98,9 +98,9 @@ def choose_sales(sales_menu_list):
         elif option == '17':
             ui.print_result(get_all_customer_ids_from_table(table), f'All table sales customer ids: ')
         elif option == '20':
-            ui.print_result(get_num_of_sales_per_customer_ids(), f'Number of sales per customer ID: ')
+            ui.print_table(get_num_of_sales_per_customer_ids(), ['customer id', 'sales'])
         elif option == '21':
-            ui.print_result(get_num_of_sales_per_customer_ids_from_table(table), f'Number of sales per customer ID from table: ')
+            ui.print_table(get_num_of_sales_per_customer_ids_from_table(table), ['customer id', 'sales'])
         elif option == '0':
             sales_menu_active = False
 
@@ -511,8 +511,8 @@ def get_num_of_sales_per_customer_ids_from_table(table):
     dict_cust_ID_number_of_sales = {}
     for i in table:
         customer = i[-1]
-        if customer not in dict_cust_ID_number_of_sales.keys():
+        if customer not in dict_cust_ID_number_of_sales:
             dict_cust_ID_number_of_sales[customer] = 1
-        elif customer in dict_cust_ID_number_of_sales.keys():
+        elif customer in dict_cust_ID_number_of_sales:
             dict_cust_ID_number_of_sales[customer] += 1
     return dict_cust_ID_number_of_sales

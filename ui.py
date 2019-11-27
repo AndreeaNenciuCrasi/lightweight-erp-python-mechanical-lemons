@@ -23,6 +23,17 @@ def print_table(table, title_list):
     """
 
     TABLE_SPACING_IN_CELL = 5
+
+    # check if table is a dictionary and if so, transform it into a list of lists
+
+    if type(table) == dict:
+        dict_to_table = []
+        for key, value in table.items():
+            dict_to_table.append([key, str(value)])
+        table = list(dict_to_table)
+
+    # regular list of list print
+
     rows = len(table) + 1  # title_list counts as one row
     columns = len(title_list)
     column_widths = [[i, len(title_list[i])] for i in range(len(title_list))]

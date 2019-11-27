@@ -30,7 +30,7 @@ def print_table(table, title_list):
         dict_to_table = []
         for key, value in table.items():
             dict_to_table.append([key, str(value)])
-        table = list(dict_to_table)
+        table = dict_to_table
 
     # regular list of list print
 

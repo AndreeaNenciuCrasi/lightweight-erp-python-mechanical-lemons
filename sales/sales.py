@@ -108,7 +108,6 @@ def choose_sales(sales_menu_list):
         elif option == '19':
             ui.print_result(get_all_sales_ids_for_customer_ids_from_table(
                 table), f'All sales ids for customer ids: ')
-
         elif option == '0':
             sales_menu_active = False
 
@@ -122,7 +121,6 @@ def start_module():
     Returns:
         None
     """
-
     sales_menu_list = ['Show table', 'Add', 'Remove',
                        'Update', 'Lowest price item', 'Items sold between',
                        'DA title by id', 'DA title by id from table',
@@ -137,7 +135,6 @@ def start_module():
     ui.print_menu('Sales manager', sales_menu_list, 'Return to main menu')
     choose_sales(sales_menu_list)
 
-
 def show_table(table):
     """
     Display a table
@@ -148,7 +145,6 @@ def show_table(table):
     Returns:
         None
     """
-
     titles = ['id', 'title', 'price', 'month', 'day', 'year', 'customer id']
     ui.print_table(table, titles)
 
@@ -296,6 +292,7 @@ def get_title_by_id(id):
     for data in table:
         if data[ID] == id:
             return data[TITLE]
+    return None
 
 
 def get_title_by_id_from_table(table, id):
@@ -309,8 +306,12 @@ def get_title_by_id_from_table(table, id):
     Returns:
         str: the title of the item
     """
-
-    # your code
+    TITLE = 1
+    ID = 0
+    for data in table:
+        if data[ID] == id:
+            return data[TITLE]
+    return None
 
 
 def get_item_id_sold_last():
@@ -321,6 +322,7 @@ def get_item_id_sold_last():
     Returns:
         str: the _id_ of the item that was sold most recently.
     """
+
     table = data_manager.get_table_from_file('sales/sales.csv')
     sale_dates_list = []
     sale_date = 0
@@ -330,6 +332,7 @@ def get_item_id_sold_last():
         sale_dates_list.append((line[0], sale_date))
     latest_date = max(sale_dates_list, key=lambda key: sale_dates_list[1])
     return latest_date[0]
+
 
 
 def get_item_id_sold_last_from_table(table):
@@ -342,6 +345,7 @@ def get_item_id_sold_last_from_table(table):
     Returns:
         str: the _id_ of the item that was sold most recently.
     """
+
     sale_dates_list = []
     sale_date = 0
     for line in table:
@@ -350,7 +354,6 @@ def get_item_id_sold_last_from_table(table):
         sale_dates_list.append((line[0], sale_date))
     latest_date = max(sale_dates_list, key=lambda key: sale_dates_list[1])
     return latest_date[0]
-
 
 def get_item_title_sold_last_from_table(table):
     """

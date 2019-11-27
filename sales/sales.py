@@ -402,7 +402,6 @@ def get_all_customer_ids():
 
     # your code
 
-
 def get_all_customer_ids_from_table(table):
     """
     Returns a set of customer_ids that are present in the table.

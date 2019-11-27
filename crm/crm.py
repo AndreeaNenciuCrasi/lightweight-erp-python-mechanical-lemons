@@ -75,6 +75,9 @@ def choose_crm():
                                   ' longest name?', 'Which customers are '
                                   'subscribed to the newsletter?'],
                           'Return to main menu')
+        elif option == '7':
+            id_ = ui.get_inputs(['Data Id: '], '')[0]
+            ui.print_result(get_title_by_id(id_), f' Title by id {id_} is  ')
         elif option == '0':
             crm_menu_active = False
 

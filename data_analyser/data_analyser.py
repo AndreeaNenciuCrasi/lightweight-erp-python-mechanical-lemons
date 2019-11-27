@@ -14,6 +14,25 @@ import common
 from sales import sales
 from crm import crm
 
+def choose_data_analyser(data_analyser_menu_list):
+    data_analyser_menu_active = True
+    while data_analyser_menu_active is True:
+        inputs = ui.get_inputs(["Please enter a number: "], "")
+        option = inputs[0]
+        if option == '1':
+            get_the_last_buyer_name()
+        elif option == '2':
+            get_the_last_buyer_id()
+        elif option == '3':
+            get_the_buyer_name_spent_most_and_the_money_spent()
+        elif option == '4':
+            get_the_buyer_id_spent_most_and_the_money_spent()
+        elif option == '5':
+            get_the_most_frequent_buyers_names(num=1)
+        elif option == '6':
+            get_the_most_frequent_buyers_ids(num=1)
+        elif option == '0':
+            data_analyser_menu_active = False
 
 def start_module():
     """
@@ -25,9 +44,9 @@ def start_module():
         None
     """
 
-    # your code
-
-    pass
+    data_analyser_menu_list = ["Last buyer's name", "Last buyer's ID", "The buyer that spent the most and how much", "The buyer ID that spent the most and how much", "The most frequent buyers' names", "The most frequent buyers' IDs"]
+    ui.print_menu('Data analyser', data_analyser_menu_list, 'Return to main menu')
+    choose_data_analyser(data_analyser_menu_list)
 
 
 def get_the_last_buyer_name():

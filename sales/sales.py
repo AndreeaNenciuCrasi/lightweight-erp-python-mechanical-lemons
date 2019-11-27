@@ -28,7 +28,7 @@ DAY = 3
 YEAR = 4
 
 
-def choose_sales():
+def choose_sales(sales_menu_list):
     sales_menu_active = True
     table = data_manager.get_table_from_file('sales/sales.csv')
     while sales_menu_active is True:
@@ -36,33 +36,28 @@ def choose_sales():
         option = inputs[0]
         if option == '1':
             show_table(table)
-            ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove',
-                          'Update', 'Lowest price item', 'Items sold between'],
+            ui.print_menu('Sales manager', sales_menu_list,
                           'Return to main menu')
         elif option == '2':
             add(table)
-            ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove',
-                          'Update', 'Lowest price item', 'Items sold between'],
+            ui.print_menu('Sales manager', sales_menulist,
                           'Return to main menu')
         elif option == '3':
-            id_ = ui.get_inputs(['Record to be deleted: '], '')[0]
-            remove(table, id_)
+            id = ui.getinputs(['Record to be deleted: '], '')[0]
+            remove(table, id)
             data_manager.write_table_to_file('sales/sales.csv', table)
-            ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove',
-                          'Update', 'Lowest price item', 'Items sold between'],
+            ui.print_menu('Sales manager', sales_menulist,
                           'Return to main menu')
         elif option == '4':
-            id_ = ui.get_inputs(['Record to be updated: '], '')[0]
-            update(table, id_)
+            id = ui.getinputs(['Record to be updated: '], '')[0]
+            update(table, id)
             data_manager.write_table_to_file('sales/sales.csv', table)
-            ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove',
-                          'Update', 'Lowest price item', 'Items sold between'],
+            ui.print_menu('Sales manager', sales_menu_list,
                           'Return to main menu')
         elif option == '5':
             lowest_price = get_lowest_price_item_id(table)
             ui.print_result(lowest_price, 'Product ID with lowest price: ')
-            ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove',
-                          'Update', 'Lowest price item', 'Items sold between'],
+            ui.print_menu('Sales manager', sales_menu_list,
                           'Return to main menu')
         elif option == '6':
             date_from = ui.get_inputs(['Please provide month from: ',
@@ -87,14 +82,21 @@ def choose_sales():
                 line[5] = str(line[5])
             titles = ['id', 'title', 'price', 'month', 'day', 'year']
             ui.print_table(time_period, titles)
-            ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove',
-                          'Update', 'Lowest price item', 'Items sold between'],
+            ui.print_menu('Sales manager', sales_menulist,
                           'Return to main menu')
         elif option == '7':
-            id_ = ui.get_inputs(['Data Id: '], '')[0]
-            ui.print_result(get_title_by_id(id_), f' Title by id {id_} is  ')
-
-            
+            id = ui.get_inputs(['Data Id: '], '')[0]
+            ui.print_result(get_title_byid(id), f' Title by id {id} is  ')
+        elif option == '14':
+            id = ui.get_inputs(['Please input sale id: '], '')[0]
+            ui.print_result(get_customer_id_by_saleid(id), f'The customer id, from sale id {id_} is: ')
+        elif option == '15':
+            id_ = ui.get_inputs(['Please input sale id: '], '')[0]
+            ui.print_result(get_customer_id_by_sale_id_fromtable(table, id), f'The customer id, from table sale id {id_} is: ')
+        elif option == '16':
+            ui.print_result(get_all_customer_ids(), f'All sales customer ids: ')
+        elif option == '17':
+            ui.print_result(get_all_customer_ids_from_table(table), f'All table sales customer ids: ')
         elif option == '0':
             sales_menu_active = False
 
@@ -109,10 +111,18 @@ def start_module():
         None
     """
 
-    ui.print_menu('Sales manager', ['Show table', 'Add', 'Remove',
-                  'Update', 'Lowest price item', 'Items sold between', 't'],
-                  'Return to main menu')
-    choose_sales()
+    sales_menu_list = ['Show table', 'Add', 'Remove',
+                  'Update', 'Lowest price item', 'Items sold between', 
+                  'DA title by id', 'DA title by id from table', 
+                  'DA item id sold last', 'DA item id sold last from table', 
+                  'DA item title sold last from table', 'DA sum of prices', 
+                  'DA sum of prices from table', 'DA _d customer id by sale id', 
+                  'DA customer id by sale id from table', 'DA all customer ids', 
+                  'DA all customer ids from table', 'DA all sales ids for cst ids', 
+                  'DA all sales ids for cst ids from table', 'DA num of sales per cst ids', 
+                  'DA num sales per cst id from table']
+    ui.print_menu('Sales manager', sales_menu_list, 'Return to main menu')
+    choose_sales(sales_menu_list)
 
 
 def show_table(table):
@@ -374,7 +384,11 @@ def get_customer_id_by_sale_id(sale_id):
          str: customer_id that belongs to the given sale id
     """
 
-    # your code
+    table = data_manager.get_table_from_file('sales/sales.csv')
+    for i in table:
+        if i[0] == sale_id:
+            return i[-1]
+    return None
 
 
 def get_customer_id_by_sale_id_from_table(table, sale_id):
@@ -389,7 +403,10 @@ def get_customer_id_by_sale_id_from_table(table, sale_id):
         str: customer_id that belongs to the given sale id
     """
 
-    # your code
+    for i in table:
+        if i[0] == sale_id:
+            return i[-1]
+    return None
 
 
 def get_all_customer_ids():

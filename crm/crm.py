@@ -183,7 +183,8 @@ def get_longest_name_id(table):
     dictionary = {}
     for i in range(len(table)):
         try:
-            dictionary[len(table[i][1])].append([str(table[i][1]), table[i][0]])
+            dictionary[len(table[i][1])].append(
+                [str(table[i][1]), table[i][0]])
         except KeyError:
             dictionary[len(table[i][1])] = [[str(table[i][1]), table[i][0]]]
     dictionary_longest_name = []

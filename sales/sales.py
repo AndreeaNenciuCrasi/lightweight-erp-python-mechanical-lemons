@@ -91,7 +91,20 @@ def choose_sales(sales_menu_list):
         elif option == '8':
             id_ = ui.get_inputs(['Please input the sale ID: '], '')[0]
             ui.print_result(get_title_by_id_from_table(table, id_), f' The title of sale {id_} is: ')
-        
+        elif option == '9':
+            ui.print_result(get_item_id_sold_last(), f'The item ID that was sold last is: ')
+        elif option == '10':
+            ui.print_result(get_item_id_sold_last_from_table(table), f'The item ID that was sold last is: ')
+        elif option == '11':
+            ui.print_result(get_item_title_sold_last_from_table(table), f'The item name that was sold last is: ')
+        elif option == '12':
+            how_many_ids = int(ui.get_inputs(['how many IDs to you want to add up: '], 'Please select ')[0])
+            item_ids = ui.get_inputs(['input id: ']*how_many_ids, 'Please ')
+            ui.print_result(get_the_sum_of_prices(item_ids), f'The total amount of the selected items is: ')
+        elif option == '13':
+            how_many_ids = int(ui.get_inputs(['how many IDs to you want to add up: '], 'Please select ')[0])
+            item_ids = ui.get_inputs(['input id: ']*how_many_ids, 'Please ')
+            ui.print_result(get_the_sum_of_prices_from_table(table, item_ids), f'The total amount of the selected items is: ')
         elif option == '14':
             id_ = ui.get_inputs(['Please input sale id: '], '')[0]
             ui.print_result(get_customer_id_by_sale_id(id_), f'The customer id, from sale id {id_} is: ')
@@ -337,7 +350,6 @@ def get_item_id_sold_last():
     return latest_date[0]
 
 
-
 def get_item_id_sold_last_from_table(table):
     """
     Returns the _id_ of the item that was sold most recently.
@@ -357,6 +369,7 @@ def get_item_id_sold_last_from_table(table):
         sale_dates_list.append((line[0], sale_date))
     latest_date = max(sale_dates_list, key=lambda key: sale_dates_list[1])
     return latest_date[0]
+
 
 def get_item_title_sold_last_from_table(table):
     """
@@ -390,8 +403,8 @@ def get_the_sum_of_prices(item_ids):
     Returns:
         number: the sum of the items' prices
     """
+    
     table = data_manager.get_table_from_file('sales/sales.csv')
-
     sum = 0
     for line in table:
         for element in item_ids:

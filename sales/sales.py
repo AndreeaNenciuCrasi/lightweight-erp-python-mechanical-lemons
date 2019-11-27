@@ -40,17 +40,17 @@ def choose_sales(sales_menu_list):
                           'Return to main menu')
         elif option == '2':
             add(table)
-            ui.print_menu('Sales manager', sales_menu_list,
+            ui.print_menu('Sales manager', sales_menulist,
                           'Return to main menu')
         elif option == '3':
-            id_ = ui.get_inputs(['Record to be deleted: '], '')[0]
-            remove(table, id_)
+            id = ui.getinputs(['Record to be deleted: '], '')[0]
+            remove(table, id)
             data_manager.write_table_to_file('sales/sales.csv', table)
-            ui.print_menu('Sales manager', sales_menu_list,
+            ui.print_menu('Sales manager', sales_menulist,
                           'Return to main menu')
         elif option == '4':
-            id_ = ui.get_inputs(['Record to be updated: '], '')[0]
-            update(table, id_)
+            id = ui.getinputs(['Record to be updated: '], '')[0]
+            update(table, id)
             data_manager.write_table_to_file('sales/sales.csv', table)
             ui.print_menu('Sales manager', sales_menu_list,
                           'Return to main menu')
@@ -82,28 +82,25 @@ def choose_sales(sales_menu_list):
                 line[5] = str(line[5])
             titles = ['id', 'title', 'price', 'month', 'day', 'year']
             ui.print_table(time_period, titles)
-            ui.print_menu('Sales manager', sales_menu_list,
+            ui.print_menu('Sales manager', sales_menulist,
                           'Return to main menu')
         elif option == '7':
-            id_ = ui.get_inputs(['Data Id: '], '')[0]
-            ui.print_result(get_title_by_id(id_), f' Title by id {id_} is  ')
-        elif option == '9':
-            max_date = get_item_id_sold_last()
-            ui.print_result(max_date, 'Product last sold id: ')
-        elif option == '10':
-            latest_date = get_item_id_sold_last_from_table(table)
-            ui.print_result(latest_date, 'Product last sold id : ')
-        elif option == '11':
-            latest_title = get_item_title_sold_last_from_table(table)
-            ui.print_result(latest_title, 'Product last sold title : ')
-        elif option == '12':
-            item_ids = ['vH34Ju#&', 'kH14Ju#&']
-            items_sum = get_the_sum_of_prices(item_ids)
-            ui.print_result(items_sum, 'Items sum : ')
-        elif option == '13':
-            item_ids = ['vH34Ju#&', 'kH14Ju#&']
-            items_sum = get_the_sum_of_prices_from_table(table, item_ids)
-            ui.print_result(items_sum, 'Items sum : ')
+            id = ui.get_inputs(['Data Id: '], '')[0]
+            ui.print_result(get_title_byid(id), f' Title by id {id} is  ')
+        elif option == '14':
+            id = ui.get_inputs(['Please input sale id: '], '')[0]
+            ui.print_result(get_customer_id_by_saleid(
+                id), f'The customer id, from sale id {id_} is: ')
+        elif option == '15':
+            id_ = ui.get_inputs(['Please input sale id: '], '')[0]
+            ui.print_result(get_customer_id_by_sale_id_fromtable(
+                table, id), f'The customer id, from table sale id {id_} is: ')
+        elif option == '16':
+            ui.print_result(get_all_customer_ids(),
+                            f'All sales customer ids: ')
+        elif option == '17':
+            ui.print_result(get_all_customer_ids_from_table(
+                table), f'All table sales customer ids: ')
         elif option == '0':
             sales_menu_active = False
 
@@ -418,7 +415,11 @@ def get_customer_id_by_sale_id(sale_id):
          str: customer_id that belongs to the given sale id
     """
 
-    # your code
+    table = data_manager.get_table_from_file('sales/sales.csv')
+    for i in table:
+        if i[0] == sale_id:
+            return i[-1]
+    return None
 
 
 def get_customer_id_by_sale_id_from_table(table, sale_id):
@@ -433,7 +434,10 @@ def get_customer_id_by_sale_id_from_table(table, sale_id):
         str: customer_id that belongs to the given sale id
     """
 
-    # your code
+    for i in table:
+        if i[0] == sale_id:
+            return i[-1]
+    return None
 
 
 def get_all_customer_ids():

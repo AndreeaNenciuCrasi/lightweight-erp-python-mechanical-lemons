@@ -41,13 +41,13 @@ def choose_sales(sales_menu_list):
                           'Return to main menu')
         elif option == '2':
             add(table)
-            ui.print_menu('Sales manager', sales_menulist,
+            ui.print_menu('Sales manager', sales_menu_list,
                           'Return to main menu')
         elif option == '3':
             id = ui.getinputs(['Record to be deleted: '], '')[0]
             remove(table, id)
             data_manager.write_table_to_file('sales/sales.csv', table)
-            ui.print_menu('Sales manager', sales_menulist,
+            ui.print_menu('Sales manager', sales_menu_list,
                           'Return to main menu')
         elif option == '4':
             id = ui.getinputs(['Record to be updated: '], '')[0]
@@ -83,31 +83,53 @@ def choose_sales(sales_menu_list):
                 line[5] = str(line[5])
             titles = ['id', 'title', 'price', 'month', 'day', 'year']
             ui.print_table(time_period, titles)
-            ui.print_menu('Sales manager', sales_menulist,
+            ui.print_menu('Sales manager', sales_menu_list,
                           'Return to main menu')
         elif option == '7':
-            id = ui.get_inputs(['Data Id: '], '')[0]
-            ui.print_result(get_title_byid(id), f' Title by id {id} is  ')
+            id_ = ui.get_inputs(['Data Id: '], '')[0]
+            ui.print_result(get_title_by_id(id_), f' Title by id {id_} is  ')
         elif option == '14':
-            id = ui.get_inputs(['Please input sale id: '], '')[0]
-
-            ui.print_result(get_customer_id_by_sale_id(id), f'The customer id, from sale id {id_} is: ')
+            id_ = ui.get_inputs(['Please input sale id: '], '')[0]
+            ui.print_result(get_customer_id_by_sale_id(id_), f'The customer id, from sale id {id_} is: ')
         elif option == '15':
             id_ = ui.get_inputs(['Please input sale id: '], '')[0]
-            ui.print_result(get_customer_id_by_sale_id_from_table(
-                table, id), f'The customer id, from table sale id {id_} is: ')
+            ui.print_result(get_customer_id_by_sale_id_from_table(table, id_), f'The customer id, from table sale id {id_} is: ')
         elif option == '16':
-            ui.print_result(get_all_customer_ids(),
-                            f'All sales customer ids: ')
+            ui.print_result(get_all_customer_ids(), f'All sales customer ids: ')
         elif option == '17':
-            ui.print_result(get_all_customer_ids_from_table(
-                table), f'All table sales customer ids: ')
+            ui.print_result(get_all_customer_ids_from_table(table), f'All table sales customer ids: ')
         elif option == '18':
             ui.print_result(get_all_sales_ids_for_customer_ids(),
                             f'All table sales customer ids: ')
         elif option == '19':
             ui.print_result(get_all_sales_ids_for_customer_ids_from_table(
                 table), f'All sales ids for customer ids: ')
+        elif option == '20':
+            ui.print_table(get_num_of_sales_per_customer_ids(), ['customer id', 'sales'])
+        elif option == '21':
+            ui.print_table(get_num_of_sales_per_customer_ids_from_table(table), ['customer id', 'sales'])
+
+#             ui.print_menu('Sales manager', sales_menulist,
+#                           'Return to main menu')
+#         elif option == '7':
+#             id = ui.get_inputs(['Data Id: '], '')[0]
+#             ui.print_result(get_title_byid(id), f' Title by id {id} is  ')
+#         elif option == '14':
+#             id = ui.get_inputs(['Please input sale id: '], '')[0]
+
+#             ui.print_result(get_customer_id_by_sale_id(id), f'The customer id, from sale id {id_} is: ')
+#         elif option == '15':
+#             id_ = ui.get_inputs(['Please input sale id: '], '')[0]
+#             ui.print_result(get_customer_id_by_sale_id_from_table(
+#                 table, id), f'The customer id, from table sale id {id_} is: ')
+#         elif option == '16':
+#             ui.print_result(get_all_customer_ids(),
+#                             f'All sales customer ids: ')
+#         elif option == '17':
+#             ui.print_result(get_all_customer_ids_from_table(
+#                 table), f'All table sales customer ids: ')
+        
+
         elif option == '0':
             sales_menu_active = False
 
@@ -121,19 +143,31 @@ def start_module():
     Returns:
         None
     """
-    sales_menu_list = ['Show table', 'Add', 'Remove',
-                       'Update', 'Lowest price item', 'Items sold between',
-                       'DA title by id', 'DA title by id from table',
-                       'DA item id sold last', 'DA item id sold last from table',
-                       'DA item title sold last from table', 'DA sum of prices',
-                       'DA sum of prices from table', 'DA _d customer id by sale id',
-                       'DA customer id by sale id from table', 'DA all customer ids',
-                       'DA all customer ids from table', 'DA all sales ids for cst ids',
-                       'DA all sales ids for cst ids from table', 'DA num of sales per cst ids',
-                       'DA num sales per cst id from table']
+#     sales_menu_list = ['Show table', 'Add', 'Remove',
+#                        'Update', 'Lowest price item', 'Items sold between',
+#                        'DA title by id', 'DA title by id from table',
+#                        'DA item id sold last', 'DA item id sold last from table',
+#                        'DA item title sold last from table', 'DA sum of prices',
+#                        'DA sum of prices from table', 'DA _d customer id by sale id',
+#                        'DA customer id by sale id from table', 'DA all customer ids',
+#                        'DA all customer ids from table', 'DA all sales ids for cst ids',
+#                        'DA all sales ids for cst ids from table', 'DA num of sales per cst ids',
+#                        'DA num sales per cst id from table']
 
+    sales_menu_list = ['Show table', 'Add', 'Remove',
+                  'Update', 'Lowest price item', 'Items sold between', 
+                  'DA title by id', 'DA title by id from table', 
+                  'DA item id sold last', 'DA item id sold last from table', 
+                  'DA item title sold last from table', 'DA sum of prices', 
+                  'DA sum of prices from table', 'DA _d customer id by sale id', 
+                  'DA customer id by sale id from table', 'DA all customer ids', 
+                  'DA all customer ids from table', 'DA all sales ids for cst ids', 
+                  'DA all sales ids for cst ids from table', 'DA num of sales per cst ids', 
+                  'DA num sales per cst id from table']
     ui.print_menu('Sales manager', sales_menu_list, 'Return to main menu')
     choose_sales(sales_menu_list)
+
+
 
 def show_table(table):
     """
@@ -271,7 +305,7 @@ def get_items_sold_between(table, month_from, day_from, year_from,
     # your code
 
 
-# functions supports data abalyser
+# functions supports data analyser
 # --------------------------------
 
 
@@ -461,7 +495,11 @@ def get_all_customer_ids():
          set of str: set of customer_ids that are present in the table
     """
 
-    # your code
+    table = data_manager.get_table_from_file('sales/sales.csv')
+    customer_ids = set()
+    for i in table:
+        customer_ids.add(i[-1])
+    return customer_ids
 
 def get_all_customer_ids_from_table(table):
     """
@@ -473,7 +511,10 @@ def get_all_customer_ids_from_table(table):
          set of str: set of customer_ids that are present in the table
     """
 
-    # your code
+    customer_ids = set()
+    for i in table:
+        customer_ids.add(i[-1])
+    return customer_ids
 
 
 def get_all_sales_ids_for_customer_ids():
@@ -533,7 +574,15 @@ def get_num_of_sales_per_customer_ids():
          dict of (key, value): (customer_id (str), num_of_sales (number))
     """
 
-    # your code
+    table = data_manager.get_table_from_file('sales/sales.csv')
+    dict_cust_ID_number_of_sales = {}
+    for i in table:
+        customer = i[-1]
+        if customer not in dict_cust_ID_number_of_sales:
+            dict_cust_ID_number_of_sales[customer] = 1
+        elif customer in dict_cust_ID_number_of_sales:
+            dict_cust_ID_number_of_sales[customer] += 1
+    return dict_cust_ID_number_of_sales
 
 
 def get_num_of_sales_per_customer_ids_from_table(table):
@@ -547,4 +596,11 @@ def get_num_of_sales_per_customer_ids_from_table(table):
          dict of (key, value): (customer_id (str), num_of_sales (number))
     """
 
-    # your code
+    dict_cust_ID_number_of_sales = {}
+    for i in table:
+        customer = i[-1]
+        if customer not in dict_cust_ID_number_of_sales:
+            dict_cust_ID_number_of_sales[customer] = 1
+        elif customer in dict_cust_ID_number_of_sales:
+            dict_cust_ID_number_of_sales[customer] += 1
+    return dict_cust_ID_number_of_sales

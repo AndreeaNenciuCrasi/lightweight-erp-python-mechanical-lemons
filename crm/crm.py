@@ -18,7 +18,7 @@ import data_manager
 import common
 
 
-def choose_crm():
+def choose_crm(crm_menu_list):
     crm_menu_active = True
     while crm_menu_active is True:
         inputs = ui.get_inputs(["Please enter a number: "], "")
@@ -26,61 +26,43 @@ def choose_crm():
         table = data_manager.get_table_from_file('crm/customers.csv')
         if option == '1':
             show_table(table)
-            ui.print_menu('CRM', ['Show table', 'Add', 'Remove', 'Update',
-                                  'What is the ID of the customer with the'
-                                  ' longest name?', 'Which customers are '
-                                  'subscribed to the newsletter?'],
+            ui.print_menu('CRM', crm_menu_list,
                           'Return to main menu')
         elif option == '2':
             add(table)
             data_manager.write_table_to_file('crm/customers.csv', table)
-            ui.print_menu('CRM', ['Show table', 'Add', 'Remove', 'Update',
-                                  'What is the ID of the customer with the'
-                                  ' longest name?', 'Which customers are '
-                                  'subscribed to the newsletter?'],
+            ui.print_menu('CRM', crm_menu_list,
                           'Return to main menu')
         elif option == '3':
             id_ = ui.get_inputs(['ID of item to remove: '], 'CRM')[0]
             table = remove(table, id_)
             data_manager.write_table_to_file('crm/customers.csv', table)
-            ui.print_menu('CRM', ['Show table', 'Add', 'Remove', 'Update',
-                                  'What is the ID of the customer with the'
-                                  ' longest name?', 'Which customers are '
-                                  'subscribed to the newsletter?'],
+            ui.print_menu('CRM', crm_menu_list,
                           'Return to main menu')
         elif option == '4':
             id_ = ui.get_inputs(['ID of item to update: '], 'CRM')[0]
             update(table, id_)
             data_manager.write_table_to_file('crm/customers.csv', table)
-            ui.print_menu('CRM', ['Show table', 'Add', 'Remove', 'Update',
-                                  'What is the ID of the customer with the'
-                                  ' longest name?', 'Which customers are '
-                                  'subscribed to the newsletter?'],
+            ui.print_menu('CRM', crm_menu_list,
                           'Return to main menu')
         elif option == '5':
             longest_name = get_longest_name_id(table)
             ui.print_result(longest_name, 'CRM data - the customer ID with the'
                             ' longest name: ')
-            ui.print_menu('CRM', ['Show table', 'Add', 'Remove', 'Update',
-                                  'What is the ID of the customer with the'
-                                  ' longest name?', 'Which customers are '
-                                  'subscribed to the newsletter?'],
+            ui.print_menu('CRM', crm_menu_list,
                           'Return to main menu')
         elif option == '6':
             subscribers_list = get_subscribed_emails(table)
             get_subscribed_emails(table)
             ui.print_result(subscribers_list, 'CRM data - subscribers list: ')
-            ui.print_menu('CRM', ['Show table', 'Add', 'Remove', 'Update',
-                                  'What is the ID of the customer with the'
-                                  ' longest name?', 'Which customers are '
-                                  'subscribed to the newsletter?'],
+            ui.print_menu('CRM', crm_menu_list,
                           'Return to main menu')
         elif option == '7':
-            id_ = ui.get_inputs(['Customer Id: '], '')[0]
-            ui.print_result(get_name_by_id(id_), f' Name by id {id_} is ')
+            id = ui.get_inputs(['customer ID: '], 'Please enter ')[0]
+            ui.print_result(get_name_by_id(id), f'Customer name for ID {id}: ')
         elif option == '8':
-            id_ = ui.get_inputs(['Customer Id: '], '')[0]
-            ui.print_result(get_name_by_id_from_table(table, id_), f' Name by id {id_} in table is ')
+            id = ui.get_inputs(['customer ID: '], 'Please enter ')[0]
+            ui.print_result(get_name_by_id_from_table(table, id), f'Customer name for ID {id}: ')
         elif option == '0':
             crm_menu_active = False
 
@@ -95,12 +77,14 @@ def start_module():
         None
     """
 
-    ui.print_menu('CRM', ['Show table', 'Add', 'Remove', 'Update',
+    crm_menu_list = ['Show table', 'Add', 'Remove', 'Update',
                           'What is the ID of the customer with the'
                           ' longest name?', 'Which customers are '
-                          'subscribed to the newsletter?', 'Get name by ID', 'Get name by ID in table'],
+                          'subscribed to the newsletter?', 'Display customer name',
+                          'Display table customer name']
+    ui.print_menu('CRM', crm_menu_list,
                   'Return to main menu')
-    choose_crm()
+    choose_crm(crm_menu_list)
 
 
 def show_table(table):

@@ -97,6 +97,10 @@ def choose_sales(sales_menu_list):
             ui.print_result(get_all_customer_ids(), f'All sales customer ids: ')
         elif option == '17':
             ui.print_result(get_all_customer_ids_from_table(table), f'All table sales customer ids: ')
+        elif option == '20':
+            ui.print_result(get_num_of_sales_per_customer_ids(), f'Number of sales per customer ID: ')
+        elif option == '21':
+            ui.print_result(get_num_of_sales_per_customer_ids_from_table(table), f'Number of sales per customer ID from table: ')
         elif option == '0':
             sales_menu_active = False
 
@@ -482,7 +486,15 @@ def get_num_of_sales_per_customer_ids():
          dict of (key, value): (customer_id (str), num_of_sales (number))
     """
 
-    # your code
+    table = data_manager.get_table_from_file('sales/sales.csv')
+    dict_cust_ID_number_of_sales = {}
+    for i in table:
+        customer = i[-1]
+        if customer not in dict_cust_ID_number_of_sales.keys():
+            dict_cust_ID_number_of_sales[customer] = 1
+        elif customer in dict_cust_ID_number_of_sales.keys():
+            dict_cust_ID_number_of_sales[customer] += 1
+    return dict_cust_ID_number_of_sales
 
 
 def get_num_of_sales_per_customer_ids_from_table(table):
@@ -496,4 +508,11 @@ def get_num_of_sales_per_customer_ids_from_table(table):
          dict of (key, value): (customer_id (str), num_of_sales (number))
     """
 
-    # your code
+    dict_cust_ID_number_of_sales = {}
+    for i in table:
+        customer = i[-1]
+        if customer not in dict_cust_ID_number_of_sales.keys():
+            dict_cust_ID_number_of_sales[customer] = 1
+        elif customer in dict_cust_ID_number_of_sales.keys():
+            dict_cust_ID_number_of_sales[customer] += 1
+    return dict_cust_ID_number_of_sales

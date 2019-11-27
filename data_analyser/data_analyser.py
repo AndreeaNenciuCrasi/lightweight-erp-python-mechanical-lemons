@@ -108,7 +108,10 @@ def get_the_most_frequent_buyers_names(num=1):
             The first one bought the most frequent. eg.: [('Genoveva Dingess', 8), ('Missy Stoney', 3)]
     """
 
-    # your code
+    # list of cust id and how many sales each
+
+    # list name/ID
+    # for i in range(num) result.append(name/sales)
 
 
 def get_the_most_frequent_buyers_ids(num=1):

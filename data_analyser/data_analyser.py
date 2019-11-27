@@ -31,7 +31,8 @@ def choose_data_analyser(data_analyser_menu_list):
         elif option == '5':
             get_the_most_frequent_buyers_names(num=1)
         elif option == '6':
-            get_the_most_frequent_buyers_ids(num=1)
+            frequent_buyers_number = int(ui.get_inputs(['frequent buyers you want to see: '], 'Please input the number of top ')[0])
+            ui.print_result(get_the_most_frequent_buyers_ids(frequent_buyers_number), 'Most frequent buyer(s) id(s), and number of sales: ')
         elif option == '0':
             data_analyser_menu_active = False
 
@@ -127,4 +128,13 @@ def get_the_most_frequent_buyers_ids(num=1):
             The first one bought the most frequent. eg.: [(aH34Jq#&, 8), (bH34Jq#&, 3)]
     """
 
-    # your code
+    working_dictionary = sales.get_num_of_sales_per_customer_ids()
+    customer_ID_sales_amount = []
+    for key, value in working_dictionary.items():
+        customer_ID_sales_amount.append((key, value))
+    result = []
+    i = 0
+    while i < num:
+        result.append(customer_ID_sales_amount[i])
+        i += 1
+    return result

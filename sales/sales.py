@@ -490,9 +490,9 @@ def get_num_of_sales_per_customer_ids():
     dict_cust_ID_number_of_sales = {}
     for i in table:
         customer = i[-1]
-        if customer not in dict_cust_ID_number_of_sales.keys():
+        if customer not in dict_cust_ID_number_of_sales:
             dict_cust_ID_number_of_sales[customer] = 1
-        elif customer in dict_cust_ID_number_of_sales.keys():
+        elif customer in dict_cust_ID_number_of_sales:
             dict_cust_ID_number_of_sales[customer] += 1
     return dict_cust_ID_number_of_sales
 

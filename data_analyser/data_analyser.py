@@ -37,6 +37,7 @@ def choose_data_analyser(data_analyser_menu_list):
         elif option == '0':
             data_analyser_menu_active = False
 
+
 def choose_data_analyser(data_analyser_menu_list):
     data_analyser_menu_active = True
     while data_analyser_menu_active is True:
@@ -58,6 +59,7 @@ def choose_data_analyser(data_analyser_menu_list):
             ui.print_result(get_the_most_frequent_buyers_ids(frequent_buyers_number), 'Most frequent buyer(s) id(s), and number of sales: ')
         elif option == '0':
             data_analyser_menu_active = False
+
 
 def choose_data_analyser(data_analyser_menu_list):
     data_analyser_menu_active = True
@@ -198,4 +200,3 @@ def get_the_most_frequent_buyers_ids(num=1):
         result.append(customer_ID_sales_amount[i])
         i += 1
     return result
-

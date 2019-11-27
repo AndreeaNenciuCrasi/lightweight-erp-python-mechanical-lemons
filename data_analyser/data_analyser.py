@@ -65,8 +65,9 @@ def get_the_last_buyer_name():
     Returns:
         str: Customer name of the last buyer
     """
-    table = data_manager.get_table_from_file('sales/sales.csv')
-
+    item_id = sales.get_item_id_sold_last()
+    customer_id = sales.get_customer_id_by_sale_id(item_id)
+    return crm.get_name_by_id(customer_id)
 
 
 

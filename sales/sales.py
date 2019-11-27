@@ -26,6 +26,7 @@ PRICE = 1
 MONTH = 2
 DAY = 3
 YEAR = 4
+CUSTOMER_ID = 6
 
 
 def choose_sales(sales_menu_list):
@@ -101,6 +102,12 @@ def choose_sales(sales_menu_list):
         elif option == '17':
             ui.print_result(get_all_customer_ids_from_table(
                 table), f'All table sales customer ids: ')
+        elif option == '18':
+            ui.print_result(get_all_sales_ids_for_customer_ids(),
+                            f'All table sales customer ids: ')
+        elif option == '19':
+            ui.print_result(get_all_sales_ids_for_customer_ids_from_table(
+                table), f'All sales ids for customer ids: ')
         elif option == '0':
             sales_menu_active = False
 
@@ -476,8 +483,16 @@ def get_all_sales_ids_for_customer_ids():
          (dict of (key, value): (customer_id, (list) sale_ids)) where the sale_ids list contains
             all the sales id belong to the given customer_id
     """
+    table = data_manager.get_table_from_file('sales/sales.csv')
+    id_dictionary = {}
 
-    # your code
+    for line in table:
+        customer = line[-1]
+        if customer not in id_dictionary:
+            id_dictionary[customer] = [line[0]]
+        elif customer in id_dictionary:
+            id_dictionary[customer].append(line[0])
+    return id_dictionary
 
 
 def get_all_sales_ids_for_customer_ids_from_table(table):
@@ -492,8 +507,15 @@ def get_all_sales_ids_for_customer_ids_from_table(table):
          (dict of (key, value): (customer_id, (list) sale_ids)) where the sale_ids list contains
          all the sales id belong to the given customer_id
     """
+    id_dictionary = {}
 
-    print(table)
+    for line in table:
+        customer = line[-1]
+        if customer not in id_dictionary:
+            id_dictionary[customer] = [line[0]]
+        elif customer in id_dictionary:
+            id_dictionary[customer].append(line[0])
+    return id_dictionary
 
 
 def get_num_of_sales_per_customer_ids():

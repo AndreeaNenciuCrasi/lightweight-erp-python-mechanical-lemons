@@ -13,6 +13,7 @@ import ui
 import common
 from sales import sales
 from crm import crm
+import data_manager
 
 
 def choose_data_analyser(data_analyser_menu_list):
@@ -25,7 +26,8 @@ def choose_data_analyser(data_analyser_menu_list):
         elif option == '2':
             get_the_last_buyer_id()
         elif option == '3':
-            get_the_buyer_name_spent_most_and_the_money_spent()
+            ui.print_result(get_the_buyer_name_spent_most_and_the_money_spent(
+            ), f'Customer with the most money spent: ')
         elif option == '4':
             get_the_buyer_id_spent_most_and_the_money_spent()
         elif option == '5':
@@ -82,9 +84,20 @@ def get_the_buyer_name_spent_most_and_the_money_spent():
     Returns:
         tuple: Tuple of customer name and the sum the customer spent eg.: ('Daniele Coach', 42)
     """
+    table = data_manager.get_table_from_file('sales/sales.csv')
     customer_dictionary = sales.get_all_sales_ids_for_customer_ids()
-    sales.get_name_by_id()
-    # your code
+    customer_list = []
+
+    for key, value in customer_dictionary.items():
+        sales_sum = 0
+        for i in value:
+            for line in table:
+                if i == line[0]:
+                    sales_sum += int(line[2])
+        customer_list.append((crm.get_name_by_id(key), sales_sum))
+    print(customer_list)
+    max_name = max(customer_list, key=lambda t: t[1])
+    return max_name
 
 
 def get_the_buyer_id_spent_most_and_the_money_spent():

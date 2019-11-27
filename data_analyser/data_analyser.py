@@ -16,7 +16,6 @@ from crm import crm
 import data_manager
 
 
-
 def choose_data_analyser(data_analyser_menu_list):
     data_analyser_menu_active = True
     while data_analyser_menu_active is True:
@@ -25,11 +24,11 @@ def choose_data_analyser(data_analyser_menu_list):
         if option == '1':
             ui.print_result(get_the_last_buyer_name(), 'Last buyer\'s name ')
         elif option == '2':
-            get_the_last_buyer_id()
+            ui.print_result(get_the_last_buyer_id(), 'Last buyer\'s ID ')
         elif option == '3':
-            get_the_buyer_name_spent_most_and_the_money_spent()
+            ui.print_result(get_the_buyer_name_spent_most_and_the_money_spent(), '')
         elif option == '4':
-            get_the_buyer_id_spent_most_and_the_money_spent()
+            ui.print_result(get_the_buyer_id_spent_most_and_the_money_spent(), '')
         elif option == '5':
             frequent_buyers_number = int(ui.get_inputs(['frequent buyers you want to see: '], 'Please input the number of top ')[0])
             ui.print_result(get_the_most_frequent_buyers_names(frequent_buyers_number), 'Most frequent buyer(s) names, and number of sales: ')
@@ -70,7 +69,6 @@ def get_the_last_buyer_name():
     return crm.get_name_by_id(customer_id)
 
 
-
 def get_the_last_buyer_id():
     """
     Returns the customer _id_ of the customer made sale last.
@@ -80,7 +78,6 @@ def get_the_last_buyer_id():
     """
     item_id = sales.get_item_id_sold_last()
     return sales.get_customer_id_by_sale_id(item_id)
-
 
 
 def get_the_buyer_name_spent_most_and_the_money_spent():
@@ -93,7 +90,6 @@ def get_the_buyer_name_spent_most_and_the_money_spent():
     table = data_manager.get_table_from_file('sales/sales.csv')
     customer_dictionary = sales.get_all_sales_ids_for_customer_ids()
     customer_list = []
-
     for key, value in customer_dictionary.items():
         sales_sum = 0
         for i in value:
@@ -112,8 +108,18 @@ def get_the_buyer_id_spent_most_and_the_money_spent():
     Returns:
         tuple: Tuple of customer id and the sum the customer spent eg.: (aH34Jq#&, 42)
     """
-
-    # your code
+    table = data_manager.get_table_from_file('sales/sales.csv')
+    customer_dictionary = sales.get_all_sales_ids_for_customer_ids()
+    customer_list = []
+    for key, value in customer_dictionary.items():
+        sales_sum = 0
+        for i in value:
+            for line in table:
+                if i == line[0]:
+                    sales_sum += int(line[2])
+        customer_list.append((key, sales_sum))
+    max_name = max(customer_list, key=lambda t: t[1])
+    return max_name
 
 
 def get_the_most_frequent_buyers_names(num=1):

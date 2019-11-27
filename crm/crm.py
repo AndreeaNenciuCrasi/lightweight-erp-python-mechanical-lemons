@@ -75,6 +75,12 @@ def choose_crm():
                                   ' longest name?', 'Which customers are '
                                   'subscribed to the newsletter?'],
                           'Return to main menu')
+        elif option == '7':
+            id_ = ui.get_inputs(['Customer Id: '], '')[0]
+            ui.print_result(get_name_by_id(id_), f' Name by id {id_} is ')
+        elif option == '8':
+            id_ = ui.get_inputs(['Customer Id: '], '')[0]
+            ui.print_result(get_name_by_id_from_table(table, id_), f' Name by id {id_} in table is ')
         elif option == '0':
             crm_menu_active = False
 
@@ -92,7 +98,7 @@ def start_module():
     ui.print_menu('CRM', ['Show table', 'Add', 'Remove', 'Update',
                           'What is the ID of the customer with the'
                           ' longest name?', 'Which customers are '
-                          'subscribed to the newsletter?'],
+                          'subscribed to the newsletter?', 'Get name by ID', 'Get name by ID in table'],
                   'Return to main menu')
     choose_crm()
 
@@ -249,7 +255,11 @@ def get_name_by_id(id):
         str: the name of the customer
     """
 
-    # your code
+    table = data_manager.get_table_from_file('crm/customers.csv')
+    for i in table:
+        if i[0] == id:
+            return i[1]
+    return None
 
 
 
@@ -265,4 +275,7 @@ def get_name_by_id_from_table(table, id):
         str: the name of the customer
     """
 
-    # your code
+    for i in table:
+        if i[0] == id:
+            return i[1]
+    return None

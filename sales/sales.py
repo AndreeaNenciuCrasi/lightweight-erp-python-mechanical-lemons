@@ -29,16 +29,6 @@ YEAR = 4
 
 
 def choose_sales(sales_menu_list):
-    # sales_menu_list = ['Show table', 'Add', 'Remove',
-    #               'Update', 'Lowest price item', 'Items sold between', 
-    #               'DA title by id', 'DA title by id from table', 
-    #               'DA item id sold last', 'DA item id sold last from table', 
-    #               'DA item title sold last from table', 'DA sum of prices', 
-    #               'DA sum of prices from table', 'DA _d customer id by sale id', 
-    #               'DA customer id by sale id from table', 'DA all customer ids', 
-    #               'DA all customer ids from table', 'DA all sales ids for cst ids', 
-    #               'DA all sales ids for cst ids from table', 'DA num of sales per cst ids', 
-    #               'DA num sales per cst id from table']
     sales_menu_active = True
     table = data_manager.get_table_from_file('sales/sales.csv')
     while sales_menu_active is True:

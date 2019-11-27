@@ -82,7 +82,8 @@ def get_the_buyer_name_spent_most_and_the_money_spent():
     Returns:
         tuple: Tuple of customer name and the sum the customer spent eg.: ('Daniele Coach', 42)
     """
-
+    customer_dictionary = sales.get_all_sales_ids_for_customer_ids()
+    sales.get_name_by_id()
     # your code
 
 

@@ -11,6 +11,8 @@ Use the functions of the modules instead.
 # importing everything you need
 import ui
 import common
+import csv
+from accounting import accounting
 from sales import sales
 from crm import crm
 import data_manager
@@ -35,6 +37,10 @@ def choose_data_analyser(data_analyser_menu_list):
         elif option == '6':
             frequent_buyers_number = int(ui.get_inputs(['frequent buyers you want to see: '], 'Please input the number of top ')[0])
             ui.print_result(get_the_most_frequent_buyers_ids(frequent_buyers_number), 'Most frequent buyer(s) id(s), and number of sales: ')
+        elif option == '7':
+            year_in = int(ui.get_inputs(['enter starting year: '], 'Please')[0])
+            year_out = int(ui.get_inputs(['enter ending year: '], 'Please')[0])
+            ui.print_table(customer_keep_up_purchasing_power(year_in, year_out), ['monthly avg price', 'monthly in'])
         elif option == '0':
             data_analyser_menu_active = False
 
@@ -52,7 +58,8 @@ def start_module():
                                "The buyer that spent the most and how much",
                                "The buyer ID that spent the most and how much",
                                "The most frequent buyers' names and total sales",
-                               "The most frequent buyers' IDs and total sales"]
+                               "The most frequent buyers' IDs and total sales",
+                               "Customer keep up with prices"]
     ui.print_menu('Data analyser', data_analyser_menu_list, 'Return to main menu')
     choose_data_analyser(data_analyser_menu_list)
 
@@ -164,3 +171,27 @@ def get_the_most_frequent_buyers_ids(num=1):
         result.append(customer_ID_sales_amount[i])
         i += 1
     return result
+
+
+def customer_keep_up_purchasing_power(year_in, year_out):
+    """
+    Returns two lists of numbers. The first list is the average of game prices per month.
+    The second list is the average of how much customers spend per month.
+
+    The result is then put into a graph with two lines and the relationship of the two lines
+    is observed for insight.
+
+    Returns:
+        two lists of numbers - monthly averages of sales and cust money spent
+    """
+
+    FILE = 'data_analyser/keepup.csv'
+    prices = sales.average_monthly_game_price(year_in, year_out)
+    store_ins = accounting.average_monthly_in(year_in, year_out)
+    combo = list(zip(prices, store_ins))
+    with open(FILE, 'w') as f:
+        writer = csv.writer(f)
+        writer.writerow(('average game price', 'average store in'))
+        for line in combo:
+            writer.writerow(line)
+    return combo

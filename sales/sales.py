@@ -586,3 +586,28 @@ def get_num_of_sales_per_customer_ids_from_table(table):
         elif customer in dict_cust_ID_number_of_sales:
             dict_cust_ID_number_of_sales[customer] += 1
     return dict_cust_ID_number_of_sales
+
+
+def average_monthly_game_price(year_in, year_out):
+    """
+    Returns a list of monthly average price of games.
+        This exercise table has only 1 sale/month, thus 1 price.
+        A real life store would have many more but the point is to
+        simulate a data science action in the customer_keep_up_purchasing_power()
+        in the data_analyser.py module.
+    Args:
+        year_in and year_out  - user input
+    Returns:
+        list of int, average price of that month
+    """
+    
+    table = data_manager.get_table_from_file('sales/sales.csv')
+    prices = []
+    for year in range(year_in, year_out + 1):
+        for month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]:
+            month_sales = []
+            for i in table:
+                if i[5] == str(year) and i[3] == str(month):
+                    month_sales.append(int(i[2]))
+            prices.append(common.mean(month_sales))
+    return prices

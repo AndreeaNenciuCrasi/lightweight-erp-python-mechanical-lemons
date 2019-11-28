@@ -73,6 +73,8 @@ def how_many_times(arr, title):
 
 def mean(arr):
     n = len(arr)
+    if n == 0:
+        return 0
     elements_added = 0
     for item in arr:
         elements_added += float(item)

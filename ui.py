@@ -39,7 +39,7 @@ def print_table(table, title_list):
     column_widths = [[i, len(title_list[i])] for i in range(len(title_list))]
     for i in range(columns):
         for line in table:
-            if len(line[i]) > column_widths[i][1]:
+            if len(str(line[i])) > column_widths[i][1]:
                 column_widths[i][1] = len(line[i])
     table.insert(0, title_list)
     total_width = 0
@@ -50,10 +50,10 @@ def print_table(table, title_list):
         for i in range(columns):
             if i != columns - 1:
                 wide = column_widths[i][1] + TABLE_SPACING_IN_CELL
-                print('|' + item[i].center(wide-1), end='')
+                print('|' + str(item[i]).center(wide-1), end='')
             elif i == columns - 1:
                 wide = column_widths[i][1] + TABLE_SPACING_IN_CELL - 1
-                print('|' + item[i].center(wide-1), end='')
+                print('|' + str(item[i]).center(wide-1), end='')
         if item != table[-1]:
             print('|', end='')
             print('\n'+'|'+'-' * (total_width - 2)+'|')

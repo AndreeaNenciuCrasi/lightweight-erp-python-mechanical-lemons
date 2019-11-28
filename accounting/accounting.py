@@ -241,3 +241,28 @@ def avg_amount(table, year):
                 items_count += 1
     avg = profit/items_count
     return avg
+
+
+def average_monthly_in(year_in, year_out):
+    """
+    Calculates how much customers spend per month at the store.
+    This function is used in the data analyser module to compare to
+    the average monthly game prices to see the correlation between game
+    prices and customer purchasing power. This is a rough simulation of
+    data science in the customer_keep_up_purchasing_power() function.
+    Args:
+        year_in and year_out, int
+    Returns:
+        list of int (average for each month in the range)
+    """
+
+    table = data_manager.get_table_from_file('accounting/items.csv')
+    monthly_avg_ins = []
+    for year in range(year_in, year_out + 1):
+        for month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]:
+            month_total_ins = []
+            for i in table:
+                if i[3] == str(year) and i[1] == str(month) and i[4] == 'in':
+                    month_total_ins.append(int(i[5]))
+            monthly_avg_ins.append(common.mean(month_total_ins))
+    return monthly_avg_ins
